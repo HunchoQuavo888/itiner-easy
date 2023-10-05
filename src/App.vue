@@ -1,5 +1,11 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios'
+
+axios.get("https://api.openweathermap.org/data/2.5/weather?lat=51.4875167&lon=-0.1687007&appid=d40eeed1ce429cb61d6829da2c3b6102")
+.then(resp => {
+  console.log(resp.data.weather[0]);
+}); 
 </script>
 
 <template>
