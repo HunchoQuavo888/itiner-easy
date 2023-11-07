@@ -211,6 +211,6 @@ export default {
     this.getLanguages();
     this.getCurrencyList();
   },
-};
+ };
 
 </script>
