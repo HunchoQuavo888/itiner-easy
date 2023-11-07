@@ -196,7 +196,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           <span>Your Itinerary has been saved!</span>
         </div>
-        <div>
+        <div v-if="!isLoading">
           <button class="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 btn mt-7 mr-2" @click="saveItinerary">Save Itinerary</button>
         </div>
       </div>      
