@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="m-5">
         <router-link to="/feed" v-if="!submitted">
             <button class="btn btn-primary">Back to Feed</button>
         </router-link>

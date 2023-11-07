@@ -71,7 +71,8 @@ export default {
       } else {
         console.log('User is signed out');
       }
-    });
+    }
+    );
   },
 }
 </script>

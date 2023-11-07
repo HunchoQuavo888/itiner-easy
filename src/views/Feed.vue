@@ -5,7 +5,7 @@
     </div>
     <!-- title -->
     <div class="mt-7 mb-4 ml-7">
-      <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ username }}'s</a> current trips <router-link
+      <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}'s</a> current trips <router-link
           to="/add-trip">
           <button class="btn btn-neutral ml-7 p-2 text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg">Add a new trip</button>
         </router-link></h1>
@@ -18,7 +18,7 @@
 
 
     <div class="ml-7 mb-4">
-      <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ username }}</a> shared trips</h1>
+      <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}</a> shared trips</h1>
     </div>
 
     <section class="flex ml-2 flex-nowrap gap-5 px-5 overflow-x-auto snap-x snap-mandatory pb-7 no-scrollbar">
@@ -453,7 +453,7 @@ import Currency from "../components/Tools/currencyconverter.vue"
 import tripcard from "../components/tripcard.vue"
 import {
   getFirestore, collection, getDocs,
-  addDoc, deleteDoc, doc, updateDoc, setDoc, query, onSnapshot, getDoc
+  addDoc, deleteDoc, doc, updateDoc, setDoc, query, onSnapshot, getDoc, where
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import expensecards from "../components/expensecards.vue"
@@ -469,6 +469,7 @@ export default {
   name: "lightBlue-tabs",
   data() {
     return {
+      user:{},
       openTab: 1,
       expense: {
         expenseName: null,
@@ -518,13 +519,33 @@ export default {
     this.db = getFirestore();
     this.auth = getAuth();
 
-    onAuthStateChanged(this.auth, (user) => {
+    onAuthStateChanged(this.auth, async (user) => {
       if (user) {
+        console.log('User object:', user);
         console.log('User is signed in', user.uid + " " + user.email)
         this.uid = user.uid;
         this.username = user.displayName;
         console.log(this.uid);
         this.tripsRef = collection(this.db, 'users', this.uid, 'trips');
+        const usersCollection = collection(this.db, "users"); // Adjust the Firestore collection name as per your data structure
+        const userQuery = query(usersCollection, where("uid", "==", this.uid));
+
+        try {
+          const querySnapshot = await getDocs(userQuery);
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach((doc) => {
+              const userData = doc.data();
+              console.log("User data from Firestore:", userData);
+
+              // Update the user data property with fetched data
+              this.user = userData;
+            });
+          } else {
+            console.log("User document not found in Firestore.");
+          }
+        } catch (error) {
+          console.error("Error querying user information from Firestore: ", error);
+        }
       } else {
         console.log('User is signed out')
       }
