@@ -298,8 +298,8 @@
 <br>
 
 <h1 v-if="eateries.length>0" class="text-gray-700 text-center">Places to eat</h1>
-  <div v-if="eateries.length>0" class="overflow-auto h-96 m-10 rounded-lg">
-    <div class="carousel carousel-center max-w-md p-4 space-x-4 bg-neutral rounded-box">
+  <div v-if="eateries.length>0" class="flex justify-center">
+    <div class="carousel carousel-center w-1/2 p-4 space-x-4 bg-gray-200 rounded-box m-5">
             <div class="carousel-item" v-for="eatery in eateries" :key="eatery.name">
               <foodcard  
               :link="eatery.photo"
@@ -307,9 +307,16 @@
               :restaurantaddress="eatery.vicinity"
               :rating = eatery.rating
               :pricelevel=eatery.price_level
+              :eatery="eatery"
+              :eateryOrigin="eatery.orign"
+              :eateryDestination="eatery.geometry.location"
+              :showLocation="showLocation"
+              :displaydirectionsonmap="displaydirectionsonmap"
               ></foodcard>
             </div> 
           </div>
+    </div>
+
     
     <!-- <table class="bg-blue-300 table table-pin-rows rounded-lg max-w-full">
       <thead>
@@ -319,14 +326,13 @@
           <th class="text-2xl text-gray-600">Price Level</th>
           <th class="text-2xl text-gray-600">Rating</th>
           <th class="text-2xl text-gray-600">Getting There</th>
-           <th class="text-xl text-gray-600">Remarks</th> -->
-        <!-- </tr>
+          <!-- <th class="text-xl text-gray-600">Remarks</th> -->
+        </tr>
       </thead>
 
-      <tbody> -->
-
-
-          <!-- <td>
+      <tbody>
+        <tr v-for="eatery in eateries" :key="eatery.name">
+          <td>
               <img :src="eatery.photo" @error="setDefaultImage" class="w-32 h-1/2 rounded hover:scale-1.25 pb-2" alt="">
               <h3>{{ eatery.name }}</h3>
           </td>
@@ -341,10 +347,9 @@
             {{ ratingStars(eatery.rating) }}
           </td>
           <td>
-             <a href="#" @click="showLocation(eatery,eatery)">Show on Map</a> -->
-            <!-- <a href="#" @click="displaydirectionsonmap(eatery.origin, eatery.geometry.location)" class="text-black text-lg">Show Route</a> -->
-          <!-- </td> --> 
-
+            <!-- <a href="#" @click="showLocation(eatery,eatery)">Show on Map</a> -->
+            <a href="#" @click="displaydirectionsonmap(eatery.origin, eatery.geometry.location)" class="text-black text-lg">Show Route</a>
+          </td>
           <!-- <td v-if="eatery.formatted_address !== 'Travel'">
             Remarks: <input type="text" v-model="eatery.remarks"><br>
             Expenses: <input type="number" v-model="eatery.expense"><br>
@@ -352,11 +357,10 @@
           <!-- <td>
             I want to eat here<input name = "eateries{{ index }}" type="radio" :value="eatery" @click="addeaterytotrip(eatery,)" v-model="selectedEateries">
           </td> -->
-        <!-- </tr>
+        </tr>
       </tbody>
     </table> -->
   
-  </div>
 <div>
 
 </div>
@@ -370,7 +374,6 @@
 
 
 <script >
-import foodcard from '../components/foodcards.vue'
 import { FwbDropdown } from 'flowbite-vue'
 import { FwbButton } from 'flowbite-vue'
 
@@ -382,7 +385,7 @@ import {
 } from "firebase/firestore";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -402,8 +405,7 @@ import { v4 as uuidv4 } from 'uuid';
 export default {
   components: {
     FwbDropdown,
-    FwbButton,
-    foodcard
+    FwbButton
   },
   mounted(){
     const script = document.createElement('script');
@@ -1305,7 +1307,7 @@ async saveItinerary() {
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
-    setDoc(doc(this.tripsRef, this.town), {activitiesandtime: json, whoOwesWho: {}});
+    setDoc(doc(this.tripsRef, this.town), {activitiesandtime: json});
   }
 }
     

@@ -5,14 +5,14 @@
                     <div class="grid grid-cols-11 ">
                         <div class="col-span-5 justify-center text-center">
                             <div class="convertfrom">
-                                <select class="w-11/12 rounded bg-blue-200 cursor-pointer border-2 border-blue-400" name="currencylist" id="currencylist" @change="convertit">
+                                <select class="w-11/12 rounded bg-blue-200 cursor-pointer border-2 border-blue-400" name="currencylist" id="currencylist" @change="convertit" v-model="selectedCurrency">
                                         <option v-for="currency in currencyList" :key="currency.key" :value="currency.key">
                                             {{ currency.value }} </option>
                                 </select>
                             </div>
                             <br>
                             <div class="textinput justify-center text-center">
-                                <input class="w-11/12 mx-auto form-control rounded bg-blue-200 cursor-pointer border-2 border-blue-400" type="number" id="moneymoneyahhhhh" @change="convertCurrency" placeholder="Amount">
+                                <input class="w-11/12 mx-auto form-control rounded bg-blue-200 cursor-pointer border-2 border-blue-400" type="number" id="moneymoneyahhhhh" @change="convertCurrency" placeholder="Amount" v-model="amountToConvert">
                             </div>
                             
                         </div>
@@ -21,8 +21,8 @@
                         </div>
                         <div class="col-span-5">
                             <div class="translatetolang">
-                                <select class="w-11/12 mx-auto rounded bg-blue-200 cursor-pointer border-2 border-blue-400" name="currencylisttoconvert" id="currencylisttoconvert" @change="convertCurrency">
-                                    <option v-for="currency in currencyList" :key="currency.key" :value="currency.key">
+                                <select class="w-11/12 mx-auto rounded bg-blue-200 cursor-pointer border-2 border-blue-400" v-model="selectedCurrencyToConvert" name="currencylisttoconvert" id="currencylisttoconvert" @change="convertCurrency">
+                                    <option v-for="currency in currencyList" :key="currency.key" :value="currency.key" >
                                             {{ currency.value }} </option>
                                 </select>
                             </div>
@@ -61,43 +61,7 @@ export default {
     };
   },
   methods: {
-  getForecast() {
-    const key = 'cfb27632a44746f6aaf01356231409';
-    const country = this.country;
 
-    // Make an Axios GET request
-    axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${country}&days=3`)
-      .then((response) => {
-        const weather = response.data.forecast.forecastday;
-        const weatherArray = [];
-
-        // Process the data
-        for (let i = 0; i < weather.length; i++) {
-          const weatherObj = {};
-          weatherObj.date = weather[i].date;
-          weatherObj.maxtemp = weather[i].day.maxtemp_c;
-          weatherObj.mintemp = weather[i].day.mintemp_c;
-          weatherObj.avgtemp = weather[i].day.avgtemp_c;
-          weatherObj.condition = weather[i].day.condition.text;
-          weatherArray.push(weatherObj);
-        }
-
-        // Update Vue data property with the weather data
-        this.weatherData = weatherArray;
-        console.log(this.weatherData);
-        // insert it as a table into the div with id treedayforecast
-        let table = "<table class='table table-striped table-bordered'><tr><th>Date</th><th>Max Temp</th><th>Min Temp</th><th>Avg Temp</th><th>Condition</th></tr>";
-        for (let i = 0; i < this.weatherData.length; i++) {
-          table += "<tr><td>" + this.weatherData[i].date + "</td><td>" + this.weatherData[i].maxtemp + "</td><td>" + this.weatherData[i].mintemp + "</td><td>" + this.weatherData[i].avgtemp + "</td><td>" + this.weatherData[i].condition + "</td></tr>";
-        }
-        table += "</table>";
-        document.getElementById("treedayforecast").innerHTML = table;
-
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
   getLanguages() {
       // Move your Axios code for fetching languages here
       const key ="AIzaSyCjKtOTNCtEK5MYtW-GrP5QUiCj72PCT9Q";
@@ -181,9 +145,9 @@ export default {
       var url= 'https://currency-converter5.p.rapidapi.com/currency/convert';
       var XRapidAPIKey= '2f0bfe79abmsh886342ca61bbf11p1e6dd8jsna7f5de5249b0';
       var XRapidAPIHost= 'currency-converter5.p.rapidapi.com';
-      var amount = document.getElementById("moneymoneyahhhhh").value;
-      var from = document.getElementById("currencylist").value;
-      var to = document.getElementById("currencylisttoconvert").value;
+      var amount = this.amountToConvert;
+      var from = this.selectedCurrency;
+      var to = this.selectedCurrencyToConvert
       console.log(from);
       console.log(to);
       axios.get(url, {
@@ -197,14 +161,12 @@ export default {
           to: to
         }
       })
-      .then(function(response) {
-        console.log(response.data);
-        var convertedmoney = response.data.rates[to].rate_for_amount;
-        var convertedmoneydiv = document.getElementById("convertedmoney");
-        var html = "<h7>"+convertedmoney+"</h7>";
-        convertedmoneydiv.innerHTML = html;
-
-      })    },
+      .then((response) => {
+  console.log(response.data);
+  var convertedmoney = response.data.rates[to].rate_for_amount;
+  console.log(convertedmoney);
+  this.convertedAmount = convertedmoney;
+})  },
   },
     created() {
     this.getLanguages();
