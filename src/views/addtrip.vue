@@ -73,7 +73,7 @@
 
 <script>
 import {
-    getFirestore, collection, getDocs,
+    getFirestore, collection, getDocs, getDoc,
     addDoc, deleteDoc, doc, updateDoc, setDoc, query, onSnapshot
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -135,7 +135,7 @@ export default {
         removeExpense(index) {
             this.expenses.splice(index, 1)
         },
-        submitForm() {
+        async submitForm() {
             let numPeople = document.getElementById("numPeople").value;
             for (let i = 1; i <= numPeople; i++) {
                 this.personNames.push(document.getElementById("person" + i).value);
@@ -147,13 +147,28 @@ export default {
                 whoOwesWho[this.personNames[i]] = 0;
             }
             console.log(whoOwesWho)
-            setDoc(doc(this.tripsRef, this.destination), {
-                whoOwesWho: whoOwesWho,
-                homeCurrency: this.homeCurrency,
-                tripCurrency: this.tripCurrency,
-                numPeople: numPeople,
-                personNames: this.personNames,
-            })
+
+            const docSnap = await getDoc(doc(this.tripsRef, this.destination));
+            if (docSnap.exists()) {
+                console.log("Document data:", docSnap.data());
+                updateDoc(doc(this.tripsRef, this.destination), {
+                    whoOwesWho: whoOwesWho,
+                    homeCurrency: this.homeCurrency,
+                    tripCurrency: this.tripCurrency,
+                    numPeople: numPeople,
+                    personNames: this.personNames,
+                });
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+                setDoc(doc(this.tripsRef, this.destination), {
+                    whoOwesWho: whoOwesWho,
+                    homeCurrency: this.homeCurrency,
+                    tripCurrency: this.tripCurrency,
+                    numPeople: numPeople,
+                    personNames: this.personNames,
+                });
+            }
             this.submitted = true;
             console.log(this.destination)
             console.log(this.tripsRef)

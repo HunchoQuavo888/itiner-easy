@@ -1284,7 +1284,7 @@ async saveItinerary() {
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
-    setDoc(doc(this.tripsRef, this.town), {activitiesandtime: json, whoOwesWho: {}});
+    setDoc(doc(this.tripsRef, this.town), {activitiesandtime: json});
   }
 }
     

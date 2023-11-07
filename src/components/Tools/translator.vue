@@ -5,7 +5,7 @@
                     <div class="grid grid-cols-11 ">
                         <div class="col-span-5 justify-center text-center">
                             <div class="translatefromlang">
-                                <select class="w-11/12 rounded bg-blue-200 cursor-pointer border-2 border-blue-400" name="inputlanguage" id="inputlanguage">
+                                <select class="w-11/12 rounded bg-blue-200 cursor-pointer border-2 border-blue-400" name="inputlanguage" id="inputlanguage" v-model="inputLanguage">
                                 <option v-for="language in languages" :key="language.language" :value="language.language">
                                 {{ language.name }} 
                                 </option>
@@ -13,7 +13,8 @@
                             </div>
                             <br>
                             <div class="textinput justify-center text-center">
-                                <textarea class="w-11/12 form-control mx-auto rounded bg-blue-200 cursor-pointer border-2 border-blue-400" id="text" name="text" rows="4" @change="translateText" placeholder="Enter text to translate"></textarea>
+                                <textarea class="w-11/12 form-control mx-auto rounded bg-blue-200 cursor-pointer border-2 border-blue-400" id="text" name="text" rows="4" @change="translateText" placeholder="Enter text to translate" v-model="textToTranslate">
+                                </textarea>
                             </div>
                             
                         </div>
@@ -22,14 +23,15 @@
                         </div>
                         <div class="col-span-5">
                             <div class="translatetolang">
-                                <select class="w-11/12 rounded bg-blue-200 cursor-pointer border-2 border-blue-400" name="language" id="outputlanguage">
+                                <select class="w-11/12 rounded bg-blue-200 cursor-pointer border-2 border-blue-400" name="language" id="outputlanguage" v-model="outputLanguage">
                                 <option v-for="language in languages" :key="language.language" :value="language.language">
                                     {{ language.name }} </option>
                                 </select>
                             </div>
                             <br>
                             <div class="textinput justify-center text-center">
-                                <textarea v-model="output_text" class="w-11/12 mx-auto form-control rounded bg-blue-200 cursor-pointer border-2 border-blue-400" id="text" name="text" rows="4" @change="translateText" placeholder="Translation"></textarea>
+                                <textarea class="w-11/12 mx-auto form-control rounded bg-blue-200 cursor-pointer border-2 border-blue-400" id="text" name="text" rows="4" @change="translateText" placeholder="Translation" v-model="translatedText">
+                                </textarea>
                             </div>
                         </div>
                     </div>
@@ -122,19 +124,18 @@ export default {
     translateText() {
       // Move your Axios code for text translation here
       var text = document.getElementById("text").value;
-        var inputlang = document.getElementById("inputlanguage").value;
-        var language = document.getElementById("outputlanguage").value;
+        var inputlang = this.inputLanguage;
+        var language = this.outputLanguage;
         console.log(text);
         console.log(language);
         var key ="AIzaSyCjKtOTNCtEK5MYtW-GrP5QUiCj72PCT9Q";
         if(inputlang="detect"){
             axios.get('https://translation.googleapis.com/language/translate/v2?key='+key+'&q='+text+'&target='+language )
-        .then(function(response) {
+            .then((response) => {
             console.log(response.data);
             var translatedtext = response.data.data.translations[0].translatedText;
             console.log(translatedtext);
-            var textdiv = document.getElementById("translatedtext");
-            textdiv.innerHTML = translatedtext;
+            this.translatedText = translatedtext;
         })
         }
         else{
@@ -210,6 +211,6 @@ export default {
     this.getLanguages();
     this.getCurrencyList();
   },
-};
+ };
 
 </script>

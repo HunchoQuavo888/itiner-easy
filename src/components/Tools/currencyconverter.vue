@@ -5,14 +5,14 @@
                     <div class="grid grid-cols-11 ">
                         <div class="col-span-5 justify-center text-center">
                             <div class="convertfrom">
-                                <select class="w-11/12 rounded bg-blue-200 cursor-pointer border-2 border-blue-400" name="currencylist" id="currencylist" @change="convertit">
+                                <select class="w-11/12 rounded bg-blue-200 cursor-pointer border-2 border-blue-400" name="currencylist" id="currencylist" @change="convertit" v-model="selectedCurrency">
                                         <option v-for="currency in currencyList" :key="currency.key" :value="currency.key">
                                             {{ currency.value }} </option>
                                 </select>
                             </div>
                             <br>
                             <div class="textinput justify-center text-center">
-                                <input class="w-11/12 mx-auto form-control rounded bg-blue-200 cursor-pointer border-2 border-blue-400" type="number" id="moneymoneyahhhhh" @change="convertCurrency" placeholder="Amount">
+                                <input class="w-11/12 mx-auto form-control rounded bg-blue-200 cursor-pointer border-2 border-blue-400" type="number" id="moneymoneyahhhhh" @change="convertCurrency" placeholder="Amount" v-model="amountToConvert">
                             </div>
                             
                         </div>
@@ -21,8 +21,8 @@
                         </div>
                         <div class="col-span-5">
                             <div class="translatetolang">
-                                <select class="w-11/12 mx-auto rounded bg-blue-200 cursor-pointer border-2 border-blue-400" name="currencylisttoconvert" id="currencylisttoconvert" @change="convertCurrency">
-                                    <option v-for="currency in currencyList" :key="currency.key" :value="currency.key">
+                                <select class="w-11/12 mx-auto rounded bg-blue-200 cursor-pointer border-2 border-blue-400" v-model="selectedCurrencyToConvert" name="currencylisttoconvert" id="currencylisttoconvert" @change="convertCurrency">
+                                    <option v-for="currency in currencyList" :key="currency.key" :value="currency.key" >
                                             {{ currency.value }} </option>
                                 </select>
                             </div>
@@ -145,9 +145,9 @@ export default {
       var url= 'https://currency-converter5.p.rapidapi.com/currency/convert';
       var XRapidAPIKey= '2f0bfe79abmsh886342ca61bbf11p1e6dd8jsna7f5de5249b0';
       var XRapidAPIHost= 'currency-converter5.p.rapidapi.com';
-      var amount = document.getElementById("moneymoneyahhhhh").value;
-      var from = document.getElementById("currencylist").value;
-      var to = document.getElementById("currencylisttoconvert").value;
+      var amount = this.amountToConvert;
+      var from = this.selectedCurrency;
+      var to = this.selectedCurrencyToConvert
       console.log(from);
       console.log(to);
       axios.get(url, {
@@ -161,12 +161,12 @@ export default {
           to: to
         }
       })
-      .then(function(response) {
-        console.log(response.data);
-        var convertedmoney = response.data.rates[to].rate_for_amount;
-        this.convertedAmount = convertedmoney;
-
-      })    },
+      .then((response) => {
+  console.log(response.data);
+  var convertedmoney = response.data.rates[to].rate_for_amount;
+  console.log(convertedmoney);
+  this.convertedAmount = convertedmoney;
+})  },
   },
     created() {
     this.getLanguages();
