@@ -75,7 +75,7 @@ export default {
             } 
         },
         ratingStars(rating) {
-          return '⭐'.repeat(parseInt(rating));
+          return '⭐'.repeat(parseInt(rating)) + '☆'.repeat(5 - parseInt(rating));
         }
     },
     data() {

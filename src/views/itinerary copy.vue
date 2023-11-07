@@ -124,6 +124,14 @@
                     @click="checkempty"
                     label="Generate an Itinerary for me!"
                     />
+          
+
+                  
+                    <!-- <FormKit type="button" 
+                     style="background-color: #4CAF50; /* Green */; position: relative; left: 50%; transform: translate(-50%, 0%);"
+                      @click="checkempty2"
+                      label="I'll decide myself!"/> -->
+
                   </template>
               <!-- Generate: end -->
               </FormKit>
@@ -192,41 +200,106 @@
           <button class="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 btn mt-7 mr-2" @click="saveItinerary">Save Itinerary</button>
         </div>
       </div>  
-      <!-- start of iti  -->
+          <!-- start of iti  -->
       <div class="m-10">
+          <!-- getmap -->
+          <!-- create table each day -->
         <div v-for="(day, index) in activitiesandtime" :key="index">
           <details class="collapse collapse-arrow bg-blue-300 shadow-md min-w-fit">
-            <DayCard :day="day" :index="index"/>
-          
-            <div class="pt-5 collapse-content max-h-screen overflow-auto bg-blue-100"> 
-              <div class="flex overflow-auto">
-                <div>
+                <!-- <div class="flex pb-5 sticky top-0 z-10"> -->
+                  <!-- <div class="w-96 border p-3 rounded-md bg-blue-300"> -->
+                  <summary class="collapse-title text-xl font-medium">
+                    <h1 class="mb-1">Day {{ index + 1 }}</h1>
+                    <h3 class="text-gray-500 mb-2">🗓️ {{ day.date }}</h3>
+                  
+                  <!-- Weather reminder -->
+                    <div class="rounded-lg bg-blue-200 p-3 shadow-sm min-w-fit">
+                      <div>
+                        <div class="text-md">
+                          <p class="font-bold">Weather forecast: </p>  
+                          <span class="">{{ day.weather }}</span>
+                          <span class="" v-if="day.weather.includes('Sunny', 'sunny')"> ☀️</span>
+                          <span v-if="day.weather.includes('hazy')"> 💨</span>
+                          <span v-if="day.weather.includes('rain')"> 🌧️</span>
+                        </div>  
+                        <div class="alert bg-inherit border-none">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                          <span class="text-sm" v-if="day.weather.includes('Sunny','sunny')">Apply sunscreen!!</span>
+                          <span class="text-sm" v-if="day.weather.includes('hazy')">Wear a mask!!</span>
+                          <span class="text-sm" v-if="day.weather.includes('rain')">Pack an umbrella!! ☂️</span>
+                        </div>
+                      </div>
+                    </div>
+                  <!-- </div> -->
+                  
+                  </summary>
+    
+          <div class="pt-5 collapse-content max-h-screen overflow-auto bg-blue-100"> 
+              <div class="flex overflow-auto">   
+                  <div>
                     <div v-for="activity in day.activities" :key="activity.name" >
-                        <ActivityCard 
-                          v-if="activity.formatted_address !== 'Travel'"
-                          :activity="activity"
-                          :showLocation="showLocation"
-                          :geteateriesnearby="geteateriesnearby"
-                          :calculateDuration="calculateDuration"
-                        ></ActivityCard>
-                        
-                        <TravelCard 
-                          v-else 
-                          :activity="activity"
-                          :displaydirectionsonmap="displaydirectionsonmap"
-                          :day="day"
-                          :getMinutesDifference="getMinutesDifference"
-                        ></TravelCard>
+                      <!-- display activities -->
+                      <div v-if="activity.formatted_address !== 'Travel'" class="pr-5 snap-start snap-always">
+                        <div class="mx-auto card flex min-w-full max-w-md overflow-auto shadow-lg bg-indigo-200 justify-center">
+                          <img class="w-52 h-32 self-center rounded-md" :src="activity.photo" alt="image of attraction">
+
+                            <div class="px-2 py-2 border-l-4 my-4 border-gray-400">
+                              <h3 class="text-black text-left">{{ activity.name }}</h3>
+                                <div>
+                                <div class="text-base text-left">
+                                  {{ activity.time }} - {{ activity.endtime }}
+                                  <p class="text-gray-600">Suggested duration:</p> 
+                                  <p class="text-gray-600">{{ calculateDuration(activity.time, activity.endtime) }} hours</p>
+                                </div>
+                                <p class="text-gray-500 text-base text-left">
+                                  {{ activity.formatted_address}}
+                                </p>
+                              </div>
+                            </div>
+                          <div>
+                            <textarea class="mb-2 rounded border-none" placeholder="Add notes here" type="text" v-model="activity.remarks"/>
+                            <!-- <span class="text-black text-sm">Cost: </span><input class="placeholder-gray-400 rounded border-none" placeholder="Add an expense here" type="number" v-model="activity.expense"><br> -->
+                          </div>
+                          <div class="flex flex-col px-6 pt-4 pb-2 items-center">
+                              <button class="btn mb-2 w-2/3" href="#" @click="showLocation(activity)">Show on Map</button>
+                              <div class="tooltip tooltip-info" data-tip="see below!">
+                                <button class="btn w-2/3" href="#" @click="geteateriesnearby(activity)">Where to eat?</button>
+                              </div>
+                              
+                          </div>
+                        </div>
+                      </div>
+                        <!-- loop through activities: end-->
+
+                        <!-- loop through travel: start-->
+                      <div v-else class="pr-5">
+                        <div class="ml-8 max-w-sm max-h-xs rounded overflow-hidden border-l-4 border-dashed border-gray-700">
+                          <!-- <img class="w-full h-20" src="../components/logo/itiner-easy.svg" alt="travel"> -->
+                          <div class="px-6 py-4">
+                            <div class="font-bold text-sm mb-2">{{ activity.name }}</div>
+                            <p class="text-gray-700 font-bold">
+                              {{ activity.time}} - {{activity.endtime}}
+                            </p>                          
+                            <p>                              
+                              estimated: {{getMinutesDifference(activity.time, activity.endtime)}}
+                            </p>
+                          </div>
+                            <button class="btn w-max self-center ml-5 mb-5" href="#" @click="displaydirectionsonmap(day.activities[day.activities.indexOf(activity) - 1].geometry.location, day.activities[day.activities.indexOf(activity) + 1].geometry.location)">The way there!</button>
+                        </div>
+                      </div>
+                      
                     </div>
                   </div>
                 </div>
-            </div>
-        </details>
-        <br>
+                <!-- collapse div -->
+              </div> 
+            </details> 
+               <br> 
+          </div>
       </div>
-    </div>    
-  </div>
-  <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10"></div>
+    </div>
+  <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10"></div>  
+  <!-- end of iti  -->
 </div>
 
 <br>
@@ -280,9 +353,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 // import { v4 as uuidv4 } from 'uuid';
 
 import foodcard from '../components/foodcards.vue'
-import DayCard from '../components/Itinerary/DayCard.vue';
-import TravelCard from '../components/Itinerary/TravelCard.vue';
-import ActivityCard from '../components/Itinerary/ActivityCard.vue';
+
 
 
 // const auth = getAuth();
@@ -302,10 +373,8 @@ export default {
   components: {
     FwbDropdown,
     FwbButton,
-    foodcard,
-    DayCard,
-    TravelCard,
-    ActivityCard,
+    foodcard
+
   },
   mounted(){
     const script = document.createElement('script');
