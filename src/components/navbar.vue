@@ -27,7 +27,7 @@
       <ul tabindex="0" class="menu menu-sm bg-[#5072A7] text-white dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52">
         <!-- signedin -->
         <li v-if="signedin">
-            <router-link to="/landinglogin"><a>HOME</a></router-link>
+            <router-link to="/feed"><a>HOME</a></router-link>
         </li>
         <li v-if="signedin">
             <router-link to="/itinerary"><a>ITINERARY</a></router-link>
