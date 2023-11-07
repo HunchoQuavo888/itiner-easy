@@ -29,7 +29,7 @@ export default {
             type: String,
             required: true,
         },
-        mode: {
+        transport: {
             type: String,
             required: true,
         },
@@ -62,7 +62,8 @@ export default {
         rating:{
             type: Number,
             required: true,
-        }, 
+        },
+        
     },
     methods:{
         dollarSigns(priceLevel) {
@@ -76,7 +77,12 @@ export default {
         ratingStars(rating) {
           return '⭐'.repeat(parseInt(rating));
         }
-    }
+    },
+    data() {
+        return {
+            transport: "WALKING",
+        };
+    },
 
 }
 
