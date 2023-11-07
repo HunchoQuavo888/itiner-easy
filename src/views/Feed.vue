@@ -87,8 +87,13 @@
   </div>
 
   <div name="after-selecting-trip" v-if="selected">
+    <div class="text-sm ml-7 breadcrumbs">
+    <ul>
+      <li><router-link to="/feed"><a class="text-blue-900">Home</a></router-link></li>  
+      <li>{{ selectedTrip }}</li>
+    </ul>
+  </div>
     <div>
-      <button class="btn btn-primary" @click="backToTrips">Back to Feed</button>
       <button class="btn btn-primary" @click="toggleExpenseAndItinerary">Expense/Itinerary</button>
     </div>
 
