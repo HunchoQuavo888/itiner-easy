@@ -1,21 +1,22 @@
 <template>
-    <div class="card w-96 bg-base-100 shadow-xl">
+    <div class="card w-96 bg-blue-300">
   <figure class="px-10 pt-10">
-    <img src={{link}} class="rounded-xl" />
+    <img class="" :src="link">
   </figure>
   <div class="card-body items-center text-center">
     <h2 class="card-title">{{ restaurantname }}</h2>
     <h3>{{restaurantaddress}}</h3>
-    <div class="grid grid-cols-2">
-        <div class="leftcol">
-        {{ dollarSigns(priceLevel) }}
+    <div>
+        <div>
+        {{ dollarSigns(pricelevel) }}
         </div>
-        <div class="rightcol">
+        <div>
         {{ ratingStars(rating) }}
         </div>
     </div>
-    <div class="card-actions">
-      <button class="btn btn-primary">Getting there</button>
+    <div class="card-actions flex justify-center">
+        <button class="btn" @click="showLocation(eatery,eatery)">Where is it?</button>
+        <button class="btn" @click="displaydirectionsonmap(eateryOrigin, eateryDestination)">How do I get there?</button>
     </div>
   </div>
 </div>
@@ -23,27 +24,45 @@
 
 <script>
 export default {
-    props: {
+        props: {
         link: {
             type: String,
             required: true,
         },
-        restaurantname: {
+        mode: {
             type: String,
             required: true,
         },
-        restaurantaddress: {
-            type: String,
+        showLocation: {
+            type: Function,
             required: true,
+        },
+        displaydirectionsonmap: {
+            type: Function,
+            required: true,
+        },
+        eatery: {
+            type: Object,
+            required: true,
+        },
+        eateryOrigin: {
+            type: Object,
+            required: true,
+        },
+        eateryDestination: {
+            type: Object,
+            required: true,
+        },
+        restaurantname: {
         },
         pricelevel: {
             type: Number,
-            required: true,
+            required: false,
         },
         rating:{
             type: Number,
             required: true,
-        }
+        }, 
     },
     methods:{
         dollarSigns(priceLevel) {
@@ -59,5 +78,6 @@ export default {
         }
     }
 
-};
+}
+
 </script>
