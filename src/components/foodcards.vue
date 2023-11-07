@@ -1,22 +1,21 @@
 <template>
-    <div class="card w-96 bg-blue-300">
+    <div class="card w-96 bg-base-100 shadow-xl">
   <figure class="px-10 pt-10">
-    <img src="{{  }}" alt="">
+    <img src={{link}} class="rounded-xl" />
   </figure>
   <div class="card-body items-center text-center">
     <h2 class="card-title">{{ restaurantname }}</h2>
     <h3>{{restaurantaddress}}</h3>
-    <div>
-        <div>
-        {{ dollarSigns(pricelevel) }}
+    <div class="grid grid-cols-2">
+        <div class="leftcol">
+        {{ dollarSigns(priceLevel) }}
         </div>
-        <div>
+        <div class="rightcol">
         {{ ratingStars(rating) }}
         </div>
     </div>
-    <div class="card-actions flex justify-center">
-        <button class="btn" @click="showLocation(eatery,eatery)">Where is it?</button>
-        <button class="btn" @click="displaydirectionsonmap(eateryOrigin, eateryDestination)">How do I get there?</button>
+    <div class="card-actions">
+      <button class="btn btn-primary">Getting there</button>
     </div>
   </div>
 </div>
@@ -25,24 +24,8 @@
 <script>
 export default {
     props: {
-        showLocation: {
-            type: Function,
-            required: true,
-        },
-        displaydirectionsonmap: {
-            type: Function,
-            required: true,
-        },
-        eatery: {
-            type: Object,
-            required: true,
-        },
-        eateryOrigin: {
-            type: Object,
-            required: true,
-        },
-        eateryDestination: {
-            type: Object,
+        link: {
+            type: String,
             required: true,
         },
         restaurantname: {
@@ -55,14 +38,12 @@ export default {
         },
         pricelevel: {
             type: Number,
-            required: false,
+            required: true,
         },
         rating:{
             type: Number,
             required: true,
-        }, 
-
-
+        }
     },
     methods:{
         dollarSigns(priceLevel) {
@@ -74,7 +55,7 @@ export default {
             } 
         },
         ratingStars(rating) {
-          return '⭐'.repeat(parseInt(rating)) + '☆'.repeat(5-parseInt(rating));
+          return '⭐'.repeat(parseInt(rating));
         }
     }
 

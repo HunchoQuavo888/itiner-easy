@@ -204,7 +204,7 @@
           <!-- getmap -->
           <!-- create table each day -->
         <div v-for="(day, index) in activitiesandtime" :key="index">
-          <details class="collapse collapse-arrow bg-blue-300 shadow-md min-w-fit">
+          <details class="collapse collapse-arrow bg-blue-300 shadow-md min-w-fit max-h-screen">
                 <!-- <div class="flex pb-5 sticky top-0 z-10"> -->
                   <!-- <div class="w-96 border p-3 rounded-md bg-blue-300"> -->
                   <summary class="collapse-title text-xl font-medium">
@@ -233,7 +233,7 @@
                   
                   </summary>
     
-          <div class="pt-5 collapse-content max-h-screen overflow-auto bg-blue-100"> 
+          <div class="pt-5 collapse-content max-h-screen overflow-auto bg-blue-100 snap-both snap-mandatory"> 
               <div class="flex overflow-auto">   
                   <div>
                     <div v-for="activity in day.activities" :key="activity.name" >
@@ -261,10 +261,7 @@
                           </div>
                           <div class="flex flex-col px-6 pt-4 pb-2 items-center">
                               <button class="btn mb-2 w-2/3" href="#" @click="showLocation(activity)">Show on Map</button>
-                              <div class="tooltip tooltip-info" data-tip="see below!">
-                                <button class="btn w-2/3" href="#" @click="geteateriesnearby(activity)">Where to eat?</button>
-                              </div>
-                              
+                              <button class="btn w-2/3" href="#" @click="geteateriesnearby(activity)">Where to eat?</button>
                           </div>
                         </div>
                       </div>
@@ -276,11 +273,8 @@
                           <!-- <img class="w-full h-20" src="../components/logo/itiner-easy.svg" alt="travel"> -->
                           <div class="px-6 py-4">
                             <div class="font-bold text-sm mb-2">{{ activity.name }}</div>
-                            <p class="text-gray-700 text-base font-bold">
+                            <p class="text-gray-700 text-base">
                               {{ activity.time}} - {{activity.endtime}}
-                            </p>
-                            <p>
-                              estimated: {{ getMinutesDifference(activity.time, activity.endtime) }}
                             </p>                          
                           </div>
                             <button class="btn w-max self-center ml-5 mb-5" href="#" @click="displaydirectionsonmap(day.activities[day.activities.indexOf(activity) - 1].geometry.location, day.activities[day.activities.indexOf(activity) + 1].geometry.location)">The way there!</button>
@@ -332,14 +326,13 @@
           <th class="text-2xl text-gray-600">Price Level</th>
           <th class="text-2xl text-gray-600">Rating</th>
           <th class="text-2xl text-gray-600">Getting There</th>
-           <th class="text-xl text-gray-600">Remarks</th> -->
-        <!-- </tr>
+          <!-- <th class="text-xl text-gray-600">Remarks</th> -->
+        </tr>
       </thead>
 
-      <tbody> -->
-
-
-          <!-- <td>
+      <tbody>
+        <tr v-for="eatery in eateries" :key="eatery.name">
+          <td>
               <img :src="eatery.photo" @error="setDefaultImage" class="w-32 h-1/2 rounded hover:scale-1.25 pb-2" alt="">
               <h3>{{ eatery.name }}</h3>
           </td>
@@ -354,10 +347,9 @@
             {{ ratingStars(eatery.rating) }}
           </td>
           <td>
-             <a href="#" @click="showLocation(eatery,eatery)">Show on Map</a> -->
-            <!-- <a href="#" @click="displaydirectionsonmap(eatery.origin, eatery.geometry.location)" class="text-black text-lg">Show Route</a> -->
-          <!-- </td> --> 
-
+            <!-- <a href="#" @click="showLocation(eatery,eatery)">Show on Map</a> -->
+            <a href="#" @click="displaydirectionsonmap(eatery.origin, eatery.geometry.location)" class="text-black text-lg">Show Route</a>
+          </td>
           <!-- <td v-if="eatery.formatted_address !== 'Travel'">
             Remarks: <input type="text" v-model="eatery.remarks"><br>
             Expenses: <input type="number" v-model="eatery.expense"><br>
@@ -365,7 +357,7 @@
           <!-- <td>
             I want to eat here<input name = "eateries{{ index }}" type="radio" :value="eatery" @click="addeaterytotrip(eatery,)" v-model="selectedEateries">
           </td> -->
-        <!-- </tr>
+        </tr>
       </tbody>
     </table> -->
   
@@ -382,7 +374,6 @@
 
 
 <script >
-import foodcard from '../components/foodcards.vue'
 import { FwbDropdown } from 'flowbite-vue'
 import { FwbButton } from 'flowbite-vue'
 
@@ -394,6 +385,7 @@ import {
 } from "firebase/firestore";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+// import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -413,8 +405,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 export default {
   components: {
     FwbDropdown,
-    FwbButton,
-    foodcard
+    FwbButton
   },
   mounted(){
     const script = document.createElement('script');
@@ -507,18 +498,6 @@ export default {
         save() {
           this.showAlert = true;
         },
-        getMinutesDifference(startTime, endTime) {
-          const start = new Date(`1970-01-01T${startTime}Z`);
-          const end = new Date(`1970-01-01T${endTime}Z`);
-          const diff = end - start;
-          const minutes = diff / 1000 / 60;
-
-          if (minutes > 60){
-            return Math.round(minutes/60) + " hour(s) " + minutes % 60 + " minutes";
-          }
-          return minutes + " minutes";
-        },
-
 
 
 

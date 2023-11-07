@@ -61,43 +61,7 @@ export default {
     };
   },
   methods: {
-  getForecast() {
-    const key = 'cfb27632a44746f6aaf01356231409';
-    const country = this.country;
 
-    // Make an Axios GET request
-    axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${country}&days=3`)
-      .then((response) => {
-        const weather = response.data.forecast.forecastday;
-        const weatherArray = [];
-
-        // Process the data
-        for (let i = 0; i < weather.length; i++) {
-          const weatherObj = {};
-          weatherObj.date = weather[i].date;
-          weatherObj.maxtemp = weather[i].day.maxtemp_c;
-          weatherObj.mintemp = weather[i].day.mintemp_c;
-          weatherObj.avgtemp = weather[i].day.avgtemp_c;
-          weatherObj.condition = weather[i].day.condition.text;
-          weatherArray.push(weatherObj);
-        }
-
-        // Update Vue data property with the weather data
-        this.weatherData = weatherArray;
-        console.log(this.weatherData);
-        // insert it as a table into the div with id treedayforecast
-        let table = "<table class='table table-striped table-bordered'><tr><th>Date</th><th>Max Temp</th><th>Min Temp</th><th>Avg Temp</th><th>Condition</th></tr>";
-        for (let i = 0; i < this.weatherData.length; i++) {
-          table += "<tr><td>" + this.weatherData[i].date + "</td><td>" + this.weatherData[i].maxtemp + "</td><td>" + this.weatherData[i].mintemp + "</td><td>" + this.weatherData[i].avgtemp + "</td><td>" + this.weatherData[i].condition + "</td></tr>";
-        }
-        table += "</table>";
-        document.getElementById("treedayforecast").innerHTML = table;
-
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
   getLanguages() {
       // Move your Axios code for fetching languages here
       const key ="AIzaSyCjKtOTNCtEK5MYtW-GrP5QUiCj72PCT9Q";
@@ -200,9 +164,7 @@ export default {
       .then(function(response) {
         console.log(response.data);
         var convertedmoney = response.data.rates[to].rate_for_amount;
-        var convertedmoneydiv = document.getElementById("convertedmoney");
-        var html = "<h7>"+convertedmoney+"</h7>";
-        convertedmoneydiv.innerHTML = html;
+        this.convertedAmount = convertedmoney;
 
       })    },
   },
