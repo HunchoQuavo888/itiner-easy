@@ -298,9 +298,27 @@
 <br>
 
 <h1 v-if="eateries.length>0" class="text-gray-700 text-center">Places to eat</h1>
-  <div v-if="eateries.length>0" class="overflow-auto h-96 m-10 rounded-lg">
+  <div v-if="eateries.length>0" class="flex justify-center">
+    <div class="carousel carousel-center w-1/2 p-4 space-x-4 bg-gray-200 rounded-box m-5">
+            <div class="carousel-item" v-for="eatery in eateries" :key="eatery.name">
+              <foodcard  
+              :link="eatery.photo"
+              :restaurantname="eatery.name"
+              :restaurantaddress="eatery.vicinity"
+              :rating = eatery.rating
+              :pricelevel=eatery.price_level
+              :eatery="eatery"
+              :eateryOrigin="eatery.orign"
+              :eateryDestination="eatery.geometry.location"
+              :showLocation="showLocation"
+              :displaydirectionsonmap="displaydirectionsonmap"
+              ></foodcard>
+            </div> 
+          </div>
+    </div>
+
     
-    <table class="bg-blue-300 table table-pin-rows rounded-lg max-w-full">
+    <!-- <table class="bg-blue-300 table table-pin-rows rounded-lg max-w-full">
       <thead>
         <tr class="bg-blue-400 rounded">
           <th class="text-2xl text-gray-600">Name</th>
@@ -341,8 +359,8 @@
           </td> -->
         </tr>
       </tbody>
-    </table>
-  </div>
+    </table> -->
+  
 <div>
 
 </div>
