@@ -314,11 +314,11 @@
             :rating = eatery.rating
             :pricelevel=eatery.price_level
             :eatery="eatery"
-            :eateryOrigin="eatery.orign"
+            :eateryOrigin="eatery.origin"
             :eateryDestination="eatery.geometry.location"
             :showLocation="showLocation"
             :displaydirectionsonmap="displaydirectionsonmap"
-            :mode="transport"
+            :transport="transport"
             ></foodcard>
           </div> 
         </div>
@@ -802,6 +802,9 @@ async searchBothAttractions(city) {
 ,
 async displaydirectionsonmap(origin, destination){
   event.preventDefault();
+  console.log(origin);
+  console.log(destination);
+  console.log(this.transport);
   var directionsService = new google.maps.DirectionsService();
   var directionsRenderer = new google.maps.DirectionsRenderer();
   var map = new google.maps.Map(document.getElementById('map'), {
