@@ -482,7 +482,7 @@ export default {
         expenseAmount: null,
         personOwedName: null,
         peopleOwingNames: [],
-        peopleOwingAmount: null,
+        peopleOwingAmount: {},
         currency: null,
       },
       expenseCategories: ['Accomodation', 'Activities', 'Attractions', 'Flight',  'Food and Drinks','Transportation', 'Groceries', 'Miscellaneous'],
@@ -1123,7 +1123,8 @@ export default {
       // this.expense.expenseName = null;
       // this.expense.expenseAmount = null;
       // this.expense.peopleOwingNames = null;
-      // this.expense.personOwedName = null;
+      // this.expense.
+      personOwedName = null;
       // this.expense.peopleOwingAmount = null;
       await this.convertCurrency(this.expense);
     }
@@ -1142,7 +1143,7 @@ export default {
       console.log(this.tripCurrency);
       console.log(this.expense.currency);
       console.log(this.expense.peopleOwingNames);
-      this.quicksettleamount = [];
+      this.quicksettleamount = {};
       let amount = this.expense.expenseAmount;
       if (this.splitmethod == "percentage") {
         let totalpercentage = 0;
@@ -1156,11 +1157,12 @@ export default {
 
 
           for (let i = 0; i < this.personNames.length; i++) {
-            this.quicksettleamount.push(0);
+            let tempobj = {name: this.personNames[i], amount: 0, index: i};
+            this.quicksettleamount.push(tempobj);
           }
           for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
             let amountowed = amount * this.percentages[i] / 100;
-            this.quicksettleamount[this.expense.peopleOwingNames[i].index] = amountowed;
+            this.quicksettleamount[this.expense.peopleOwingNames[i].index].amount = amountowed;
           }
           console.log(this.quicksettleamount);
 
@@ -1174,11 +1176,12 @@ export default {
           totalshares += this.shares[i];
         }
         for (let i = 0; i < this.personNames.length; i++) {
-          this.quicksettleamount.push(0);
-        }
+          let tempobj = {name: this.personNames[i], amount: 0, index: i};
+          this.quicksettleamount.push(tempobj);  
+              }
         for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
           let amountowed = amount * this.shares[i] / totalshares;
-          this.quicksettleamount[this.expense.peopleOwingNames[i].index] = amountowed;
+          this.quicksettleamount[this.expense.peopleOwingNames[i].index].amount = amountowed;
         }
         console.log(this.quicksettleamount);
 
@@ -1196,22 +1199,24 @@ export default {
         }
         else {
           for (let i = 0; i < this.personNames.length; i++) {
-            this.quicksettleamount.push(0);
-          }
+            let tempobj = {name: this.personNames[i], amount: 0, index: i};
+            this.quicksettleamount.push(tempobj);
+              }
           for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
             let amountowed = this.custom[i];
-            this.quicksettleamount[this.expense.peopleOwingNames[i].index] = amountowed;
+            this.quicksettleamount[this.expense.peopleOwingNames[i].index].amount = amountowed;
           }
         }
         console.log(this.quicksettleamount);
       }
       else {
         for (let i = 0; i < this.personNames.length; i++) {
-          this.quicksettleamount.push(0);
-        }
+          let tempobj = {name: this.personNames[i], amount: 0, index: i};
+          this.quicksettleamount.push(tempobj);  
+            }
         for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
           let amountowed = amount / this.expense.peopleOwingNames.length;
-          this.quicksettleamount[this.expense.peopleOwingNames[i].index] = amountowed;
+          this.quicksettleamount[this.expense.peopleOwingNames[i].index].amount = amountowed;
         }
         console.log(this.quicksettleamount);
       }
