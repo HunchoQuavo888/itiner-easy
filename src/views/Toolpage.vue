@@ -1,4 +1,5 @@
 <template>
+<div>
   <div>
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #05c8f7;">
       <!-- Navbar content -->
@@ -82,7 +83,7 @@
     </div>
 
         </div>
-
+</div>
 </template>
 
 <script>

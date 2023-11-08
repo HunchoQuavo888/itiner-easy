@@ -1,4 +1,5 @@
 <template>
+  <div>
   <title>BillBuddy</title>
 
   <div>
@@ -342,6 +343,7 @@
     <button class="btn btn-primary" @click="breakeven">Breakeven</button>
   </div>
   <div id="amountToPay"></div>
+</div>
 </template>
 
 <script>

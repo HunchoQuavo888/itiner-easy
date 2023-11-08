@@ -70,8 +70,21 @@ const handleSignOut = () => {
 <template>
   <div>
     <Navbar/>
-    <router-view/>
   </div>
+
+  <div>
+    <router-view v-slot="{ Component }">
+      <Transition name="page-opacity" mode="out-in">
+        <component :is="Component" />
+      </Transition>
+    </router-view>
+  </div>
+
+ 
+
+
+
+  
  
   
   <div>
@@ -81,7 +94,14 @@ const handleSignOut = () => {
 </template>
 
 <style>
+.page-opacity-enter-active,
+.page-opacity-leave-active{
+  transition: 600ms ease all;
+}
 
-
+.page-opacity-enter-from,
+.page-opacity-leave-to{
+  opacity:0;
+}
 
 </style>

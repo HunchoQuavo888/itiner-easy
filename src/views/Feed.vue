@@ -1,4 +1,5 @@
 <template>
+  <div>
   <div name="before-selecting-trip" v-if="!selected">
     <div>
       <Header></Header>
@@ -446,6 +447,7 @@
     </div>
 
   </div>
+</div>
 </template>
 
 
