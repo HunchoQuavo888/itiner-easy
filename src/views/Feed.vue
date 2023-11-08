@@ -163,57 +163,57 @@
               </expensecards>
 
 
-              <!-- Open the modal using ID.showModal() method -->
-              <button class="btn" onclick="my_modal_3.showModal()">open modal</button>
-              <dialog id="my_modal_3" class="modal" ref="expenseModal">
-                <div class="modal-box">
-                  <form method="dialog">
-                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                  </form>
-                  <div class="expense-add">
-                    <div class="form-group">
-                      <p>Expense Name:</p>
-                      <input type="text" placeholder="Expense Name" v-model="expense.expenseName" class="form-control"
-                        required>
-                    </div>
-                    <div class="form-group">
-                      <p>Expense Category:</p>
-                      <select v-model="expense.expenseCategory" class="form-control" required>
-                        <option v-for="category in expenseCategories" :key="category" :value="category">
-                          {{ category }}
-                        </option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <p>Expense Amount:</p>
-                      <input type="number" placeholder="Expense Amount" v-model="expense.expenseAmount"
-                        class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                      <p>Person Owed:</p>
-                      <select v-model="expense.personOwedName" class="form-control" required>
-                        <option v-for="(name, index) in personNames" :key="name" :value="name">
-                          {{ name }}
-                        </option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <p>Who Owes Money:</p>
-                      <label v-for="(name, index) in personNames">
-                        <input type="checkbox" :name="name" :value="{ name: name, index: index }"
-                          v-model="expense.peopleOwingNames">{{
-                            name }}<br>
-                      </label>
-                    </div>
-                    <div>
-                      <p>Which Currency Are We Using?</p>
-                      <input name="currency" type="radio" id="tripCurrency" v-model="expense.currency"
-                        :value="tripCurrency">
-                      <label for="tripCurrency">{{ tripCurrency }}</label><br>
-                      <input name="currency" type="radio" id="homeCurrency" v-model="expense.currency"
-                        :value="homeCurrency">
-                      <label for="homeCurrency">{{ homeCurrency }}</label><br>
-                    </div>
+            <!-- Open the modal using ID.showModal() method -->
+            <button class="btn" onclick="my_modal_3.showModal()">open modal</button>
+            <dialog id="my_modal_3" class="modal" ref="expenseModal">
+              <div class="modal-box">
+                <form method="dialog">
+                  <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>
+                <div class="expense-add">
+                  <div class="form-group">
+                    <p>Expense Name:</p>
+                    <input type="text" placeholder="Expense Name" v-model="expense.expenseName" class="form-control"
+                      required>
+                  </div>
+                  <div class="form-group">
+                    <p>Expense Category:</p>
+                    <select v-model="expense.expenseCategory" class="form-control" required>
+                      <option v-for="category in expenseCategories" :key="category" :value="category">
+                        {{ category }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <p>Expense Amount:</p>
+                    <input type="number" placeholder="Expense Amount" v-model="expense.expenseAmount" class="form-control"
+                      required>
+                  </div>
+                  <div class="form-group">
+                    <p>Person Owed:</p>
+                    <select v-model="expense.personOwedName" class="form-control" required>
+                      <option v-for="(name, index) in personNames" :key="name" :value="name">
+                        {{ name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <p>Who Owes Money:</p>
+                    <label v-for="(name, index) in personNames">
+                      <input type="checkbox" :name="name" :value="{ name: name, index: index }"
+                        v-model="expense.peopleOwingNames">{{
+                          name }}<br>
+                    </label>
+                  </div>
+                  <!-- <div>
+                    <p>Which Currency Are We Using?</p>
+                    <input name="currency" type="radio" id="tripCurrency" v-model="expense.currency"
+                      :value="tripCurrency">
+                    <label for="tripCurrency">{{ tripCurrency }}</label><br>
+                    <input name="currency" type="radio" id="homeCurrency" v-model="expense.currency"
+                      :value="homeCurrency">
+                    <label for="homeCurrency">{{ homeCurrency }}</label><br>
+                  </div> -->
 
                     <div class="form-group">
                       How are we splitting this?
@@ -490,6 +490,7 @@ export default {
         peopleOwingNames: [],
         peopleOwingAmount: [],
         currency: null,
+        displayCurrency: null,
       },
       expenseCategories: ['Accomodation', 'Activities', 'Attractions', 'Flight', 'Food and Drinks', 'Transportation', 'Groceries', 'Miscellaneous'],
       expenses: [],
@@ -506,6 +507,7 @@ export default {
       trip: null,
       quicksettleamount: [],
       percentages: [],
+      displayCurrency: null,
       shares: [],
       citycoords: [],
       eateries: [],
@@ -1088,6 +1090,7 @@ export default {
     // This function retrieves user input and adds it to the database. (Both in expenses and whoOwesWho)
     async addExpense() {
       this.computeexpense();
+      await this.convertCurrency(this.expense);
       if (this.splitmethod == "evenly") {
         this.expense.peopleOwingAmount = this.quicksettleamount;
       }
@@ -1099,6 +1102,7 @@ export default {
       }
       else if (this.splitmethod == "custom") {
         this.expense.peopleOwingAmount = this.quicksettleamount;
+        
       }
 
       // Adds the expense to the database
@@ -1135,7 +1139,6 @@ export default {
       // this.expense.
       personOwedName = null;
       // this.expense.peopleOwingAmount = null;
-      await this.convertCurrency(this.expense);
     }
 
     ,
@@ -1347,13 +1350,20 @@ export default {
     },
 
     // Function to convert currency while adding expense
-    async convertCurrency() {
+    async convertCurrency(expense) {
       var url = 'https://currency-converter5.p.rapidapi.com/currency/convert';
       var XRapidAPIKey = '2f0bfe79abmsh886342ca61bbf11p1e6dd8jsna7f5de5249b0';
       var XRapidAPIHost = 'currency-converter5.p.rapidapi.com';
-      var amount = document.getElementById("moneymoneyahhhhh").value;
-      var from = document.getElementById("currencylist").value;
-      var to = document.getElementById("currencylisttoconvert").value;
+      var amount = expense.expenseAmount;
+      if(expense.currency == this.homeCurrency){
+        var from = this.homeCurrency;
+        var to = this.tripCurrency;
+      }
+      else{
+        var from = this.tripCurrency;
+        var to = this.homeCurrency;
+      }
+
       console.log(from);
       console.log(to);
       axios.get(url, {
@@ -1370,9 +1380,9 @@ export default {
         .then(function (response) {
           console.log(response.data);
           var convertedmoney = response.data.rates[to].rate_for_amount;
-          var convertedmoneydiv = document.getElementById("convertedmoney");
-          var html = "<h7>" + convertedmoney + "</h7>";
-          convertedmoneydiv.innerHTML = html;
+          this.displayCurrency = convertedmoney + to+ "<br>" + expense.expenseAmount + from;
+          expense.displayCurrency = this.displayCurrency;
+          console.log(expense.displayCurrency);
         })
     },
 
