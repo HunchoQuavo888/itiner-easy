@@ -93,9 +93,7 @@
       </div>
 
       <div name="showExpenses" v-if="showExpense">
-        <div class="text-3xl m-7 font-bold">
-          <h2>{{ selectedTrip }} expenses</h2>
-        </div>
+        
 
         <!-- <h3>Expense Table</h3>
         <table class="table table-striped table-bordered">
@@ -153,6 +151,9 @@
         <div class="grid grid-cols-1 lg:grid-cols-2">
           <!-- expensecards -->
           <div class="rightcol">
+            <div class="text-3xl m-7 font-bold">
+              <h2>{{ selectedTrip }} expenses</h2>
+            </div>
             <div class="expensecards">
               <expensecards v-for="(expense, index) in expenses" :itemDesc="expense.expenseName"
                 :currency="expense.currency" :price="expense.expenseAmount" :TransfereeName="expense.personOwedName"
@@ -161,7 +162,10 @@
             </div>
           </div>
           <div class="leftcol">
-            <div v-for="(expense, index) in whoOwesWho2Display" :key=index>
+            <div class="text-3xl m-7 font-bold">
+          <h2>Splitter</h2>
+          </div>
+            <div class="ml-7" v-for="(expense, index) in whoOwesWho2Display" :key=index>
               <splittercards :Name1="index" :Name2="expense[1]" :amount="expense[0]">
               </splittercards>
             </div>
