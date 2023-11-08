@@ -3,8 +3,44 @@
     <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden">
         <video class="min-w-full min-h-full absolute object-cover" src="../assets/landingheader/beach.mp4" type="video/mp4" autoplay muted loop></video>
     </div>
-    <div class="video-content space-y-2">
-        content bleebluu
+    <div class="video-content absolute">
+        <div class="grid grid-cols-3 gap-11">
+            <div class="firstfigure">
+                <div class="card w-36 md:w-48 bg-base-100 text-center shadow-xl">
+                <div class="flex justify-center">
+                    <div class="card-body flex">
+                    <h2 class="text-5xl ">2.4k</h2>
+                    <hr>
+                    <p class="font-normal italic">users worldwide</p>
+                </div>
+                </div>
+                </div>
+            </div>
+            <div class="secondfigure">
+                <div class="card w-36 md:w-48 bg-base-100 text-center shadow-xl">
+                <div class="flex justify-center">
+                    <div class="card-body flex">
+                    <h2 class="text-5xl">1.3k</h2>
+                    <hr>
+                    <p class="font-normal italic">trips planned</p>
+                </div>
+                </div>
+                </div>
+            </div>
+            <div class="thirdfigure">
+                <div class="card w-36 md:w-48 bg-base-100 text-center shadow-xl">
+                <div class="flex justify-center">
+                    <div class="card-body flex">
+                    <h2 class="text-5xl">983</h2>
+                    <hr>
+                    <p class="font-normal italic">expenses split</p>
+                </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+    
     </div>
 </section>
 </template>
@@ -30,3 +66,15 @@
   z-index: 2;
 }
 </style>
+
+<script>
+import { Vue3Lottie } from 'vue3-lottie'
+import EndingJSON from '../assets/lottie/ending.json'
+
+export default { 
+    components: {
+    Vue3Lottie,},
+    data() {
+    return {
+    EndingJSON}}};
+</script>

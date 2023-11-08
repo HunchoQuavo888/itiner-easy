@@ -641,7 +641,7 @@ export default {
     },
 
     checkempty() {
-      if (this.expense.currency == null || this.expense.expenseName == null || this.expense.expenseAmount == null || this.expense.personOwedName == null || this.peopleOwingNames == []) {
+      if (this.expense.expenseName == null || this.expense.expenseAmount == null || this.expense.personOwedName == null || this.peopleOwingNames == []) {
         console.log(this.expense.currency);
         console.log(this.expense.expenseName);
         console.log(this.expense.expenseAmount);

@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full max-w-3xl mx-auto text-center">
+    <div class="w-full md:w-1/2 max-w-3xl mx-auto text-center">
       <!-- Testimonial image -->
       <div class="relative h-32">
           <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[480px] h-[480px] pointer-events-none before:absolute before:inset-0 before:bg-gradient-to-b before:from-indigo-500/25 before:via-indigo-500/5 before:via-25% before:to-indigo-500/0 before:to-75% before:rounded-full before:-z-10">

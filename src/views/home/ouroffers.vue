@@ -1,14 +1,15 @@
 <template>
     <div class="lg:ml-20 lg:mr-20 md:ml-7 md:mr-7 sm:ml-24 sm:mr-24 mt-5">
+        
         <div class="bg-base-100 grid grid-cols-1 h-fit md:grid-cols-3 gap-2 md:gap-7">
-            <div class="col rounded-xl bg-white drop-shadow-md">
+            <div class="col rounded-xl bg-transparent drop-shadow-md">
                 <Vue3Lottie :animationData="PlanningJSON" :height="300" :width="auto" />
                 <div class=" d-flex flex-column col-sm-12">
                 <h3 class="mb-3 mt-3 text-center">ITINERARY PLANNER</h3>
                 <p class="text-center mx-10 mb-7"><h4>Trouble finding where to go and what to eat? Let our itinerary generator help you!</h4></p>
                 </div>
             </div>
-            <div class="col rounded-xl bg-white drop-shadow-md">
+            <div class="col rounded-xl bg-transparent drop-shadow-md">
                 <Vue3Lottie :animationData="MoneyJSON" :height="300" :width="auto" />
                 <div class=" d-flex flex-column col-sm-12">
                 <h3 class="mb-3 mt-3 text-center">BILLBUDDY</h3>
@@ -16,7 +17,7 @@
                 </div>
             </div>
 
-            <div class="col rounded-xl bg-white drop-shadow-md">
+            <div class="col rounded-xl bg-transparent drop-shadow-md">
                 <Vue3Lottie :animationData="ToolsJSON" :height="300" :width="auto" />
                 <div class=" d-flex flex-column col-sm-12">
                 <h3 class="mb-3 mt-3 text-center">TOOLS</h3>

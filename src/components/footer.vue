@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-end w-full min-h-screen">
+    <div class="flex items-end w-full h-full">
 
 <footer class="w-full text-gray-700 bg-gray-100 body-font">
     <div

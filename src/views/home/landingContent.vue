@@ -22,19 +22,22 @@
     </div>
 
     <landingvideo></landingvideo>
-    <div class="flex items-center h-screen justify-center bg-base-100">
-        <div class="col-lg-12 items-center justify-center py-96">
+    
+    <div class="flex items-center h-96 justify-center bg-base-100 overflow-hidden">
+        <div class="col-lg-12 items-center justify-center py-96 ">
             <div class="my-10">
                 <Vue3Lottie :animationData="EndingJSON" :height="500" :width="1500" />
             </div>
-            <h2 class="mb-5 text-center">Ready to Supercharge Your Travel Planning?</h2>
+        </div>
+    </div>
+    <br>
+    <div class="h-fit pb-10">
+        <h2 class="mb-5 text-center">Ready to Supercharge Your Travel Planning?</h2>
             <div class="flex items-center justify-center">
                 <router-link to="/sign-up"><button class="inline-flex items-center h-12 px-6 text-lg text-white transition-colors duration-150 bg-blue-400 rounded-full focus:shadow-outline hover:bg-blue-500 ">
                     <svg class="w-4 h-4 mr-3 fill-current" viewBox="0 0 20 20"><path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
                     <span>Lets Go!</span></button></router-link>
-            </div>
-            
-        </div>
+    </div>
     </div>
 </template>
 
