@@ -16,8 +16,8 @@
                             </div>
                             
                         </div>
-                        <div class="col-span-1 text-align justify-center ">
-                            <h1 class="text-lg">to</h1>
+                        <div class="flex col-span-1 items-center justify-center ">
+                            <h2>to</h2>
                         </div>
                         <div class="col-span-5">
                             <div class="translatetolang">
