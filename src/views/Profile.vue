@@ -1,5 +1,5 @@
 <template>
-
+<div>
 <!-- profile -->
 <div class="p-16">
 <div class="p-8 bg-white shadow mt-24">
@@ -322,6 +322,7 @@
     <p class="text-gray-600 text-center font-light lg:px-16">{{user.bio}}</p>
   </div>
 
+</div>
 </div>
 </div>
 
