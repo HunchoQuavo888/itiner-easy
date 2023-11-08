@@ -34,7 +34,7 @@
 
                     </div>
                     <div class="mt-7 justify-center">
-                            <button class="btn btn-secondary mx-auto w-36 bg-blue-400 cursor-pointer " @click="convertCurrency">Convert</button>
+                            <button class="btn" @click="convertCurrency">Convert</button>
                     </div>
         </div>
 </template>

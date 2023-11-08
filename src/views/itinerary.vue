@@ -131,39 +131,6 @@
               </FormKit>
       </div>
 
-      <!-- select places -->
-  <div id="selectplaces">
-    <div v-if="strongIndependentWoman">
-      
-      <h3> Choose where you want to go!</h3>
-      <table>
-        <tr>
-          <th>Place</th>
-          <th>Address</th>
-          <th>Select</th>
-        </tr>
-        <tbody>
-              <tr v-for="act in suggested_activities" :key="act.name">
-                <td>
-                  <label>
-                    {{ act.name }}
-                  </label>
-                </td>
-                <td>
-                  <!-- add photo -->
-                  <img :src="act.photo" alt="Activity photo" style="width: 100px; height: 100px;">
-                </td>
-                <td>
-                  {{ act.formatted_address }}
-                </td>
-                <td>
-                  <input type="checkbox" :value="act" v-model="selectedPlaces">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-      </div>
-  </div>
 
   <div v-if="isLoading" id ="loadingPage">
     <!-- Your loading spinner goes here -->
