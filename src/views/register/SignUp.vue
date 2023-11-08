@@ -83,6 +83,8 @@ const register = () => {
         bio: "Bio",
         location: "Location",
         profilePic: "",
+        followers: [],
+        following: [],
       });
       router.push('/feed') // redirect to feed
     })

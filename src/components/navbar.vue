@@ -78,14 +78,34 @@
               </li>
               <li>
                 <router-link to="/converter"><a>CONVERTER</a></router-link>
-              </li>
-            </ul>
-          </details>
-        </li>
-      </ul>
-    </div>
-    <!-- if signed in -->
-    <div class="navbar-end" v-if="signedin">
+            </li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <input type="text" v-model="searchTerm" @input="searchUsers" placeholder="Search users..."/>
+        <div v-if="matchingUsers.length > 0" class="auto-fill-suggestions">
+          <ul>
+          <li class="" v-for="user in matchingUsers" :key="user.uid">
+            <div style="display: flex; align-items: center;">
+              <img class="w-7 h-7 rounded-full object-cover" :src="user.profilePic" v-if="user.profilePic">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" v-else>
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+              </svg>
+              <router-link :to="`/profile/${user.uid}`" style="margin-left: 10px;">
+                {{ user.displayName }}
+              </router-link>
+            </div>
+          </li>
+        </ul>
+        </div>
+
+      </li>
+    </ul>
+  </div>
+  <!-- if signed in -->
+  <div class="navbar-end" v-if="signedin">
 
       <div class="dropdown dropdown-bottom dropdown-end">
         <label tabindex="0" class="btn m-1  border-none hover:bg-[#6699CC] bg-[#5072A7]">
@@ -130,7 +150,7 @@
 
 import {
   getFirestore, collection, getDocs,
-  addDoc, deleteDoc, doc, updateDoc, setDoc, query, onSnapshot, getDoc
+  addDoc, deleteDoc, doc, updateDoc, setDoc, query, onSnapshot, getDoc, where
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import router from '../router/index.js';
@@ -142,6 +162,9 @@ export default {
       user: {
 
       },
+      searchQuery: "",
+      matchingUsers: [],
+      searchTerm: '',
     };
   },
   mounted() {
@@ -176,6 +199,38 @@ export default {
         router.push("/");
       });
     },
+
+    async searchUsers() {
+  if (this.searchTerm.trim() === '') {
+    // searchTerm is empty or contains only whitespace, return early
+    this.matchingUsers = [];
+    return;
+  }
+  try {
+    const db = getFirestore();
+    const usersCollection = collection(this.db, "users");
+
+    // Convert the search query to lowercase for a case-insensitive search
+    const searchQuery = this.searchTerm.toLowerCase();
+
+    const querySnapshot = await getDocs(usersCollection);
+    const matchingUsers = [];
+
+    querySnapshot.forEach((doc) => {
+      const userData = doc.data();
+      // Perform case-insensitive comparison
+      if (userData.displayName.toLowerCase().includes(searchQuery)) {
+        matchingUsers.push(userData);
+      }
+    });
+
+    this.matchingUsers = matchingUsers;
+    console.log("Matching users:", matchingUsers);
+  } catch (error) {
+    console.error("Error searching for users:", error);
+  }
+}
+
   },
 };
 
