@@ -157,7 +157,7 @@
           <div class="expensecards">
             <expensecards v-for="(expense, index) in expenses" :itemDesc="expense.expenseName"
               :currency="expense.currency" :price="expense.expenseAmount" :TransfereeName="expense.personOwedName" :ExpenseType="expense.expenseCategory"
-              @button-clicked="deleteExpense(index, docId)">
+              @button-clicked="deleteExpense(index, docId) ;breakeven2()">
             </expensecards>
 
 
