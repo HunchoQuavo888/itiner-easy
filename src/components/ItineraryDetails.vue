@@ -185,7 +185,7 @@ import {
   getFirestore, collection, getDocs,
   addDoc, deleteDoc, doc, updateDoc, setDoc, query, onSnapshot, getDoc, where
 } from 'firebase/firestore';
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import foodcard from '../components/foodcards.vue'
 import DayCard from '../components/Itinerary/DayCard.vue';
 import TravelCard from '../components/Itinerary/TravelCard.vue';
@@ -267,46 +267,60 @@ export default {
     this.db = getFirestore();
     this.auth = getAuth();
 
-    // onAuthStateChanged(this.auth, async (user) => {
-    //   if (user) {
-    //     console.log('User object:', user);
-    //     console.log('User is signed in', user.uid + " " + user.email)
-    //     this.uid = user.uid;
-    //     this.username = user.displayName;
-    //     console.log(this.uid);
-    //     this.tripsRef = collection(this.db, 'users', this.uid, 'trips');
-    //     const usersCollection = collection(this.db, "users"); // Adjust the Firestore collection name as per your data structure
-    //     const userQuery = query(usersCollection, where("uid", "==", this.uid));
+    onAuthStateChanged(this.auth, async (user) => {
+      if (user) {
+        console.log('User object:', user);
+        console.log('User is signed in', user.uid + " " + user.email)
+        this.uid = user.uid;
+        this.username = user.displayName;
+        console.log(this.uid);
+        this.tripsRef = collection(this.db, 'users', this.uid, 'trips');
+        const usersCollection = collection(this.db, "users"); // Adjust the Firestore collection name as per your data structure
+        const userQuery = query(usersCollection, where("uid", "==", this.uid));
 
-    //     try {
-    //       const querySnapshot = await getDocs(userQuery);
-    //       if (!querySnapshot.empty) {
-    //         querySnapshot.forEach((doc) => {
-    //           const userData = doc.data();
-    //           console.log("User data from Firestore:", userData);
+        try {
+          const querySnapshot = await getDocs(userQuery);
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach((doc) => {
+              const userData = doc.data();
+              console.log("User data from Firestore:", userData);
 
-    //           // Update the user data property with fetched data
-    //           this.user = userData;
-    //         });
-    //       } else {
-    //         console.log("User document not found in Firestore.");
-    //       }
-    //     } catch (error) {
-    //       console.error("Error querying user information from Firestore: ", error);
-    //     }
-    //   } else {
-    //     console.log('User is signed out')
-    //   }
-    // });
+              // Update the user data property with fetched data
+              this.user = userData;
+            });
+          } else {
+            console.log("User document not found in Firestore.");
+          }
+        } catch (error) {
+          console.error("Error querying user information from Firestore: ", error);
+        }
+      } else {
+        console.log('User is signed out')
+      }
+    });
   },
-  created() {
+  async created() {
     // Access the tripID from the route parameters
     const tripID = this.$route.params.tripID;
 
     // Fetch the itinerary data associated with tripID (you'll need to implement this logic)
     // Replace the following with actual data retrieval code
-    this.fetchItineraryData(tripID);
+    await this.fetchItineraryData(tripID);
 
+    getDocs(collection(this.tripsRef, this.trip, 'expenses')).then((querySnapshot) => {
+        if (this.expenses.length > 0) {
+          this.expenses = [];
+        }
+        if (this.docId.length > 0) {
+          this.docId = [];
+        }
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, " => ", doc.data());
+          this.docId.push(doc.id);
+          this.expenses.push(doc.data());
+        });
+      });
 
   },
   computed: {
@@ -563,8 +577,7 @@ export default {
         this.whoOwesWho = this.itineraryData.whoOwesWho;
         console.log(this.whoOwesWho);
         this.whoOwesWho2 = this.itineraryData.whoOwesWho2;
-        this.expenses = this.itineraryData.expenses;
-        console.log(this.whoOwesWho2);
+        console.log(this.expenses);
         // Retrieve the trip name from the document data
         this.trip = doc.id; // Document ID represents the trip name
         console.log(this.trip);
