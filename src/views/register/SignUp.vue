@@ -38,12 +38,17 @@
       </div>
       <button class="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300" @click="register">Register</button>
     </form>
+    <div class="mt-3 text-xs flex justify-between items-center text-[#002D74]">
+        <p>Already have an account?</p>
+        <button class="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300"><router-link to="/sign-in" class="link" @click="goToLogin"><span class="text-gray-800">Sign in</span></router-link></button>
+      </div>
   </div>
  <!-- image -->
  <div class="md:block hidden w-1/2">
       <img class="vacationboy w-max" src="../../assets/Traveling-rafiki.png" alt="">
   </div>
 </div>
+
 </section>
 </template>
 
