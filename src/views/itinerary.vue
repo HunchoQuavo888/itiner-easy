@@ -226,12 +226,7 @@
       </div>
     </div>    
   </div>
-  <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10">
-    <GmapMarker
-      v-for="(marker, index) in markers"
-      :key="index"
-      :position="{ lat: marker.lat, lng: marker.lng }"
-    />
+  <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10" ref="map">
   </div>
 </div>
 
@@ -754,6 +749,7 @@ async displaydirectionsonmap(origin, destination){
     },
     (response, status) => {
       if (status === "OK") {
+        this.$refs.map.$el.scrollIntoView();
         directionsRenderer.setDirections(response);
       } else {
         window.alert("Directions request failed due to " + status);
@@ -1007,6 +1003,8 @@ async titlephotogenerator(town) {
               infowindow.open(map, eaterymarker);
             });
           }
+          this.$refs.map.$el.scrollIntoView();
+
       }})},
   async geteateryphotos() {
   const promises = this.eateries.map(async (eatery) => {
@@ -1150,7 +1148,8 @@ async showLocation(place,eatery){
       marker.addListener("click", () => {
         infowindow.open({anchor: marker, map});
       });
-      
+      this.$refs.map.$el.scrollIntoView();
+
       
       
 
