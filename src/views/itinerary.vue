@@ -232,7 +232,7 @@
 
   <br>
   <br>
-
+<div id="eateryCarousell">
   <h1 v-if="eateries.length>0" class="text-gray-700 text-center">Places to eat</h1>
     <div v-if="eateries.length>0" class="flex justify-center">
       <div class="carousel carousel-center w-1/2 p-4 space-x-4 bg-gray-200 rounded-box m-5">
@@ -253,7 +253,7 @@
             </div> 
           </div>
       </div>
-    
+  </div>
   <div>
 
   </div>
@@ -752,6 +752,11 @@ async displaydirectionsonmap(origin, destination){
     (response, status) => {
       if (status === "OK") {
         directionsRenderer.setDirections(response);
+        this.$nextTick(() => {
+            const mapElement = document.getElementById('map');
+            const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({ top: topOffset, behavior: 'smooth' });
+          });
       } else {
         window.alert("Directions request failed due to " + status);
       }
@@ -1008,7 +1013,11 @@ async titlephotogenerator(town) {
             });
           }
           // this.$refs.map.$el.scrollIntoView();
-
+          this.$nextTick(() => {
+            const eateryelement = document.getElementById('eateryCarousell');
+            const topOffset = eateryelement.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({ top: topOffset, behavior: 'smooth' });
+          });
       }})},
   async geteateryphotos() {
   const promises = this.eateries.map(async (eatery) => {
@@ -1153,7 +1162,11 @@ async showLocation(place,eatery){
         infowindow.open({anchor: marker, map});
       });
           // this.$refs.map.$el.scrollIntoView();
-
+      this.$nextTick(() => {
+        const mapElement = document.getElementById('map');
+        const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+      });
       
       
 
