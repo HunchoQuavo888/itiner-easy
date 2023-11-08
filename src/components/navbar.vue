@@ -82,7 +82,7 @@
           </ul>
         </details>
       </li>
-      <li>
+      <li v-if="signedin">
         <input type="text" v-model="searchTerm" @input="searchUsers" placeholder="Search users..."/>
         <div v-if="matchingUsers.length > 0" class="auto-fill-suggestions">
           <ul>
