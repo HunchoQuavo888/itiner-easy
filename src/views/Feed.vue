@@ -45,37 +45,39 @@
         </div>
       </section>
 
-      <div class="mb-4">
+      <div class="mb-4 text-center">
         <h1 class="text-2xl ml-7 md:text-3xl">Toolkit</h1>
-        <h4 class="ml-7 italic">Travelling has never been easier.</h4>
-        <div class="mt-2 ml-7 mr-7 ">
-          <!-- tools -->
-          <div class="flex flex-wrap">
-            <div class="w-full">
-              <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
-                <li class="-mb-px w-1/4 mr-2 last:mr-0 flex-auto text-center">
-                  <a class="text-xs font-bold cursor-pointer uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-                    v-on:click="toggleTabs(1)"
-                    v-bind:class="{ 'text-blue-900 bg-white': openTab !== 1, 'text-white bg-blue-900': openTab === 1 }">
-                    Translator
-                  </a>
-                </li>
-                <li class="-mb-px mr-2 w-1/4 last:mr-0 flex-auto text-center">
-                  <a class="text-xs font-bold cursor-pointer uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-                    v-on:click="toggleTabs(2)"
-                    v-bind:class="{ 'text-blue-900 bg-white': openTab !== 2, 'text-white bg-blue-900': openTab === 2 }">
-                    Currency converter
-                  </a>
-                </li>
-              </ul>
-              <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
-                <div class="px-4 py-5 flex-auto">
-                  <div class="tab-content tab-space">
-                    <div v-bind:class="{ 'hidden': openTab !== 1, 'block': openTab === 1 }">
-                      <Translator></Translator>
-                    </div>
-                    <div v-bind:class="{ 'hidden': openTab !== 2, 'block': openTab === 2 }">
-                      <Currency></Currency>
+        <h4 class="ml-7 italic">Translate & Convert on the go.</h4>
+        <div class="flex justify-center w-full">
+          <div class="mt-2 mx-10 max-w-7xl flex justify-center" id="tools">
+            <!-- tools -->
+            <div class="flex flex-wrap">
+              <div class="w-full">
+                <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
+                  <li class="-mb-px w-1/4 mr-2 last:mr-0 flex-auto text-center">
+                    <a class="text-xs font-bold cursor-pointer uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+                      v-on:click="toggleTabs(1)"
+                      v-bind:class="{ 'text-blue-900 bg-white': openTab !== 1, 'text-white bg-blue-900': openTab === 1 }">
+                      Translator
+                    </a>
+                  </li>
+                  <li class="-mb-px mr-2 w-1/4 last:mr-0 flex-auto text-center">
+                    <a class="text-xs font-bold cursor-pointer uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+                      v-on:click="toggleTabs(2)"
+                      v-bind:class="{ 'text-blue-900 bg-white': openTab !== 2, 'text-white bg-blue-900': openTab === 2 }">
+                      Currency converter
+                    </a>
+                  </li>
+                </ul>
+                <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+                  <div class="px-4 py-5 flex-auto">
+                    <div class="tab-content tab-space">
+                      <div v-bind:class="{ 'hidden': openTab !== 1, 'block': openTab === 1 }">
+                        <Translator></Translator>
+                      </div>
+                      <div v-bind:class="{ 'hidden': openTab !== 2, 'block': openTab === 2 }">
+                        <Currency></Currency>
+                      </div>
                     </div>
                   </div>
                 </div>

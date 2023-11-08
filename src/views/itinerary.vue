@@ -160,8 +160,8 @@
           </div>
         </div>  
         <!-- start of iti  -->
-        <div class="m-10">
-          <div v-for="(day, index) in activitiesandtime" :key="index">
+        <div class="m-10 flex lg:flex-col max-[767px]:flex-col">
+          <div v-for="(day, index) in activitiesandtime" :key="index" class="w-2/3 lg:w-fit mx-2">
             <details class="collapse collapse-arrow bg-blue-300 shadow-md min-w-fit">
               <DayCard :day="day" :index="index"/>
             
