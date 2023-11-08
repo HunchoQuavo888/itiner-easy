@@ -986,13 +986,29 @@ async titlephotogenerator(town) {
         this.eateries.push(place);
       }
       this.geteateryphotos();
-      this.eateries.forEach((eatery) => {
-        this.markers.push({
-          lat: eatery.latitude,
-          lng: eatery.longitude,
-        });});
-    }
-  })},
+      let map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 15,
+          center: this.tempcoords});
+          for(let i = 0; i < this.eateries.length; i++){
+            let e = this.eateries[i];
+            console.log(e.origin);
+            let eaterymarker = new google.maps.Marker({
+              position: e.geometry.location,
+              map: map,
+              title: e.name,
+            });
+
+            eaterymarker.addListener("click", () => {
+              let infowindow = new google.maps.InfoWindow({
+                content: `<div><img style="width: auto; height: 150px;" src=` + e.photo + `></div>` + `<div style="color:black"><strong>` +
+                  "Name:" + e.name + "<br>" + "Address:" + e.formatted_address
+                  + "<br><a target=`_blank` href=" + e.url + "></strong>Click here for more information</a>"
+                  + `</div>`,
+              });
+              infowindow.open(map, eaterymarker);
+            });
+          }
+      }})},
   async geteateryphotos() {
   const promises = this.eateries.map(async (eatery) => {
     eatery.remarks = "";
