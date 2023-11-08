@@ -1,83 +1,85 @@
 <template>
   <div>
-  <div name="before-selecting-trip" v-if="!selected">
-    <div>
-      <Header></Header>
-    </div>
-    <!-- title -->
-    <div class="mt-7 mb-4 ml-7">
-      <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}'s</a> current trips
-        <router-link to="/add-trip">
-          <button class="btn btn-neutral ml-7 p-2 text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg">Add a new trip</button>
-        </router-link>
-      </h1>
-    </div>
-    <!-- trips carousell cards -->
-    <section class="flex ml-2 flex-nowrap gap-5 px-5 overflow-x-auto snap-x snap-mandatory pb-7 no-scrollbar">
-      <tripcard v-for="trip in trips" :city=trip @deletetrip="deleteTrip(trip)" @gototrip="goToTrip(trip)">
-      </tripcard>
-    </section>
+    <div name="before-selecting-trip" v-if="!selected">
+      <div>
+        <Header></Header>
+      </div>
+      <!-- title -->
+      <div class="mt-7 mb-4 ml-7">
+        <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}'s</a> current trips
+          <router-link to="/add-trip">
+            <button class="btn btn-neutral ml-7 p-2 text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg">Add a new
+              trip</button>
+          </router-link>
+        </h1>
+      </div>
+      <!-- trips carousell cards -->
+      <section class="flex ml-2 flex-nowrap gap-5 px-5 overflow-x-auto snap-x snap-mandatory pb-7 no-scrollbar">
+        <tripcard v-for="trip in trips" :city=trip @deletetrip="deleteTrip(trip)" @gototrip="goToTrip(trip)">
+        </tripcard>
+      </section>
 
 
-    <div class="ml-7 mb-4">
-      <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}</a> shared trips</h1>
-    </div>
+      <div class="ml-7 mb-4">
+        <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}</a> shared trips</h1>
+      </div>
 
-    <section class="flex ml-2 flex-nowrap gap-5 px-5 overflow-x-auto snap-x snap-mandatory pb-7 no-scrollbar">
-      <div class="bg-white p-5 snap-always snap-center text-center rounded flex-none shadow-lg">
-        <img class="w-56 md:w-64"
-          src="https://cdn.kimkim.com/files/a/images/11a9690afde1a50f9439e22aa8d564237970fb93/original-8ad1591102e554cd50d9e7cea18d990d.jpg">
-        <h2 class="text-xl m-2">Tokyo</h2>
-        <h3 class="text-base">John, Robert, Carrie</h3>
-      </div>
-      <div class="bg-white p-5 snap-always snap-center rounded flex-none shadow-lg">
-        <img class="w-56 md:w-64"
-          src="https://cdn.kimkim.com/files/a/images/11a9690afde1a50f9439e22aa8d564237970fb93/original-8ad1591102e554cd50d9e7cea18d990d.jpg">
-        <h2 class="text-xl">Taiwan</h2>
-      </div>
-      <div class="bg-white p-5 snap-always snap-center rounded flex-none shadow-lg">
-        <img class="w-56 md:w-64"
-          src="https://cdn.kimkim.com/files/a/images/11a9690afde1a50f9439e22aa8d564237970fb93/original-8ad1591102e554cd50d9e7cea18d990d.jpg">
-        <h2 class="text-xl">Malaysia</h2>
-      </div>
-      <div class="bg-white p-5 snap-always snap-center rounded flex-none shadow-lg">
-        <img class="w-56 md:w-64"
-          src="https://cdn.kimkim.com/files/a/images/11a9690afde1a50f9439e22aa8d564237970fb93/original-8ad1591102e554cd50d9e7cea18d990d.jpg">
-        <h2 class="text-xl">Singapore</h2>
-      </div>
-    </section>
+      <section class="flex ml-2 flex-nowrap gap-5 px-5 overflow-x-auto snap-x snap-mandatory pb-7 no-scrollbar">
+        <div class="bg-white p-5 snap-always snap-center text-center rounded flex-none shadow-lg">
+          <img class="w-56 md:w-64"
+            src="https://cdn.kimkim.com/files/a/images/11a9690afde1a50f9439e22aa8d564237970fb93/original-8ad1591102e554cd50d9e7cea18d990d.jpg">
+          <h2 class="text-xl m-2">Tokyo</h2>
+          <h3 class="text-base">John, Robert, Carrie</h3>
+        </div>
+        <div class="bg-white p-5 snap-always snap-center rounded flex-none shadow-lg">
+          <img class="w-56 md:w-64"
+            src="https://cdn.kimkim.com/files/a/images/11a9690afde1a50f9439e22aa8d564237970fb93/original-8ad1591102e554cd50d9e7cea18d990d.jpg">
+          <h2 class="text-xl">Taiwan</h2>
+        </div>
+        <div class="bg-white p-5 snap-always snap-center rounded flex-none shadow-lg">
+          <img class="w-56 md:w-64"
+            src="https://cdn.kimkim.com/files/a/images/11a9690afde1a50f9439e22aa8d564237970fb93/original-8ad1591102e554cd50d9e7cea18d990d.jpg">
+          <h2 class="text-xl">Malaysia</h2>
+        </div>
+        <div class="bg-white p-5 snap-always snap-center rounded flex-none shadow-lg">
+          <img class="w-56 md:w-64"
+            src="https://cdn.kimkim.com/files/a/images/11a9690afde1a50f9439e22aa8d564237970fb93/original-8ad1591102e554cd50d9e7cea18d990d.jpg">
+          <h2 class="text-xl">Singapore</h2>
+        </div>
+      </section>
 
-    <div class="mb-4">
-      <h1 class="text-2xl ml-7 md:text-3xl">Toolkit</h1>
-      <h4 class="ml-7 italic">Travelling has never been easier.</h4>
-      <div class="mt-2 ml-7 mr-7 ">
-        <!-- tools -->
-        <div class="flex flex-wrap">
-          <div class="w-full">
-            <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
-              <li class="-mb-px w-1/4 mr-2 last:mr-0 flex-auto text-center">
-                <a class="text-xs font-bold cursor-pointer uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-                  v-on:click="toggleTabs(1)"
-                  v-bind:class="{ 'text-blue-900 bg-white': openTab !== 1, 'text-white bg-blue-900': openTab === 1 }">
-                  Translator
-                </a>
-              </li>
-              <li class="-mb-px mr-2 w-1/4 last:mr-0 flex-auto text-center">
-                <a class="text-xs font-bold cursor-pointer uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-                  v-on:click="toggleTabs(2)"
-                  v-bind:class="{ 'text-blue-900 bg-white': openTab !== 2, 'text-white bg-blue-900': openTab === 2 }">
-                  Currency converter
-                </a>
-              </li>
-            </ul>
-            <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
-              <div class="px-4 py-5 flex-auto">
-                <div class="tab-content tab-space">
-                  <div v-bind:class="{ 'hidden': openTab !== 1, 'block': openTab === 1 }">
-                    <Translator></Translator>
-                  </div>
-                  <div v-bind:class="{ 'hidden': openTab !== 2, 'block': openTab === 2 }">
-                    <Currency></Currency>
+      <div class="mb-4">
+        <h1 class="text-2xl ml-7 md:text-3xl">Toolkit</h1>
+        <h4 class="ml-7 italic">Travelling has never been easier.</h4>
+        <div class="mt-2 ml-7 mr-7 ">
+          <!-- tools -->
+          <div class="flex flex-wrap">
+            <div class="w-full">
+              <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
+                <li class="-mb-px w-1/4 mr-2 last:mr-0 flex-auto text-center">
+                  <a class="text-xs font-bold cursor-pointer uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+                    v-on:click="toggleTabs(1)"
+                    v-bind:class="{ 'text-blue-900 bg-white': openTab !== 1, 'text-white bg-blue-900': openTab === 1 }">
+                    Translator
+                  </a>
+                </li>
+                <li class="-mb-px mr-2 w-1/4 last:mr-0 flex-auto text-center">
+                  <a class="text-xs font-bold cursor-pointer uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+                    v-on:click="toggleTabs(2)"
+                    v-bind:class="{ 'text-blue-900 bg-white': openTab !== 2, 'text-white bg-blue-900': openTab === 2 }">
+                    Currency converter
+                  </a>
+                </li>
+              </ul>
+              <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+                <div class="px-4 py-5 flex-auto">
+                  <div class="tab-content tab-space">
+                    <div v-bind:class="{ 'hidden': openTab !== 1, 'block': openTab === 1 }">
+                      <Translator></Translator>
+                    </div>
+                    <div v-bind:class="{ 'hidden': openTab !== 2, 'block': openTab === 2 }">
+                      <Currency></Currency>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -86,370 +88,372 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <div name="after-selecting-trip" v-if="selected">
-    <div>
-      <button class="btn btn-primary" @click="backToTrips">Back to Feed</button>
-      <button class="btn btn-primary" @click="toggleExpenseAndItinerary">Expense/Itinerary</button>
-    </div>
-
-    <div name="showExpenses" v-if="showExpense">
-      <div class="text-3xl m-7 font-bold">
-        <h2>{{ selectedTrip }} expenses</h2>
+    <div name="after-selecting-trip" v-if="selected">
+      <div>
+        <button class="btn btn-primary" @click="backToTrips">Back to Feed</button>
+        <button class="btn btn-primary" @click="toggleExpenseAndItinerary">Expense/Itinerary</button>
       </div>
 
-      <h3>Expense Table</h3>
-      <table class="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th>Expense Name</th>
-            <th>Expense Category</th>
-            <th>Expense Amount</th>
-            <th>People who Owe</th>
-            <th>How much is owed</th>
-            <th>Who paid</th>
-            <th>Delete Expense</th>
-          </tr>
-        </thead>
-
-
-        <tbody>
-          <tr v-for="(expense, index) in expenses" :key="index">
-            <td>{{ expense.expenseName }}</td>
-            <td>{{ expense.expenseCategory }}</td>
-            <td>{{ expense.expenseAmount }}</td>
-            <td>
-              <p v-for="name in expense.peopleOwingNames">{{ name.name }} &nbsp;</p>
-            </td>
-            <td>
-              <p v-for="(name, index) in expense.peopleOwingAmount" :key="index">{{ expense.peopleOwingAmount[index].amount }} &nbsp;</p>
-            </td>
-            <td>{{ expense.personOwedName }}</td>
-            <td><button @click="deleteExpense(index, docId)">Delete Expense</button></td>
-          </tr>
-        </tbody>
-      </table>
-      <h3>whoOwesWho Table</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Amount Owed</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr v-for="key in Object.keys(whoOwesWho)">
-            <td>{{ key }}</td>
-            <td>{{ whoOwesWho[key] }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="form-group">
-        <button class="btn btn-primary" @click="breakeven2">Breakeven</button>
-      </div>
-      <div id="amountToPay"></div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2">
-        <!-- expensecards -->
-        <div class="rightcol">
-          <div class="expensecards">
-            <expensecards v-for="(expense, index) in expenses" :itemDesc="expense.expenseName"
-              :currency="expense.currency" :price="expense.expenseAmount" :TransfereeName="expense.personOwedName" :ExpenseType="expense.expenseCategory"
-              @button-clicked="deleteExpense(index, docId) ;breakeven2()">
-            </expensecards>
-
-
-            <!-- Open the modal using ID.showModal() method -->
-            <button class="btn" onclick="my_modal_3.showModal()">open modal</button>
-            <dialog id="my_modal_3" class="modal" ref="expenseModal">
-              <div class="modal-box">
-                <form method="dialog">
-                  <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                </form>
-                <div class="expense-add">
-                  <div class="form-group">
-                    <p>Expense Name:</p>
-                    <input type="text" placeholder="Expense Name" v-model="expense.expenseName" class="form-control"
-                      required>
-                  </div>
-                  <div class="form-group">
-                    <p>Expense Category:</p>
-                    <select v-model="expense.expenseCategory" class="form-control" required>
-                      <option v-for="category in expenseCategories" :key="category" :value="category">
-                        {{ category }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <p>Expense Amount:</p>
-                    <input type="number" placeholder="Expense Amount" v-model="expense.expenseAmount" class="form-control"
-                      required>
-                  </div>
-                  <div class="form-group">
-                    <p>Person Owed:</p>
-                    <select v-model="expense.personOwedName" class="form-control" required>
-                      <option v-for="(name, index) in personNames" :key="name" :value="name">
-                        {{ name }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <p>Who Owes Money:</p>
-                    <label v-for="(name, index) in personNames">
-                      <input type="checkbox" :name="name" :value="{ name: name, index: index }"
-                        v-model="expense.peopleOwingNames">{{
-                          name }}<br>
-                    </label>
-                  </div>
-                  <div>
-                    <p>Which Currency Are We Using?</p>
-                    <input name="currency" type="radio" id="tripCurrency" v-model="expense.currency"
-                      :value="tripCurrency">
-                    <label for="tripCurrency">{{ tripCurrency }}</label><br>
-                    <input name="currency" type="radio" id="homeCurrency" v-model="expense.currency"
-                      :value="homeCurrency">
-                    <label for="homeCurrency">{{ homeCurrency }}</label><br>
-                  </div>
-
-                  <div class="form-group">
-                    How are we splitting this?
-                    <select id="splitmethod" v-model="splitmethod">
-                      <option value="evenly">Split Evenly</option>
-                      <option value="percentage">Split by percentage</option>
-                      <option value="shares">Split by Shares</option>
-                      <option value="custom">Custom Split</option>
-                    </select>
-                  </div>
-                  <div v-if="splitmethod == 'percentage'">
-                    <h3>Split By Percentage</h3>
-                    <div class="form-group">
-                      <h4 v-for="(name, index) in expense.peopleOwingNames ">
-                        {{ name.name }} <input type="number" placeholder="Percentage" v-model="percentages[index]"
-                          class="form-control" @keyup.enter="computeexpense">
-                      </h4>
-                      <ul>
-                        <li v-for="obj in quicksettleamount" :key="index">
-                          {{ obj.name }} pays {{ obj.amount }}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div v-if="splitmethod == 'shares'">
-                    <h3>Split By Shares</h3>
-                    <div class="form-group">
-                      <h4 v-for="(name, index) in expense.peopleOwingNames ">
-                        {{ name.name }} <input type="number" placeholder="Shares" v-model="shares[index]"
-                          class="form-control" @keyup.enter="computeexpense">
-                      </h4>
-                      <ul>
-                        <li v-for="(amt, index) in quicksettleamount" :key="index">
-                          {{ q }} pays {{ amt }}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div v-if="splitmethod == 'custom'">
-                    <h3>Have it your way!</h3>
-                    <div class="form-group">
-                      <h4 v-for="(name, index) in expense.peopleOwingNames ">
-                        {{ name.name }} <input type="number" placeholder="custom" v-model="custom[index]"
-                          class="form-control" @keyup.enter="computeexpense">
-                      </h4>
-                      <ul>
-                        <li v-for="(amt, index) in quicksettleamount" :key="index">
-                          {{ expense.peopleOwingNames[index] }} pays {{ amt }}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div v-if="splitmethod == 'evenly'">
-                    <h3>Split Evenly</h3>
-                    <div class="form-group">
-                      <h4 v-for="name in list ">
-                        {{ name.name }} pays {{ expense.expenseAmount / list.length }}
-                      </h4>
-                    </div>
-                  </div>
-
-
-                  <ul>
-                    <li v-for="(item, index) in list" :key="index">
-
-                      <button class="btn btn-primary" @click="removeFromList(index)">Remove</button> {{ item }}
-                    </li>
-                  </ul>
-                  <div class="form-group">
-                    <button class="btn btn-primary" @click="checkempty3(); closemodal()">Add Expense</button>
-                  </div>
-                </div>
-              </div>
-            </dialog>
-          </div>
+      <div name="showExpenses" v-if="showExpense">
+        <div class="text-3xl m-7 font-bold">
+          <h2>{{ selectedTrip }} expenses</h2>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <div name="showItinerary" class="m-10" v-if="showItinerary" @load="initMap(this.citycoords)">
-    <!-- getmap -->
-    <!-- create table each day -->
-    <div v-for="(day, index) in activitiesandtime" :key="index">
-      <details class="collapse collapse-arrow bg-blue-300 shadow-md min-w-fit">
-        <!-- <div class="flex pb-5 sticky top-0 z-10"> -->
-        <!-- <div class="w-96 border p-3 rounded-md bg-blue-300"> -->
-        <summary class="collapse-title text-xl font-medium ">
-          <h1 class="mb-1">Day {{ index + 1 }}</h1>
-          <h3 class="text-gray-500 mb-2">🗓️ {{ day.date }}</h3>
+        <h3>Expense Table</h3>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Expense Name</th>
+              <th>Expense Category</th>
+              <th>Expense Amount</th>
+              <th>People who Owe</th>
+              <th>How much is owed</th>
+              <th>Who paid</th>
+              <th>Delete Expense</th>
+            </tr>
+          </thead>
 
-          <!-- Weather reminder -->
-          <div class="rounded-lg bg-blue-200 p-3 shadow-sm min-w-fit">
-            <div>
-              <div class="text-md">
-                <p class="font-bold">Weather forecast: </p>
-                <span class="">{{ day.weather }}</span>
-                <span class="" v-if="day.weather.includes('Sunny', 'sunny')"> ☀️</span>
-                <span v-if="day.weather.includes('hazy')"> 💨</span>
-                <span v-if="day.weather.includes('rain')"> 🌧️</span>
-              </div>
-              <div class="alert bg-inherit border-none">
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
-                  viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <span class="text-sm" v-if="day.weather.includes('Sunny', 'sunny')">Apply sunscreen!!</span>
-                <span class="text-sm" v-if="day.weather.includes('hazy')">Wear a mask!!</span>
-                <span class="text-sm" v-if="day.weather.includes('rain')">Pack an umbrella!! ☂️</span>
-              </div>
-            </div>
-          </div>
-          <!-- </div> -->
 
-        </summary>
+          <tbody>
+            <tr v-for="(expense, index) in expenses" :key="index">
+              <td>{{ expense.expenseName }}</td>
+              <td>{{ expense.expenseCategory }}</td>
+              <td>{{ expense.expenseAmount }}</td>
+              <td>
+                <p v-for="name in expense.peopleOwingNames">{{ name.name }} &nbsp;</p>
+              </td>
+              <td>
+                <p v-for="(name, index) in expense.peopleOwingAmount" :key="index">{{
+                  expense.peopleOwingAmount[index].amount }} &nbsp;</p>
+              </td>
+              <td>{{ expense.personOwedName }}</td>
+              <td><button @click="deleteExpense(index, docId)">Delete Expense</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>whoOwesWho Table</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Amount Owed</th>
+            </tr>
+          </thead>
 
-        <div class="collapse-content max-h-screen overflow-auto bg-blue-100 snap-both snap-mandatory">
-          <div class="flex overflow-auto">
-            <div>
-              <div v-for="activity in day.activities" :key="activity.name">
-                <!-- display activities -->
-                <div v-if="activity.formatted_address !== 'Travel'" class="pr-5 snap-start snap-always">
-                  <div class="mx-auto card flex min-w-full max-w-md overflow-auto shadow-lg bg-indigo-200 justify-center">
-                    <img class="w-52 h-32 self-center rounded-md" :src="activity.photo" alt="image of attraction">
+          <tbody>
+            <tr v-for="key in Object.keys(whoOwesWho)">
+              <td>{{ key }}</td>
+              <td>{{ whoOwesWho[key] }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="form-group">
+          <button class="btn btn-primary" @click="breakeven2">Breakeven</button>
+        </div>
+        <div id="amountToPay"></div>
 
-                    <div class="px-2 py-2 border-l-4 my-4 border-gray-400">
-                      <h3 class="text-gray-700 text-left">{{ activity.name }}</h3>
-                      <div>
-                        <p class="text-gray-700 text-base text-left">
-                          {{ activity.time }} - {{ activity.endtime }}
-                        </p>
-                        <p class="text-gray-500 text-base text-left">
-                          {{ activity.formatted_address }}
-                        </p>
-                      </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2">
+          <!-- expensecards -->
+          <div class="rightcol">
+            <div class="expensecards">
+              <expensecards v-for="(expense, index) in expenses" :itemDesc="expense.expenseName"
+                :currency="expense.currency" :price="expense.expenseAmount" :TransfereeName="expense.personOwedName"
+                :ExpenseType="expense.expenseCategory" @button-clicked="deleteExpense(index, docId); breakeven2()">
+              </expensecards>
+
+
+              <!-- Open the modal using ID.showModal() method -->
+              <button class="btn" onclick="my_modal_3.showModal()">open modal</button>
+              <dialog id="my_modal_3" class="modal" ref="expenseModal">
+                <div class="modal-box">
+                  <form method="dialog">
+                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                  </form>
+                  <div class="expense-add">
+                    <div class="form-group">
+                      <p>Expense Name:</p>
+                      <input type="text" placeholder="Expense Name" v-model="expense.expenseName" class="form-control"
+                        required>
+                    </div>
+                    <div class="form-group">
+                      <p>Expense Category:</p>
+                      <select v-model="expense.expenseCategory" class="form-control" required>
+                        <option v-for="category in expenseCategories" :key="category" :value="category">
+                          {{ category }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <p>Expense Amount:</p>
+                      <input type="number" placeholder="Expense Amount" v-model="expense.expenseAmount"
+                        class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <p>Person Owed:</p>
+                      <select v-model="expense.personOwedName" class="form-control" required>
+                        <option v-for="(name, index) in personNames" :key="name" :value="name">
+                          {{ name }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <p>Who Owes Money:</p>
+                      <label v-for="(name, index) in personNames">
+                        <input type="checkbox" :name="name" :value="{ name: name, index: index }"
+                          v-model="expense.peopleOwingNames">{{
+                            name }}<br>
+                      </label>
                     </div>
                     <div>
-                      <textarea class="mb-2 rounded border-none" placeholder="Add notes here" type="text"
-                        v-model="activity.remarks" />
-                      <!-- <span class="text-black text-sm">Cost: </span><input class="placeholder-gray-400 rounded border-none" placeholder="Add an expense here" type="number" v-model="activity.expense"><br> -->
+                      <p>Which Currency Are We Using?</p>
+                      <input name="currency" type="radio" id="tripCurrency" v-model="expense.currency"
+                        :value="tripCurrency">
+                      <label for="tripCurrency">{{ tripCurrency }}</label><br>
+                      <input name="currency" type="radio" id="homeCurrency" v-model="expense.currency"
+                        :value="homeCurrency">
+                      <label for="homeCurrency">{{ homeCurrency }}</label><br>
                     </div>
-                    <div class="flex flex-col px-6 pt-4 pb-2 items-center">
-                      <button class="btn mb-2 w-2/3" href="#" @click="showLocation(activity)">Show on Map</button>
-                      <button class="btn w-2/3" href="#" @click="geteateriesnearby(activity)">Where to eat?</button>
+
+                    <div class="form-group">
+                      How are we splitting this?
+                      <select id="splitmethod" v-model="splitmethod">
+                        <option value="evenly">Split Evenly</option>
+                        <option value="percentage">Split by percentage</option>
+                        <option value="shares">Split by Shares</option>
+                        <option value="custom">Custom Split</option>
+                      </select>
+                    </div>
+                    <div v-if="splitmethod == 'percentage'">
+                      <h3>Split By Percentage</h3>
+                      <div class="form-group">
+                        <h4 v-for="(name, index) in expense.peopleOwingNames ">
+                          {{ name.name }} <input type="number" placeholder="Percentage" v-model="percentages[index]"
+                            class="form-control" @keyup.enter="computeexpense">
+                        </h4>
+                        <ul>
+                          <li v-for="obj in quicksettleamount" :key="index">
+                            {{ obj.name }} pays {{ obj.amount }}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div v-if="splitmethod == 'shares'">
+                      <h3>Split By Shares</h3>
+                      <div class="form-group">
+                        <h4 v-for="(name, index) in expense.peopleOwingNames ">
+                          {{ name.name }} <input type="number" placeholder="Shares" v-model="shares[index]"
+                            class="form-control" @keyup.enter="computeexpense">
+                        </h4>
+                        <ul>
+                          <li v-for="(amt, index) in quicksettleamount" :key="index">
+                            {{ q }} pays {{ amt }}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div v-if="splitmethod == 'custom'">
+                      <h3>Have it your way!</h3>
+                      <div class="form-group">
+                        <h4 v-for="(name, index) in expense.peopleOwingNames ">
+                          {{ name.name }} <input type="number" placeholder="custom" v-model="custom[index]"
+                            class="form-control" @keyup.enter="computeexpense">
+                        </h4>
+                        <ul>
+                          <li v-for="(amt, index) in quicksettleamount" :key="index">
+                            {{ expense.peopleOwingNames[index] }} pays {{ amt }}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div v-if="splitmethod == 'evenly'">
+                      <h3>Split Evenly</h3>
+                      <div class="form-group">
+                        <h4 v-for="name in list ">
+                          {{ name.name }} pays {{ expense.expenseAmount / list.length }}
+                        </h4>
+                      </div>
+                    </div>
+
+
+                    <ul>
+                      <li v-for="(item, index) in list" :key="index">
+
+                        <button class="btn btn-primary" @click="removeFromList(index)">Remove</button> {{ item }}
+                      </li>
+                    </ul>
+                    <div class="form-group">
+                      <button class="btn btn-primary" @click="checkempty3(); closemodal()">Add Expense</button>
                     </div>
                   </div>
                 </div>
-                <!-- loop through activities: end-->
-
-                <!-- loop through travel: start-->
-                <div v-else class="pr-5">
-                  <div class="ml-8 max-w-sm max-h-xs rounded overflow-hidden border-l-4 border-dashed border-gray-700">
-                    <!-- <img class="w-full h-20" src="../components/logo/itiner-easy.svg" alt="travel"> -->
-                    <div class="px-6 py-4">
-                      <div class="font-bold text-sm mb-2">{{ activity.name }}</div>
-                      <p class="text-gray-700 text-base">
-                        {{ activity.time }} - {{ activity.endtime }}
-                      </p>
-                    </div>
-                    <button class="btn w-max self-center ml-5 mb-5" href="#"
-                      @click="displaydirectionsonmap(day.activities[day.activities.indexOf(activity) - 1].geometry.location, day.activities[day.activities.indexOf(activity) + 1].geometry.location)">The
-                      way there!</button>
-                  </div>
-                </div>
-
-              </div>
+              </dialog>
             </div>
           </div>
-          <!-- collapse div -->
         </div>
-      </details>
+      </div>
+    </div>
+
+    <div name="showItinerary" class="m-10" v-if="showItinerary" @load="initMap(this.citycoords)">
+      <!-- getmap -->
+      <!-- create table each day -->
+      <div v-for="(day, index) in activitiesandtime" :key="index">
+        <details class="collapse collapse-arrow bg-blue-300 shadow-md min-w-fit">
+          <!-- <div class="flex pb-5 sticky top-0 z-10"> -->
+          <!-- <div class="w-96 border p-3 rounded-md bg-blue-300"> -->
+          <summary class="collapse-title text-xl font-medium ">
+            <h1 class="mb-1">Day {{ index + 1 }}</h1>
+            <h3 class="text-gray-500 mb-2">🗓️ {{ day.date }}</h3>
+
+            <!-- Weather reminder -->
+            <div class="rounded-lg bg-blue-200 p-3 shadow-sm min-w-fit">
+              <div>
+                <div class="text-md">
+                  <p class="font-bold">Weather forecast: </p>
+                  <span class="">{{ day.weather }}</span>
+                  <span class="" v-if="day.weather.includes('Sunny', 'sunny')"> ☀️</span>
+                  <span v-if="day.weather.includes('hazy')"> 💨</span>
+                  <span v-if="day.weather.includes('rain')"> 🌧️</span>
+                </div>
+                <div class="alert bg-inherit border-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  <span class="text-sm" v-if="day.weather.includes('Sunny', 'sunny')">Apply sunscreen!!</span>
+                  <span class="text-sm" v-if="day.weather.includes('hazy')">Wear a mask!!</span>
+                  <span class="text-sm" v-if="day.weather.includes('rain')">Pack an umbrella!! ☂️</span>
+                </div>
+              </div>
+            </div>
+            <!-- </div> -->
+
+          </summary>
+
+          <div class="collapse-content max-h-screen overflow-auto bg-blue-100 snap-both snap-mandatory">
+            <div class="flex overflow-auto">
+              <div>
+                <div v-for="activity in day.activities" :key="activity.name">
+                  <!-- display activities -->
+                  <div v-if="activity.formatted_address !== 'Travel'" class="pr-5 snap-start snap-always">
+                    <div
+                      class="mx-auto card flex min-w-full max-w-md overflow-auto shadow-lg bg-indigo-200 justify-center">
+                      <img class="w-52 h-32 self-center rounded-md" :src="activity.photo" alt="image of attraction">
+
+                      <div class="px-2 py-2 border-l-4 my-4 border-gray-400">
+                        <h3 class="text-gray-700 text-left">{{ activity.name }}</h3>
+                        <div>
+                          <p class="text-gray-700 text-base text-left">
+                            {{ activity.time }} - {{ activity.endtime }}
+                          </p>
+                          <p class="text-gray-500 text-base text-left">
+                            {{ activity.formatted_address }}
+                          </p>
+                        </div>
+                      </div>
+                      <div>
+                        <textarea class="mb-2 rounded border-none" placeholder="Add notes here" type="text"
+                          v-model="activity.remarks" />
+                        <!-- <span class="text-black text-sm">Cost: </span><input class="placeholder-gray-400 rounded border-none" placeholder="Add an expense here" type="number" v-model="activity.expense"><br> -->
+                      </div>
+                      <div class="flex flex-col px-6 pt-4 pb-2 items-center">
+                        <button class="btn mb-2 w-2/3" href="#" @click="showLocation(activity)">Show on Map</button>
+                        <button class="btn w-2/3" href="#" @click="geteateriesnearby(activity)">Where to eat?</button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- loop through activities: end-->
+
+                  <!-- loop through travel: start-->
+                  <div v-else class="pr-5">
+                    <div class="ml-8 max-w-sm max-h-xs rounded overflow-hidden border-l-4 border-dashed border-gray-700">
+                      <!-- <img class="w-full h-20" src="../components/logo/itiner-easy.svg" alt="travel"> -->
+                      <div class="px-6 py-4">
+                        <div class="font-bold text-sm mb-2">{{ activity.name }}</div>
+                        <p class="text-gray-700 text-base">
+                          {{ activity.time }} - {{ activity.endtime }}
+                        </p>
+                      </div>
+                      <button class="btn w-max self-center ml-5 mb-5" href="#"
+                        @click="displaydirectionsonmap(day.activities[day.activities.indexOf(activity) - 1].geometry.location, day.activities[day.activities.indexOf(activity) + 1].geometry.location)">The
+                        way there!</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <!-- collapse div -->
+          </div>
+        </details>
+        <br>
+      </div>
+      <div id="map" class="w-full h-96" ref="map">
+      </div>
+
       <br>
-    </div>
-    <div id="map" class="w-full h-96" ref="map">
-    </div>
 
-    <br>
+      <div v-if="eateries.length > 0" class="overflow-auto overflow-x-hidden h-96 m-10 rounded-lg">
+        <h1 class="text-gray-700 text-center underline">Places to eat</h1>
+        <table class="bg-blue-300 table table-pin-rows rounded-lg max-w-fit">
+          <thead>
+            <tr class="bg-blue-400 rounded">
+              <th class="text-xl text-gray-600">Name</th>
+              <th class="text-xl text-gray-600">Address</th>
+              <th class="text-xl text-gray-600">Photo</th>
+              <th class="text-xl text-gray-600">Price Level</th>
+              <th class="text-xl text-gray-600">Rating</th>
+              <th class="text-xl text-gray-600">Map Details</th>
+              <th class="text-xl text-gray-600">How to get there!</th>
+              <th class="text-xl text-gray-600">Remarks</th>
+            </tr>
+          </thead>
 
-    <div v-if="eateries.length > 0" class="overflow-auto overflow-x-hidden h-96 m-10 rounded-lg">
-      <h1 class="text-gray-700 text-center underline">Places to eat</h1>
-      <table class="bg-blue-300 table table-pin-rows rounded-lg max-w-fit">
-        <thead>
-          <tr class="bg-blue-400 rounded">
-            <th class="text-xl text-gray-600">Name</th>
-            <th class="text-xl text-gray-600">Address</th>
-            <th class="text-xl text-gray-600">Photo</th>
-            <th class="text-xl text-gray-600">Price Level</th>
-            <th class="text-xl text-gray-600">Rating</th>
-            <th class="text-xl text-gray-600">Map Details</th>
-            <th class="text-xl text-gray-600">How to get there!</th>
-            <th class="text-xl text-gray-600">Remarks</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr v-for="eatery in eateries" :key="eatery.name">
-            <td>
-              <label>
-                <h3>{{ eatery.name }}</h3>
-              </label>
-            </td>
-            <td>
-              <h4>{{ eatery.vicinity }}</h4>
-            </td>
-            <td>
-              <img :src="eatery.photo" class="w-32 h-1/2 rounded hover:scale-1.25">
-            </td>
-            <td>
-              {{ eatery.price_level }}
-            </td>
-            <td>
-              {{ eatery.rating }}
-            </td>
-            <td>
-              <a href="#" @click="showLocation(eatery, eatery)">Show on Map</a>
-            </td>
-            <td>
-              <a href="#" @click="displaydirectionsonmap(eatery.origin, eatery.geometry.location, isEatery)">Show Route</a>
-            </td>
-            <td v-if="eatery.formatted_address !== 'Travel'">
-              Remarks: <input type="text" v-model="eatery.remarks"><br>
-              Expenses: <input type="number" v-model="eatery.expense"><br>
-            </td>
-            <!-- <td>
+          <tbody>
+            <tr v-for="eatery in eateries" :key="eatery.name">
+              <td>
+                <label>
+                  <h3>{{ eatery.name }}</h3>
+                </label>
+              </td>
+              <td>
+                <h4>{{ eatery.vicinity }}</h4>
+              </td>
+              <td>
+                <img :src="eatery.photo" class="w-32 h-1/2 rounded hover:scale-1.25">
+              </td>
+              <td>
+                {{ eatery.price_level }}
+              </td>
+              <td>
+                {{ eatery.rating }}
+              </td>
+              <td>
+                <a href="#" @click="showLocation(eatery, eatery)">Show on Map</a>
+              </td>
+              <td>
+                <a href="#" @click="displaydirectionsonmap(eatery.origin, eatery.geometry.location, isEatery)">Show
+                  Route</a>
+              </td>
+              <td v-if="eatery.formatted_address !== 'Travel'">
+                Remarks: <input type="text" v-model="eatery.remarks"><br>
+                Expenses: <input type="number" v-model="eatery.expense"><br>
+              </td>
+              <!-- <td>
             I want to eat here<input name = "eateries{{ index }}" type="radio" :value="eatery" @click="addeaterytotrip(eatery,)" v-model="selectedEateries">
           </td> -->
 
-          </tr>
-        </tbody>
-      </table>
+            </tr>
+          </tbody>
+        </table>
 
 
+
+      </div>
 
     </div>
-
   </div>
-</div>
 </template>
 
 
@@ -487,12 +491,13 @@ export default {
         peopleOwingAmount: [],
         currency: null,
       },
-      expenseCategories: ['Accomodation', 'Activities', 'Attractions', 'Flight',  'Food and Drinks','Transportation', 'Groceries', 'Miscellaneous'],
+      expenseCategories: ['Accomodation', 'Activities', 'Attractions', 'Flight', 'Food and Drinks', 'Transportation', 'Groceries', 'Miscellaneous'],
       expenses: [],
       docId: [],
       displayName: null,
       whoOwesWho: {},
       whoOwesWho2: {},
+      whoOwesWho2Display: {},
       // This is for the list of people who owe money
       inputValue: [],
       list: [],
@@ -610,10 +615,10 @@ export default {
     async displaydirectionsonmap(origin, destination, eatery) {
       event.preventDefault();
       console.log(origin);
-      if(eatery==null){
+      if (eatery == null) {
         this.transport = this.activitiesandtime[0].transport;
       }
-      else{
+      else {
         this.transport = "WALKING";
       }
       console.log(this.transport);
@@ -635,10 +640,11 @@ export default {
           if (status === "OK") {
             this.$nextTick(() => {
               const mapElement = document.getElementById('map');
-    const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
-    window.scrollTo({ top: topOffset, behavior: 'smooth' });  });
+              const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+              window.scrollTo({ top: topOffset, behavior: 'smooth' });
+            });
             directionsRenderer.setDirections(response);
-            
+
           } else {
             window.alert("Directions request failed due to " + status);
           }
@@ -750,9 +756,10 @@ export default {
           }
           this.geteateryphotos();
           let map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 15,
-          center: this.tempcoords});
-          for(let i = 0; i < this.eateries.length; i++){
+            zoom: 15,
+            center: this.tempcoords
+          });
+          for (let i = 0; i < this.eateries.length; i++) {
             let e = this.eateries[i];
             console.log(e.origin);
             let eaterymarker = new google.maps.Marker({
@@ -771,13 +778,15 @@ export default {
               infowindow.open(map, eaterymarker);
             });
           }
-            this.$nextTick(() => {
-              const mapElement = document.getElementById('map');
-    const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
-    window.scrollTo({ top: topOffset, behavior: 'smooth' });  });
+          this.$nextTick(() => {
+            const mapElement = document.getElementById('map');
+            const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({ top: topOffset, behavior: 'smooth' });
+          });
 
-      }})
-      
+        }
+      })
+
 
 
     },
@@ -925,8 +934,9 @@ export default {
       });
       this.$nextTick(() => {
         const mapElement = document.getElementById('map');
-    const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
-    window.scrollTo({ top: topOffset, behavior: 'smooth' });    });
+        const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+      });
 
 
 
@@ -1156,7 +1166,7 @@ export default {
 
 
           for (let i = 0; i < this.personNames.length; i++) {
-            let tempobj = {name: this.personNames[i], amount: 0, index: i};
+            let tempobj = { name: this.personNames[i], amount: 0, index: i };
             this.quicksettleamount.push(tempobj);
           }
           for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
@@ -1175,9 +1185,9 @@ export default {
           totalshares += this.shares[i];
         }
         for (let i = 0; i < this.personNames.length; i++) {
-          let tempobj = {name: this.personNames[i], amount: 0, index: i};
-          this.quicksettleamount.push(tempobj);  
-              }
+          let tempobj = { name: this.personNames[i], amount: 0, index: i };
+          this.quicksettleamount.push(tempobj);
+        }
         for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
           let amountowed = amount * this.shares[i] / totalshares;
           this.quicksettleamount[this.expense.peopleOwingNames[i].index].amount = amountowed;
@@ -1196,9 +1206,9 @@ export default {
         }
         else {
           for (let i = 0; i < this.personNames.length; i++) {
-            let tempobj = {name: this.personNames[i], amount: 0, index: i};
+            let tempobj = { name: this.personNames[i], amount: 0, index: i };
             this.quicksettleamount.push(tempobj);
-              }
+          }
           for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
             let amountowed = this.custom[i];
             this.quicksettleamount[this.expense.peopleOwingNames[i].index].amount = amountowed;
@@ -1208,9 +1218,9 @@ export default {
       }
       else {
         for (let i = 0; i < this.personNames.length; i++) {
-          let tempobj = {name: this.personNames[i], amount: 0, index: i};
-          this.quicksettleamount.push(tempobj);  
-            }
+          let tempobj = { name: this.personNames[i], amount: 0, index: i };
+          this.quicksettleamount.push(tempobj);
+        }
         for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
           let amountowed = amount / this.expense.peopleOwingNames.length;
           this.quicksettleamount[this.expense.peopleOwingNames[i].index].amount = amountowed;
@@ -1254,7 +1264,6 @@ export default {
     },
 
     async breakeven2() {
-
       await getDoc(doc(this.tripsRef, this.trip)).then(doc => {
         if (doc.exists()) {
           console.log("Document data:", doc.data());
@@ -1289,16 +1298,20 @@ export default {
           console.log(key + " is breakeven");
         }
         console.log(key)
+
+        this.whoOwesWho2Display = {};
         while (this.whoOwesWho2[key] > 0) {
           for (let key2 in this.whoOwesWho) {
             if (this.whoOwesWho2[key2] < 0) {
               if (this.whoOwesWho2[key] > -this.whoOwesWho2[key2]) {
                 console.log(key + " pays " + -this.whoOwesWho2[key2] + " to " + key2);
+                this.whoOwesWho2Display[key] = [-this.whoOwesWho2[key2], key2];
                 document.getElementById("amountToPay").innerHTML += key + " pays " + -this.whoOwesWho2[key2] + " to " + key2 + "<br>";
                 this.whoOwesWho2[key] += this.whoOwesWho2[key2];
                 this.whoOwesWho2[key2] = 0;
               } else if (this.whoOwesWho2[key] != 0) {
                 console.log(key + " pays " + this.whoOwesWho2[key] + " to " + key2);
+                this.whoOwesWho2Display[key] = [this.whoOwesWho2[key], key2];
                 document.getElementById("amountToPay").innerHTML += key + " pays " + this.whoOwesWho2[key] + " to " + key2 + "<br>";
                 this.whoOwesWho2[key2] += this.whoOwesWho2[key];
                 this.whoOwesWho2[key] = 0;
@@ -1307,6 +1320,7 @@ export default {
           }
         }
       }
+      console.log(this.whoOwesWho2Display)
     },
 
     // Delete expense from database
