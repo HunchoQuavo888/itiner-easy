@@ -6,8 +6,8 @@
                 <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 bg-transparent text-black hover:rounded-full" @click="makeEmpty()">✕</button>
             </form>
             <div class="m-5">
-                <h1>Add Trip</h1>
-                <br>
+                <h1 class="mb-3">Add Trip</h1>
+                <hr>
                 <form @submit.prevent="submitForm">
                     <label for="destination">
                         <h3>Destination:</h3>
@@ -31,7 +31,7 @@
                         </select>
                     </div>
                     <div>
-                        <h3>Names:</h3>
+                        <h3 class="mt-4">Names:</h3>
                         <input style="margin-bottom: 10px;" type="text" placeholder="Person 1" id="person1"
                             class="form-control">
                         <span id="personNames" v-html="htmlStr"></span>
@@ -50,8 +50,7 @@
                 <option v-for="currency in currencyList" :key="currency.key" :value="currency.key">
                     {{ currency.value }} </option>
             </select> -->
-                    <br>
-                    <button class="btn btn-primary" type="submit" v-if="!submitted">Submit</button>
+                    <button class="mt-4 btn btn-primary" type="submit" v-if="!submitted">Submit</button>
                     <p v-if="submitted">Trip Added!</p>
                 </form>
             </div>
