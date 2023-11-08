@@ -321,7 +321,6 @@ export default {
           this.expenses.push(doc.data());
         });
       });
-
   },
   computed: {
     selectedTrip() {

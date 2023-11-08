@@ -533,6 +533,7 @@ export default {
       transport: null,
       showExpense: false,
       showItinerary: true,
+      tripId: null,
     }
   },
   mounted() {
@@ -1041,7 +1042,7 @@ export default {
     goToTrip(trip) {
       this.trip = trip;
       this.selected = true;
-
+      // this.$router.push({ path: `/itinerary/${this.tripID}` });
       getDocs(collection(this.tripsRef, this.trip, 'expenses')).then((querySnapshot) => {
         if (this.expenses.length > 0) {
           this.expenses = [];
@@ -1061,12 +1062,14 @@ export default {
       getDoc(doc(this.tripsRef, this.trip)).then(doc => {
         if (doc.exists()) {
           console.log("Document data:", doc.data());
+          this.tripID = doc.data().tripID;
           this.whoOwesWho = doc.data().whoOwesWho;
           this.tripCurrency = doc.data().tripCurrency;
           this.homeCurrency = doc.data().homeCurrency;
           this.personNames = doc.data().personNames.sort();
           this.activitiesandtime = doc.data().activitiesandtime;
           this.activitiesandtime = JSON.parse(this.activitiesandtime);
+          this.$router.push({ path: `/itinerary/${this.tripID}` });
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
