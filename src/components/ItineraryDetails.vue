@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div name="showItinerary" class="m-10" v-if="showItinerary" @load="initMap(this.citycoords)">
     <div class="m-10">
         <div v-for="(day, index) in activitiesandtime" :key="index">
           <details class="collapse collapse-arrow bg-blue-300 shadow-md min-w-fit">
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, query, where, getDocs, doc } from 'firebase/firestore';
 import { getAuth } from "firebase/auth";
 import foodcard from '../components/foodcards.vue'
 import DayCard from '../components/Itinerary/DayCard.vue';
@@ -100,6 +100,7 @@ export default {
       transport: null,
       showExpense: false,
       showItinerary: true,
+
     };
   },
   components: {
@@ -113,6 +114,8 @@ export default {
     script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCrtlMuj3mZnI5NGVkgw5ME1hZL-XEtRzI&libraries=places&callback=initMap';
     script.defer = true;
     script.async = true;
+
+    
   },
   created() {
     // Access the tripID from the route parameters
@@ -121,6 +124,8 @@ export default {
     // Fetch the itinerary data associated with tripID (you'll need to implement this logic)
     // Replace the following with actual data retrieval code
     this.fetchItineraryData(tripID);
+    
+    
   },
   methods: {
   async fetchItineraryData(tripID) {
@@ -129,23 +134,50 @@ export default {
     // Get the current user's ID
     const auth = getAuth();
     const userID = auth.currentUser ? auth.currentUser.uid : null;
-    console.log(tripID)
+    // console.log(tripID)
 
     // Create a query against the collection.
     const q = query(collection(db, "users", userID, "trips"), where("tripID", "==", tripID));
-
+    
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
+      // console.log(doc.id, " => ", doc.data());
       this.itineraryData = doc.data();
       console.log(this.itineraryData.activitiesandtime);
+      // Retrieve the trip name from the document data
+      this.trip = doc.id; // Document ID represents the trip name
+      console.log(this.trip);
       this.activitiesandtime = JSON.parse(this.itineraryData.activitiesandtime);
-      console.log(this.activitiesandtime);
       this.tripCurrency = this.itineraryData.currency;
       this.homeCurrency = this.itineraryData.homeCurrency;
       this.personNames = this.itineraryData.personNames;
       this.transport = this.itineraryData.transport;
-      this.citycoords = this.itineraryData.citycoords;
+      
+      
+      //get coordinates of city
+      console.log(this.trip);
+      var city = this.trip;
+      console.log(city);
+      this.citycoords = {};
+      var request = {
+        query: `${city}`,
+        fields: ['name', 'geometry'],
+      };
+      var service = new google.maps.places.PlacesService(document.createElement('div'));
+      return new Promise((resolve, reject) => {
+        service.findPlaceFromQuery(request, (results, status) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            this.citycoords = results[0].geometry.location;
+            console.log(this.citycoords);
+            initMap(this.citycoords);
+            resolve(results); // Resolve the promise with the search results
+          } else {
+            console.error(`Error: ${status}`);
+            reject(status); // Reject the promise with the error status
+          }
+        })
+      });
+      
 
 
       
@@ -329,6 +361,29 @@ async geteateriesnearby(activity){
   });
   },
 
+  // async getLatLng() {
+  //     console.log(this.trip);
+  //     var city = this.trip;
+  //     this.citycoords = {};
+  //     var request = {
+  //       query: `${city}`,
+  //       fields: ['name', 'geometry'],
+  //     };
+  //     var service = new google.maps.places.PlacesService(document.createElement('div'));
+  //     return new Promise((resolve, reject) => {
+  //       service.findPlaceFromQuery(request, (results, status) => {
+  //         if (status === google.maps.places.PlacesServiceStatus.OK) {
+  //           this.citycoords = results[0].geometry.location;
+  //           console.log(this.citycoords);
+  //           initMap(this.citycoords);
+  //           resolve(results); // Resolve the promise with the search results
+  //         } else {
+  //           console.error(`Error: ${status}`);
+  //           reject(status); // Reject the promise with the error status
+  //         }
+  //       })
+  //     });
+  //   },
 
 }
 };
