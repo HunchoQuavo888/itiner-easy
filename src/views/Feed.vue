@@ -480,7 +480,7 @@ export default {
         expenseAmount: null,
         personOwedName: null,
         peopleOwingNames: [],
-        peopleOwingAmount: {},
+        peopleOwingAmount: [],
         currency: null,
       },
       expenseCategories: ['Accomodation', 'Activities', 'Attractions', 'Flight',  'Food and Drinks','Transportation', 'Groceries', 'Miscellaneous'],
@@ -1141,7 +1141,7 @@ export default {
       console.log(this.tripCurrency);
       console.log(this.expense.currency);
       console.log(this.expense.peopleOwingNames);
-      this.quicksettleamount = {};
+      this.quicksettleamount = [];
       let amount = this.expense.expenseAmount;
       if (this.splitmethod == "percentage") {
         let totalpercentage = 0;
