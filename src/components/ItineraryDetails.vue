@@ -43,13 +43,19 @@
       </div>
     </div>
     <div name="showExpenses" v-if="showExpense">
-      <div class="text-3xl m-7 font-bold">
-        <h2>{{ selectedTrip }} expenses</h2>
-      </div>
+    
 
       <div class="grid grid-cols-1 lg:grid-cols-2">
         <!-- expensecards -->
         <div class="rightcol">
+          <div class="text-3xl m-7 font-bold">
+          <h2>{{ selectedTrip }} expenses</h2>
+          </div>
+          <div class="empty" v-if="expenses.length == 0">
+          <h1 class="text-base mt-7 ml-7 font-bold">
+            <h2 class="text-xl">No expenses added yet! Add an expense below.</h2>
+          </h1>
+        </div>
           <div class="expensecards">
             <expensecards v-for="(expense, index) in expenses" :itemDesc="expense.expenseName"
               :currency="expense.currency" :price="expense.expenseAmount" :TransfereeName="expense.personOwedName"
@@ -70,44 +76,46 @@
       <dialog id="my_modal_3" class="modal backdrop-blur-sm" ref="expenseModal">
         <div class="modal-box">
           <form method="dialog">
-            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 bg-transparent text-black hover:rounded-full top-2">✕</button>
           </form>
+          <h1 class="mb-3">Add Expense</h1>
+            <hr>
           <div class="expense-add">
-            <div class="form-group">
-              <p>Expense Name:</p>
+            <div class="form-group mt-4">
+                <h3>Expense Name:</h3>
               <input type="text" placeholder="Expense Name" v-model="expense.expenseName" class="form-control" required>
             </div>
-            <div class="form-group">
-              <p>Expense Category:</p>
+            <div class="form-group mt-4">
+                <h3>Expense Category:</h3>
               <select v-model="expense.expenseCategory" class="form-control" required>
                 <option v-for="category in expenseCategories" :key="category" :value="category">
                   {{ category }}
                 </option>
               </select>
             </div>
-            <div class="form-group">
-              <p>Expense Amount:</p>
+            <div class="form-group mt-4">
+                <h3>Expense Amount:</h3>
               <input type="number" placeholder="Expense Amount" v-model="expense.expenseAmount" class="form-control"
                 required>
             </div>
-            <div class="form-group">
-              <p>Person Owed:</p>
+            <div class="form-group mt-4">
+                <h3>Person who paid:</h3>
               <select v-model="expense.personOwedName" class="form-control" required>
                 <option v-for="(name, index) in personNames" :key="name" :value="name">
                   {{ name }}
                 </option>
               </select>
             </div>
-            <div class="form-group">
-              <p>Who Owes Money:</p>
+            <div class="form-group mt-4">
+                <h3>Who is this bill split among?</h3>
               <label v-for="(name, index) in personNames">
                 <input type="checkbox" :name="name" :value="{ name: name, index: index }"
                   v-model="expense.peopleOwingNames">{{
                     name }}<br>
               </label>
             </div>
-            <div class="form-group">
-              How are we splitting this?
+            <div class="form-group mt-4">
+              <h3>How are we splitting this?</h3>
               <select id="splitmethod" v-model="splitmethod">
                 <option value="evenly">Split Evenly</option>
                 <option value="percentage">Split by percentage</option>
@@ -116,11 +124,12 @@
               </select>
             </div>
             <div v-if="splitmethod == 'percentage'">
-              <h3>Split By Percentage</h3>
-              <div class="form-group">
+              <h3 class="mt-3">Split By Percentage</h3>
+                <p>Press enter when done to view the splitting!</p>
+                <div class="form-group mt-4">
                 <h4 v-for="(name, index) in expense.peopleOwingNames ">
                   {{ name.name }} <input type="number" placeholder="Percentage" v-model="percentages[index]"
-                    class="form-control" @keyup.enter="computeexpense">
+                  class="form-control mb-4" @keyup.enter="computeexpense">
                 </h4>
                 <ul>
                   <li v-for="obj in quicksettleamount" :key="index">
@@ -130,10 +139,11 @@
               </div>
             </div>
             <div v-if="splitmethod == 'shares'">
-              <h3>Split By Shares</h3>
-              <div class="form-group">
+              <h3 class="mt-3">Split By Shares</h3>
+                <p>Press enter when done to view the splitting!</p>
+                <div class="form-group mt-4">
                 <h4 v-for="(name, index) in expense.peopleOwingNames ">
-                  {{ name.name }} <input type="number" placeholder="Shares" v-model="shares[index]" class="form-control"
+                  {{ name.name }} <input type="number" placeholder="Shares" v-model="shares[index]" class="form-control mb-4"
                     @keyup.enter="computeexpense">
                 </h4>
                 <ul>
@@ -144,10 +154,11 @@
               </div>
             </div>
             <div v-if="splitmethod == 'custom'">
-              <h3>Have it your way!</h3>
-              <div class="form-group">
+              <h3 class="mt-3">Have it your way!</h3>
+                <p>Press enter when done to view the splitting!</p>
+                <div class="form-group mt-4">
                 <h4 v-for="(name, index) in expense.peopleOwingNames ">
-                  {{ name.name }} <input type="number" placeholder="custom" v-model="custom[index]" class="form-control"
+                  {{ name.name }} <input type="number" placeholder="custom" v-model="custom[index]" class="form-control mb-4"
                     @keyup.enter="computeexpense">
                 </h4>
                 <ul>
