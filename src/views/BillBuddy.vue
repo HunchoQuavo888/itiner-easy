@@ -369,7 +369,7 @@ export default {
         peopleOwingAmount: null,
         currency: null,
       },
-      expenseCategories: ['Food and Drinks', 'Accomodation', 'Transportation', 'Entertainment', 'Miscellaneous'],
+      expenseCategories: ['Accomodation', 'Activities', 'Attractions', 'Flight',  'Food and Drinks','Transportation', 'Groceries', 'Miscellaneous'],
       expenses: [],
       docId: [],
       whoOwesWho: {},

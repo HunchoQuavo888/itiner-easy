@@ -13,6 +13,10 @@ export default {
             type: String,
             required: true,
         },
+        ExpenseType: {
+           type:String,
+           required:true,
+        }
     },
     methods:{
         deletetrip(){
@@ -26,8 +30,15 @@ export default {
 <template>
     <div class="card bg-white rounded-md mt-3 ml-3 mr-3 gap-1 grid grid-cols-12">
               <!-- icon -->
-              <div class="rectangle col-span-1 flex w-10 bg-blue-400 h-10 rounded-lg justify-center items-center">
-                <img class="w-7 h-auto" src="../assets/expenses/food.png">
+              <div class="rectangle col-span-1 flex w-10 bg-gray-300 h-10 rounded-lg justify-center items-center">
+                <img class="w-7 h-auto" src="../assets/expenses/food.png" v-if="ExpenseType=='Food and Drinks'">
+                <img class="w-7 h-auto" src="../assets/expenses/accomodation.png" v-if="ExpenseType=='Accomodation'">
+                <img class="w-7 h-auto" src="../assets/expenses/activities.png" v-if="ExpenseType=='Activities'">
+                <img class="w-7 h-auto" src="../assets/expenses/attractions.png" v-if="ExpenseType=='Attractions'">
+                <img class="w-7 h-auto" src="../assets/expenses/flighttickets.png" v-if="ExpenseType=='Flight'">
+                <img class="w-7 h-auto" src="../assets/expenses/transport.png" v-if="ExpenseType=='Transportation'">
+                <img class="w-7 h-auto" src="../assets/expenses/groceries.png" v-if="ExpenseType=='Groceries'">
+                <img class="w-7 h-auto" src="../assets/expenses/others.png" v-if="ExpenseType=='Miscellaneous'">
               </div>
               <!-- description -->
               <div class=" col-span-5 flex justify-center items-center">

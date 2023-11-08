@@ -52,7 +52,7 @@ export default {
 </script>
 
 <template>
-      <div class="bg-white justify-center p-5 snap-always snap-center text-center rounded flex-none shadow-lg">
+      <div class="bg-white justify-center p-5 snap-always snap-center text-center rounded-lg flex-none shadow-lg">
         <div class="image justify-center flex">
             <img class="w-56 md:w-64 h-56 md:h-64 "
           :src="possiblePhotos[0]">
@@ -61,10 +61,10 @@ export default {
         <h2 class="text-xl m-2">{{city}}</h2>
         <h3 class="text-base">{{peopleontrip}}</h3>
         <div class="justify-center flex">
-            <button class="btn btn-neutral ml-7 p-2 text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+            <button class="btn btn-neutral ml-7 p-2 text-white btn-xs hover:shadow-lg sm:btn-sm md:btn-md"
           @click="goToTrip()">Go
           to Trip</button>
-        <button class="btn btn-neutral ml-7 p-2 text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+        <button class="btn btn-neutral ml-7 p-2 text-white btn-xs hover:shadow-lg sm:btn-sm md:btn-md"
           @click="deleteTrip()">Delete Trip</button>
         </div>
 
