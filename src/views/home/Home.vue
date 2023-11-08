@@ -1,7 +1,9 @@
 <template>
+  <div>
     <!-- <div><NavbarLanding/></div> -->
     <Eye></Eye>
     <LandingContent></LandingContent>
+  </div>
   </template>
   
   <script>

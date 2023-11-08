@@ -1,4 +1,5 @@
 <template>
+    <div>
         <!-- back button -->
         <div class="back pl-4 pt-2 flex items-center w-screen sticky cursor-pointer" @click="goBack">
             <img class="w-4 cursor-pointer" src="../../assets/arrow.png" width="15px" alt="back" />
@@ -45,6 +46,7 @@
     </div>
   </div>
 </section>
+</div>
 
 </template>
   
