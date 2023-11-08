@@ -181,54 +181,54 @@
   <br>
   <!-- itinerary display -->
 
-<div class="grid grid-cols-1 md:grid-cols-3 mr-10">
-    <div v-if="final_activities.length>0" class="">
-      <div class="flex flex-col justify-center items-center">
-        <div v-if="showAlert" class="alert alert-success w-2/3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-          <span>Your Itinerary has been saved!</span>
-        </div>
-        <div v-if="!isLoading">
-          <button class="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 btn mt-7 mr-2" @click="saveItinerary">Save Itinerary</button>
-        </div>
-      </div>  
-      <!-- start of iti  -->
-      <div class="m-10">
-        <div v-for="(day, index) in activitiesandtime" :key="index">
-          <details class="collapse collapse-arrow bg-blue-300 shadow-md min-w-fit">
-            <DayCard :day="day" :index="index"/>
-          
-            <div class="pt-5 collapse-content max-h-screen overflow-auto bg-blue-100"> 
-              <div class="flex overflow-auto">
-                <div>
-                    <div v-for="activity in day.activities" :key="activity.name" >
-                        <ActivityCard 
-                          v-if="activity.formatted_address !== 'Travel'"
-                          :activity="activity"
-                          :showLocation="showLocation"
-                          :geteateriesnearby="geteateriesnearby"
-                          :calculateDuration="calculateDuration"
-                        ></ActivityCard>
-                        
-                        <TravelCard 
-                          v-else 
-                          :activity="activity"
-                          :displaydirectionsonmap="displaydirectionsonmap"
-                          :day="day"
-                          :getMinutesDifference="getMinutesDifference"
-                        ></TravelCard>
+  <div class="grid grid-cols-1 md:grid-cols-3 mr-10">
+      <div v-if="final_activities.length>0" class="">
+        <div class="flex flex-col justify-center items-center">
+          <div v-if="showAlert" class="alert alert-success w-2/3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <span>Your Itinerary has been saved!</span>
+          </div>
+          <div v-if="!isLoading">
+            <button class="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 btn mt-7 mr-2" @click="saveItinerary">Save Itinerary</button>
+          </div>
+        </div>  
+        <!-- start of iti  -->
+        <div class="m-10">
+          <div v-for="(day, index) in activitiesandtime" :key="index">
+            <details class="collapse collapse-arrow bg-blue-300 shadow-md min-w-fit">
+              <DayCard :day="day" :index="index"/>
+            
+              <div class="pt-5 collapse-content max-h-screen overflow-auto bg-blue-100"> 
+                <div class="flex overflow-auto">
+                  <div>
+                      <div v-for="activity in day.activities" :key="activity.name" >
+                          <ActivityCard 
+                            v-if="activity.formatted_address !== 'Travel'"
+                            :activity="activity"
+                            :showLocation="showLocation"
+                            :geteateriesnearby="geteateriesnearby"
+                            :calculateDuration="calculateDuration"
+                          ></ActivityCard>
+                          
+                          <TravelCard 
+                            v-else 
+                            :activity="activity"
+                            :displaydirectionsonmap="displaydirectionsonmap"
+                            :day="day"
+                            :getMinutesDifference="getMinutesDifference"
+                          ></TravelCard>
+                      </div>
                     </div>
                   </div>
-                </div>
-            </div>
-        </details>
-        <br>
-      </div>
-    </div>    
+              </div>
+          </details>
+          <br>
+        </div>
+      </div>    
+    </div>
+    <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10" ref="map">
+    </div>
   </div>
-  <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10" ref="map">
-  </div>
-</div>
 
   <br>
   <br>
@@ -358,6 +358,7 @@ export default {
       weatherData: [],
       suggested_activities: [],
       isOpenNow: false,
+      tempcoords: null,
       twelvehrtime: "",
       dates: [],
       uid: null,
@@ -968,6 +969,8 @@ async titlephotogenerator(town) {
       radius: '500',
       type: ['restaurant'],
     };
+    this.tempcoords = geometry.location;
+
       var service = new google.maps.places.PlacesService(map);
       service.nearbySearch(request, (results, status) => {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -981,10 +984,11 @@ async titlephotogenerator(town) {
         this.eateries.push(place);
       }
       this.geteateryphotos();
-      let map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 15,
-          center: this.tempcoords});
-          for(let i = 0; i < this.eateries.length; i++){
+          let map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 15,
+            center: this.tempcoords
+          });
+          for (let i = 0; i < this.eateries.length; i++) {
             let e = this.eateries[i];
             console.log(e.origin);
             let eaterymarker = new google.maps.Marker({
