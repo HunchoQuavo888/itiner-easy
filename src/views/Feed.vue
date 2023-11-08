@@ -172,8 +172,8 @@
 
 
         <!-- Open the modal using ID.showModal() method -->
-        <button class="btn" onclick="my_modal_3.showModal()">open modal</button>
-        <dialog id="my_modal_3" class="modal" ref="expenseModal">
+        <button class="btn btn-primary m-7" onclick="my_modal_3.showModal()">Add an expense</button>
+        <dialog id="my_modal_3" class="modal backdrop-blur-sm" ref="expenseModal">
           <div class="modal-box">
             <form method="dialog">
               <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
