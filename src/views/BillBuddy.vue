@@ -177,6 +177,14 @@
               <input type="text" placeholder="Expense Name" v-model="expense.expenseName" class="form-control" required>
             </div>
             <div class="form-group">
+              <p>Expense Category:</p>
+              <select v-model="expense.expenseCategory" class="form-control" required>
+                <option v-for="category in expenseCategories" :key="category" :value="category">
+                  {{ category }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
               <p>Expense Amount:</p>
               <input type="number" placeholder="Expense Amount" v-model="expense.expenseAmount" class="form-control"
                 required>
@@ -289,6 +297,7 @@
     <thead>
       <tr>
         <th>Expense Name</th>
+        <th>Expense Category</th>
         <th>Expense Amount in {{ tripCurrency }}</th>
         <th>Expense Amount in {{ homeCurrency }}</th>
         <th>People Owing Names</th>
@@ -301,6 +310,7 @@
     <tbody>
       <tr v-for="(expense, index) in expenses" :key="index">
         <td>{{ expense.expenseName }}</td>
+        <td>{{ expense.expenseCategory }}</td>
         <td>{{ expense.expenseAmounttrip }}</td>
         <td>{{ expense.expenseAmounthome }}</td>
         <td>
@@ -350,6 +360,7 @@ export default {
       // Objects of data we want to add to firebase
       expense: {
         expenseName: null,
+        expenseCategory: null,
         expenseAmount: null,
         expenseAmounttrip: null,
         expenseAmounthome: null,
@@ -358,6 +369,7 @@ export default {
         peopleOwingAmount: null,
         currency: null,
       },
+      expenseCategories: ['Food and Drinks', 'Accomodation', 'Transportation', 'Entertainment', 'Miscellaneous'],
       expenses: [],
       docId: [],
       whoOwesWho: {},
