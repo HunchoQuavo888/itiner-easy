@@ -230,8 +230,8 @@
                           class="form-control" @keyup.enter="computeexpense">
                       </h4>
                       <ul>
-                        <li v-for="(amt, index) in quicksettleamount" :key="index">
-                          {{ this.expense.peopleOwingNames[index] }} pays {{ amt }}
+                        <li v-for="obj in quicksettleamount" :key="index">
+                          {{ obj.name }} pays {{ obj.amount }}
                         </li>
                       </ul>
                     </div>
@@ -245,7 +245,7 @@
                       </h4>
                       <ul>
                         <li v-for="(amt, index) in quicksettleamount" :key="index">
-                          {{ this.expense.peopleOwingNames[index] }} pays {{ amt }}
+                          {{ q }} pays {{ amt }}
                         </li>
                       </ul>
                     </div>
