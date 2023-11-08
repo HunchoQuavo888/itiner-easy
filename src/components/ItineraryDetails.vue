@@ -551,7 +551,7 @@ export default {
       this.showExpense = !this.showExpense;
       this.showItinerary = !this.showItinerary;
       if (this.showItinerary == true) {
-        this.getLatLng();
+        location.reload();
       }
       setTimeout(() => {
         this.breakeven2();
@@ -811,9 +811,20 @@ export default {
         });
       });
     },
-
-
-
-  }
+  },
+  async updated() {
+    setTimeout(() => {
+      onSnapshot(collection(this.tripsRef, this.trip, 'expenses'), (querySnapshot) => {
+        if (this.expenses.length > 0) {
+          this.expenses = [];
+        }
+        querySnapshot.docs.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          this.docId.push(doc.id);
+          this.expenses.push(doc.data());
+        });
+      });
+    }, 1000);
+  },
 };
 </script>
