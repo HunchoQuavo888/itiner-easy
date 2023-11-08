@@ -54,6 +54,12 @@ export default {
             required: true,
         },
         restaurantname: {
+            type: String,
+            required: true,
+        },
+        restaurantaddress: {
+            type: String,
+            required: true,
         },
         pricelevel: {
             type: Number,

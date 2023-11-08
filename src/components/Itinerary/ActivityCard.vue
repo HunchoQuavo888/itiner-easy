@@ -18,6 +18,7 @@
                             </div>
                           <div>
                             <textarea class="mb-2 rounded border-none" placeholder="Add notes here" type="text" v-model="activity.remarks"/>
+                            
                           </div>
                           <div class="flex flex-col px-6 pt-4 pb-2 items-center">
                               <button class="btn mb-2 w-2/3" href="#" @click="showLocation(activity)">Show on Map</button>

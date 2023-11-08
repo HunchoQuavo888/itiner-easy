@@ -258,6 +258,7 @@
                             </div>
                           <div>
                             <textarea class="mb-2 rounded border-none" placeholder="Add notes here" type="text" v-model="activity.remarks"/>
+                            
                             <!-- <span class="text-black text-sm">Cost: </span><input class="placeholder-gray-400 rounded border-none" placeholder="Add an expense here" type="number" v-model="activity.expense"><br> -->
                           </div>
                           <div class="flex flex-col px-6 pt-4 pb-2 items-center">
