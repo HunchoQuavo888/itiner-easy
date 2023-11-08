@@ -1,7 +1,7 @@
 <template>
-  <div name="showItinerary" class="m-10" v-if="showItinerary" @load="initMap(this.citycoords)">
+  <div name="showItinerary" class="m-10 grid grid-cols-1 lg:grid-cols-3" v-if="showItinerary" @load="initMap(this.citycoords)">
     <div class="m-10">
-        <div v-for="(day, index) in activitiesandtime" :key="index">
+        <div v-for="(day, index) in activitiesandtime" :key="index" class="w-1/2 lg:w-fit">
           <details class="collapse collapse-arrow bg-blue-300 shadow-md min-w-fit">
             <DayCard :day="day" :index="index"/>
           
@@ -32,12 +32,33 @@
         <br>
       </div>
     </div>
-  <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10 h-screen min-w-max" ref="map">
+    <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10 h-screen min-w-max" ref="map">
   </div>
   <!-- </div>
   <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10" ref="map"> -->
   </div>
-
+  <div id="eateryCarousell">
+  <h1 v-if="eateries.length>0" class="text-gray-700 text-center">Places to eat</h1>
+    <div v-if="eateries.length>0" class="flex justify-center">
+      <div class="carousel carousel-center w-1/2 p-4 space-x-4 bg-gray-200 rounded-box m-5">
+            <div class="carousel-item" v-for="eatery in eateries" :key="eatery.name">
+              <foodcard  
+              :link="eatery.photo"
+              :restaurantname="eatery.name"
+              :restaurantaddress="eatery.vicinity"
+              :rating = eatery.rating
+              :pricelevel=eatery.price_level
+              :eatery="eatery"
+              :eateryOrigin="eatery.origin"
+              :eateryDestination="eatery.geometry.location"
+              :showLocation="showLocation"
+              :displaydirectionsonmap="displaydirectionsonmap"
+              :transport="transport"
+              ></foodcard>
+            </div> 
+          </div>
+      </div>
+    </div>
 
 </template>
 
@@ -211,6 +232,11 @@ export default {
         infowindow.open({anchor: marker, map});
       });
           // this.$refs.map.$el.scrollIntoView(); 
+        this.$nextTick(() => {
+        const mapElement = document.getElementById('map');
+        const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+      });
 },
 
 
@@ -263,6 +289,11 @@ async geteateriesnearby(activity){
             });
           }
           // this.$refs.map.$el.scrollIntoView();
+          this.$nextTick(() => {
+            const eateryelement = document.getElementById('eateryCarousell');
+            const topOffset = eateryelement.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({ top: topOffset, behavior: 'smooth' });
+          });
 
       }})},
 
@@ -304,6 +335,11 @@ async geteateriesnearby(activity){
         }
       }
     );
+    this.$nextTick(() => {
+        const mapElement = document.getElementById('map');
+        const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+      });
   },
 
   getMinutesDifference(startTime, endTime) {

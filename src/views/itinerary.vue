@@ -148,7 +148,7 @@
   <br>
   <!-- itinerary display -->
 
-  <div class="grid grid-cols-1 md:grid-cols-3 mr-10" id="">
+  <div class="grid grid-cols-1 lg:grid-cols-3 mr-10" id="">
       <div v-if="final_activities.length>0" class="">
         <div class="flex flex-col justify-center items-center">
           <div v-if="showAlert" class="alert alert-success w-2/3">
@@ -193,8 +193,8 @@
         </div>
       </div>    
     </div>
-    <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10" ref="map">
-    </div>
+      <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10" ref="map">
+      </div>
   </div>
 
   <br>
