@@ -749,8 +749,11 @@ async displaydirectionsonmap(origin, destination){
     },
     (response, status) => {
       if (status === "OK") {
-        this.$refs.map.$el.scrollIntoView();
-        directionsRenderer.setDirections(response);
+        this.$nextTick(() => {
+              const mapElement = document.getElementById('map');
+    const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({ top: topOffset, behavior: 'smooth' });  });
+            directionsRenderer.setDirections(response);
       } else {
         window.alert("Directions request failed due to " + status);
       }
@@ -1003,7 +1006,11 @@ async titlephotogenerator(town) {
               infowindow.open(map, eaterymarker);
             });
           }
-          this.$refs.map.$el.scrollIntoView();
+          this.$nextTick(() => {
+              const mapElement = document.getElementById('map');
+    const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({ top: topOffset, behavior: 'smooth' });  });
+
 
       }})},
   async geteateryphotos() {
@@ -1148,8 +1155,11 @@ async showLocation(place,eatery){
       marker.addListener("click", () => {
         infowindow.open({anchor: marker, map});
       });
-      this.$refs.map.$el.scrollIntoView();
-
+    this.$nextTick(() => {
+    const mapElement = document.getElementById('map');
+    const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({ top: topOffset, behavior: 'smooth' });
+    });
       
       
 
