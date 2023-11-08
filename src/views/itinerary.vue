@@ -47,11 +47,11 @@
                             v-model="sliderValue"
                             type="number" 
                             label="Duration (days)" 
-                            validation="required"
-                            value="1"
+                            validation="max:3 | min:1"
+                            value=""
                             min="1"
                             max="3" 
-                            placeholder="between 1 & 3 days"
+                            help="between 1 & 3 days"
                         />
                       <!-- reformat to change day/days based on value -->
                         
