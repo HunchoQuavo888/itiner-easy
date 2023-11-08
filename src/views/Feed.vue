@@ -381,7 +381,8 @@
       </details>
       <br>
     </div>
-    <div id="map" class="w-full h-96"></div>
+    <div id="map" class="w-full h-96">
+    </div>
 
     <br>
 
@@ -490,6 +491,7 @@ export default {
       trips: [],
       trip: null,
       quicksettleamount: [],
+      markers: [],
       percentages: [],
       shares: [],
       citycoords: [],
@@ -506,6 +508,7 @@ export default {
       homeCurrency: null,
       personNames: [],
       activitiesandtime: [],
+      transport: null,
       showExpense: false,
       showItinerary: true,
     }
@@ -591,9 +594,15 @@ export default {
       this.starttimeint = hours * 100 + minutes;
       console.log(this.starttimeint);
     },
-    async displaydirectionsonmap(origin, destination) {
+    async displaydirectionsonmap(origin, destination, eatery) {
       event.preventDefault();
       console.log(origin);
+      if(eatery==null){
+        this.transport = this.activitiesandtime[0].transport;
+      }
+      else{
+        this.transport = "WALKING";
+      }
       console.log(destination);
       var directionsService = new google.maps.DirectionsService();
       var directionsRenderer = new google.maps.DirectionsRenderer();
@@ -716,10 +725,33 @@ export default {
             place.url = "'https://www.google.com/search?q=" + place.name + "&rlz=1C1CHBF_enSG941SG941&oq=google&aqs=chrome..69i57j69i59j69i60l3j69i65l2.1001j0j7&sourceid=chrome&ie=UTF-8'";
             place.formatted_address = place.vicinity;
             this.eateries.push(place);
+
           }
           this.geteateryphotos();
+          for(e in this.eateries){
+            let eaterymarker = new google.maps.Marker({
+              position: e.geometry.location,
+              map: map,
+              title: e.name,
+            }
+            );
+            var infowindow = new google.maps.InfoWindow({
+              // content: "Name:" + place.name + "<br>" + "Address:" + place.formatted_address,
+              content: `<div><img style="width: auto; height: 150px;" src=` + e.photo + `></div>` + `<div style="color:black"><strong>` +
+                "Name:" + e.name + "<br>" + "Address:" + e.formatted_address
+                + "<br><a target=`_blank` href=" + e.url + "></strong>Click here for more information</a>"
+                + `</div>`,
+            });
+      // infowindow is blank
+          eaterymarker.addListener("click", () => {
+            infowindow.open({ anchor: eaterymarker, map });
+          });
+
         }
-      })
+      }})
+      
+
+
     },
     async geteateryphotos() {
       const promises = this.eateries.map(async (eatery) => {
@@ -985,7 +1017,6 @@ export default {
           this.homeCurrency = doc.data().homeCurrency;
           this.personNames = doc.data().personNames.sort();
           this.activitiesandtime = doc.data().activitiesandtime;
-          this.transport = doc.data().transport;
           this.activitiesandtime = JSON.parse(this.activitiesandtime);
           console.log(this.activitiesandtime);
         } else {

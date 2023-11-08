@@ -620,6 +620,7 @@ async searchBothAttractions(city) {
     day.day = i + 1;
     day.date = this.dates[i];
     day.weather = this.weatherData[i];
+    day.transport = this.transport;
     while (timeint < maxtimeint) {
       if (this.final_activities.length === 0) {
         console.log("No more activities to add.");
@@ -976,10 +977,6 @@ async titlephotogenerator(town) {
       service.nearbySearch(request, (results, status) => {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
       for (var i = 0; i < results.length; i++) {
-        this.markers.push({
-          lat: eatery.latitude,
-          lng: eatery.longitude,
-        });
         var place = results[i];
         console.log(place);
         place.origin = geometry.location;
@@ -989,6 +986,11 @@ async titlephotogenerator(town) {
         this.eateries.push(place);
       }
       this.geteateryphotos();
+      this.eateries.forEach((eatery) => {
+        this.markers.push({
+          lat: eatery.latitude,
+          lng: eatery.longitude,
+        });});
     }
   })},
   async geteateryphotos() {
@@ -1221,7 +1223,6 @@ async saveItinerary() {
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
     updateDoc(doc(this.tripsRef, this.town), {activitiesandtime: json});
-    updateDoc(doc(this.tripsRef, this.town), {transport: transport});
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
