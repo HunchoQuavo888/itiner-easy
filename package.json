@@ -7,6 +7,9 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "dependencies": {
     "@formkit/addons": "^1.2.2",
     "@formkit/pro": "^0.117.5",
