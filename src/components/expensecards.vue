@@ -34,7 +34,7 @@ export default {
                 <img class="w-7 h-auto" src="../assets/expenses/food.png" v-if="ExpenseType=='Food and Drinks'">
                 <img class="w-7 h-auto" src="../assets/expenses/accomodation.png" v-if="ExpenseType=='Accomodation'">
                 <img class="w-7 h-auto" src="../assets/expenses/activities.png" v-if="ExpenseType=='Activities'">
-                <img class="w-7 h-auto" src="../assets/expenses/attractions.png" v-if="ExpenseType=='Attraction'">
+                <img class="w-7 h-auto" src="../assets/expenses/attractions.png" v-if="ExpenseType=='Attractions'">
                 <img class="w-7 h-auto" src="../assets/expenses/flighttickets.png" v-if="ExpenseType=='Flight'">
                 <img class="w-7 h-auto" src="../assets/expenses/transport.png" v-if="ExpenseType=='Transportation'">
                 <img class="w-7 h-auto" src="../assets/expenses/groceries.png" v-if="ExpenseType=='Groceries'">

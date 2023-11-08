@@ -27,7 +27,7 @@
       <ul tabindex="0" class="menu menu-sm bg-[#5072A7] text-white dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52">
         <!-- signedin -->
         <li v-if="signedin">
-            <router-link to="/landinglogin"><a>HOME</a></router-link>
+            <router-link to="/feed"><a>HOME</a></router-link>
         </li>
         <li v-if="signedin">
             <router-link to="/itinerary"><a>ITINERARY</a></router-link>
@@ -49,12 +49,12 @@
       </ul>
     </div>
     <div class="flex items-center cursor-pointer">
-        <span class=" mr-1" v-if="signedin">
-            <router-link to="/feed"><img class="h-20 w-20" src="./logo/itiner-easy.svg"></router-link>
-        </span>
-        <span class=" mr-1 z-10" v-if="!signedin">
-            <router-link to="/"><img class="h-20 w-20" src="./logo/itiner-easy.svg"></router-link>
-        </span>
+        <div class=" mr-1" v-if="signedin">
+            <router-link to="/feed"><img class="h-20 w-20 inline-flex" src="./logo/itiner-easy.svg"><h3 class="inline font-semibold">Itiner-easy</h3></router-link>
+        </div>
+        <div class=" mr-1 z-10" v-if="!signedin">
+          <router-link to="/"><img class="h-20 w-20 inline-flex" src="./logo/itiner-easy.svg"><h3 class="inline font-semibold">Itiner-easy</h3></router-link>
+        </div>
     </div>
   </div>
   <div class="navbar-center hidden lg:flex">
