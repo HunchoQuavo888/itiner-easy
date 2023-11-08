@@ -108,6 +108,12 @@ export default {
     TravelCard,
     foodcard
   },
+  mounted(){
+    const script = document.createElement('script');
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCrtlMuj3mZnI5NGVkgw5ME1hZL-XEtRzI&libraries=places&callback=initMap';
+    script.defer = true;
+    script.async = true;
+  },
   created() {
     // Access the tripID from the route parameters
     const tripID = this.$route.params.tripID;
