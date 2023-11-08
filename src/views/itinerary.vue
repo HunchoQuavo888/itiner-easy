@@ -181,7 +181,7 @@
   <br>
   <!-- itinerary display -->
 
-  <div class="grid grid-cols-1 md:grid-cols-3 mr-10">
+  <div class="grid grid-cols-1 md:grid-cols-3 mr-10" id="">
       <div v-if="final_activities.length>0" class="">
         <div class="flex flex-col justify-center items-center">
           <div v-if="showAlert" class="alert alert-success w-2/3">
@@ -1201,7 +1201,7 @@ async checkempty(){
         await this.getactivitieslist();
         this.isLoading = false;
         this.$nextTick(() => {
-        const loadingElement = document.getElementById('loadingPage');
+        const loadingElement = document.getElementById('mainbody');
         const topOffset = loadingElement.getBoundingClientRect().top + window.pageYOffset;
         window.scrollTo({ top: topOffset, behavior: 'smooth' });
       });
