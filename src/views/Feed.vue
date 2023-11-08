@@ -7,10 +7,7 @@
       <!-- title -->
       <div class="mt-7 mb-4 ml-7">
         <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}'s</a> current trips
-          <router-link to="/add-trip">
-            <button class="btn btn-neutral ml-7 p-2 text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg">Add a new
-              trip</button>
-          </router-link>
+          <addtrip></addtrip>
         </h1>
       </div>
       <!-- trips carousell cards -->
@@ -469,6 +466,7 @@ import Header from "../components/header.vue"
 import Translator from "../components/Tools/translator.vue"
 import Currency from "../components/Tools/currencyconverter.vue"
 import tripcard from "../components/tripcard.vue"
+import addtrip from "../views/addtrip.vue"
 import {
   getFirestore, collection, getDocs,
   addDoc, deleteDoc, doc, updateDoc, setDoc, query, onSnapshot, getDoc, where

@@ -26,7 +26,7 @@
       </label>
       <ul tabindex="0" class="menu menu-sm bg-[#5072A7] text-white dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52">
         <!-- signedin -->
-        <li v-if="signedin">
+        <li v-if="signedin" @click="gotohome">
             <router-link to="/feed"><a>HOME</a></router-link>
         </li>
         <li v-if="signedin">
@@ -43,16 +43,13 @@
             </li>
           </ul>
         </li>
-        <li v-if="signedin">
-            <router-link to="/billbuddy"><a>BILLBUDDY</a></router-link>
-        </li>
       </ul>
     </div>
     <div class="flex items-center cursor-pointer">
-        <div class=" mr-1" v-if="signedin">
+        <div class=" mr-1" v-if="signedin" @click="gotohome">
             <router-link to="/feed"><img class="h-20 w-20 inline-flex" src="./logo/itiner-easy.svg"><h3 class="inline font-semibold">Itiner-easy</h3></router-link>
         </div>
-        <div class=" mr-1 z-10" v-if="!signedin">
+        <div class=" mr-1 z-10" v-if="!signedin" @click="gotohome">
           <router-link to="/"><img class="h-20 w-20 inline-flex" src="./logo/itiner-easy.svg"><h3 class="inline font-semibold">Itiner-easy</h3></router-link>
         </div>
     </div>
@@ -60,7 +57,7 @@
   <div class="navbar-center hidden lg:flex">
     <ul class="menu text-white hover:text-white text-m menu-horizontal px-1">
       <!-- signed in -->
-      <li v-if="signedin">
+      <li v-if="signedin" @click="gotohome">
         <router-link to="/feed"><a>HOME</a></router-link>
       </li>
       <li v-if="signedin">
@@ -78,9 +75,6 @@
             </li>
           </ul>
         </details>
-      </li>
-      <li v-if="signedin">
-            <router-link to="/billbuddy"><a>BILLBUDDY</a></router-link>
       </li>
     </ul>
   </div>
@@ -162,6 +156,9 @@ export default {
     });
   },
   methods: {
+    gotohome(){
+      window.location.reload();
+    },
     handleSignOut() {
       // Call the `signOut` function from within the component
       signOut(this.auth).then(() => {
