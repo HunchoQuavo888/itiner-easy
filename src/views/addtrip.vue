@@ -1,9 +1,9 @@
 <template>
-    <button class="btn btn-primary" onclick="my_modal_3.showModal()">Add a trip</button>
+    <button class="btn btn-primary p-3 ml-3" onclick="my_modal_3.showModal()">Add a trip</button>
     <dialog id="my_modal_3" class="modal backdrop-blur-sm">
         <div class="modal-box">
             <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="makeEmpty()">✕</button>
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 bg-transparent text-black hover:rounded-full" @click="makeEmpty()">✕</button>
             </form>
             <div class="m-5">
                 <h1>Add Trip</h1>
@@ -14,7 +14,7 @@
                     </label>
                     <input type="text" id="destination" v-model="destination" required>
 
-                    <div class='col-6'>
+                    <div class='col-6 mt-4'>
                         <h3>No of People:</h3>
                         <select name="numPeople" id="numPeople" class="form-control"
                             @change="updateNumNames($event.target.value)">

@@ -157,7 +157,7 @@ export default {
   },
   methods: {
     gotohome(){
-      window.location.reload();
+      this.$router.push('/feed');
     },
     handleSignOut() {
       // Call the `signOut` function from within the component
