@@ -25,46 +25,46 @@
 <script>
 export default {
         props: {
-        link: {
-            type: String,
-            required: true,
-        },
-        showLocation: {
-            type: Function,
-            required: true,
-        },
-        displaydirectionsonmap: {
-            type: Function,
-            required: true,
-        },
-        eatery: {
-            type: Object,
-            required: true,
-        },
-        eateryOrigin: {
-            type: Object,
-            required: true,
-        },
-        eateryDestination: {
-            type: Object,
-            required: true,
-        },
-        restaurantname: {
-            type: String,
-            required: true,
-        },
-        restaurantaddress: {
-            type: String,
-            required: true,
-        },
-        pricelevel: {
-            type: Number,
-            required: false,
-        },
-        rating:{
-            type: Number,
-            required: true,
-        },
+            link: {
+                type: String,
+                required: true,
+            },
+            showLocation: {
+                type: Function,
+                required: true,
+            },
+            displaydirectionsonmap: {
+                type: Function,
+                required: true,
+            },
+            eatery: {
+                type: Object,
+                required: true,
+            },
+            eateryOrigin: {
+                type: Object,
+                required: true,
+            },
+            eateryDestination: {
+                type: Object,
+                required: true,
+            },
+            restaurantname: {
+                type: String,
+                required: true,
+            },
+            restaurantaddress: {
+                type: String,
+                required: true,
+            },
+            pricelevel: {
+                type: Number,
+                required: false,
+            },
+            rating:{
+                type: Number,
+                required: true,
+            },
         
     },
     methods:{
