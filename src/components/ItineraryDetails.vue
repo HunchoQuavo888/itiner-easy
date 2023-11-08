@@ -34,6 +34,8 @@
     </div>
   <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10" ref="map">
   </div>
+  <!-- </div>
+  <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10" ref="map"> -->
   </div>
 
 
@@ -125,7 +127,7 @@ export default {
     // Replace the following with actual data retrieval code
     this.fetchItineraryData(tripID);
     
-    
+    this.getLatLng();
   },
   methods: {
   async fetchItineraryData(tripID) {
@@ -153,30 +155,7 @@ export default {
       this.personNames = this.itineraryData.personNames;
       this.transport = this.itineraryData.transport;
       
-      
-      //get coordinates of city
-      console.log(this.trip);
-      var city = this.trip;
-      console.log(city);
-      this.citycoords = {};
-      var request = {
-        query: `${city}`,
-        fields: ['name', 'geometry'],
-      };
-      var service = new google.maps.places.PlacesService(document.createElement('div'));
-      return new Promise((resolve, reject) => {
-        service.findPlaceFromQuery(request, (results, status) => {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            this.citycoords = results[0].geometry.location;
-            console.log(this.citycoords);
-            initMap(this.citycoords);
-            resolve(results); // Resolve the promise with the search results
-          } else {
-            console.error(`Error: ${status}`);
-            reject(status); // Reject the promise with the error status
-          }
-        })
-      });
+    
       
 
 
@@ -361,29 +340,34 @@ async geteateriesnearby(activity){
   });
   },
 
-  // async getLatLng() {
-  //     console.log(this.trip);
-  //     var city = this.trip;
-  //     this.citycoords = {};
-  //     var request = {
-  //       query: `${city}`,
-  //       fields: ['name', 'geometry'],
-  //     };
-  //     var service = new google.maps.places.PlacesService(document.createElement('div'));
-  //     return new Promise((resolve, reject) => {
-  //       service.findPlaceFromQuery(request, (results, status) => {
-  //         if (status === google.maps.places.PlacesServiceStatus.OK) {
-  //           this.citycoords = results[0].geometry.location;
-  //           console.log(this.citycoords);
-  //           initMap(this.citycoords);
-  //           resolve(results); // Resolve the promise with the search results
-  //         } else {
-  //           console.error(`Error: ${status}`);
-  //           reject(status); // Reject the promise with the error status
-  //         }
-  //       })
-  //     });
-  //   },
+  async getLatLng() {
+      console.log(this.trip);
+      let city = 'Istanbul';
+      console.log(city);
+      this.citycoords = {};
+      var request = {
+        query: `${city}`,
+        fields: ['name', 'geometry'],
+      };
+      console.log(request);
+      var service = new google.maps.places.PlacesService(document.createElement('div'));
+      return new Promise((resolve, reject) => {
+        
+        service.findPlaceFromQuery(request, (results, status) => {
+          console.log('Query Results:', results);
+  console.log('Query Status:', status);
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            this.citycoords = results[0].geometry.location;
+            console.log(this.citycoords);
+            initMap(this.citycoords);
+            resolve(results); // Resolve the promise with the search results
+          } else {
+            console.error(`Error: ${status}`);
+            reject(status); // Reject the promise with the error status
+          }
+        })
+      });
+    },
 
 }
 };
