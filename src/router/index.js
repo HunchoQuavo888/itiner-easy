@@ -2,6 +2,7 @@ import { async } from "@firebase/util";
 import { getAuth, onAuthStateChanged} from "firebase/auth";
 import { createRouter, createWebHistory } from "vue-router";
 import NotFound from "../components/404NotFound.vue";
+import ItineraryDetails from '../components/ItineraryDetails.vue';
 
 const router = createRouter({
     history : createWebHistory(),
@@ -28,6 +29,8 @@ const router = createRouter({
         {path:"/faq", component: () => import ("../views/FAQ.vue")},
         {path:"/contactus", component:()=> import("../views/contactus.vue")},
         { path: '/:catchAll(.*)', component: NotFound, },
+        {path: "/itinerary/:tripID", name: 'itinerary-details', component: ItineraryDetails ,meta: {requiresAuth: true}},
+
     ],
 });
 

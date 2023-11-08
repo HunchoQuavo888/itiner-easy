@@ -1,4 +1,5 @@
 <template>
+    console.log(activity);
     <div v-if="activity.formatted_address !== 'Travel'" class="pr-5 snap-start snap-always">
                         <div class="mx-auto card flex min-w-full max-w-md overflow-auto shadow-lg bg-indigo-200 justify-center">
                           <img class="w-52 h-32 self-center rounded-md" :src="activity.photo" alt="image of attraction">
@@ -39,6 +40,9 @@ export default {
         geteateriesnearby: Function,
         calculateDuration: Function,
     },
+    mounted() {
+    console.log(this.activity);
+  }
 }
 
 </script>
