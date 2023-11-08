@@ -15,7 +15,7 @@
 <div>
     <div class="text-sm ml-7 breadcrumbs">
       <ul>
-        <li><router-link to="/landinglogin"><a class="text-blue-900">Home</a></router-link></li>  
+        <li><router-link to="/feed"><a class="text-blue-900">Home</a></router-link></li>  
         <li>Plan itinerary</li>
       </ul>
     </div>

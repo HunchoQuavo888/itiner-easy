@@ -11,6 +11,9 @@
         </h1>
       </div>
       <!-- trips carousell cards -->
+      <div class="empty ml-7" v-if="trips.length==0">
+        <h2 class="text-xl">You have no trips, add one now!</h2>
+      </div>
       <section class="flex ml-2 flex-nowrap gap-5 px-5 overflow-x-auto snap-x snap-mandatory pb-7 no-scrollbar">
         <tripcard v-for="trip in trips" :city=trip @deletetrip="deleteTrip(trip)" @gototrip="goToTrip(trip)">
         </tripcard>
@@ -87,9 +90,14 @@
     </div>
 
     <div name="after-selecting-trip" v-if="selected">
+      <div class="text-sm ml-7 breadcrumbs">
+      <ul>
+        <li @click="reloadpage()"><router-link to="/feed"><a class="text-blue-900">Home</a></router-link></li>  
+        <li>{{selectedTrip}}</li>
+      </ul>
+    </div>
       <div>
-        <button class="btn btn-primary" @click="backToTrips">Back to Feed</button>
-        <button class="btn btn-primary" @click="toggleExpenseAndItinerary">Expense/Itinerary</button>
+        <button class="ml-7 btn btn-primary" @click="toggleExpenseAndItinerary">Expense/Itinerary</button>
       </div>
 
       <div name="showExpenses" v-if="showExpense">
@@ -592,8 +600,10 @@ export default {
     }
   },
   methods: {
-    closemodal() {
-      this.$refs.expenseModal.close();
+    reloadpage() {
+      setTimeout(function() {
+    window.location.reload();
+}, 500);
     },
     toggleTabs: function (tabNumber) {
       this.openTab = tabNumber
@@ -1051,6 +1061,7 @@ export default {
     goToTrip(trip) {
       this.trip = trip;
       this.selected = true;
+      window.scrollTo(0,0)
 
       getDocs(collection(this.tripsRef, this.trip, 'expenses')).then((querySnapshot) => {
         if (this.expenses.length > 0) {
