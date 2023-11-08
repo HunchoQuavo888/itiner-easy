@@ -153,7 +153,7 @@
         <div class="rightcol">
           <div class="expensecards">
             <expensecards v-for="(expense, index) in expenses" :itemDesc="expense.expenseName"
-              :currency="expense.currency" :price="expense.expenseAmount" :TransfereeName="expense.personOwedName"
+              :currency="expense.currency" :price="expense.expenseAmount" :TransfereeName="expense.personOwedName" :ExpenseType="expense.expenseCategory"
               @button-clicked="deleteExpense(index, docId)">
             </expensecards>
 
@@ -483,7 +483,7 @@ export default {
         peopleOwingAmount: null,
         currency: null,
       },
-      expenseCategories: ['Food and Drinks', 'Accomodation', 'Transportation', 'Entertainment', 'Miscellaneous'],
+      expenseCategories: ['Accomodation', 'Activities', 'Attractions', 'Flight',  'Food and Drinks','Transportation', 'Groceries', 'Miscellaneous'],
       expenses: [],
       docId: [],
       displayName: null,
