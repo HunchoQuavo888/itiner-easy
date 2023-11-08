@@ -1292,6 +1292,7 @@ export default {
         }
       }
       console.log(this.whoOwesWho2)
+      this.whoOwesWho2Display = {};
       for (let key in this.whoOwesWho2) {
         if (this.whoOwesWho2[key] > 0) {
           console.log(key + " owes " + this.whoOwesWho2[key]);
@@ -1302,7 +1303,6 @@ export default {
         }
         console.log(key)
 
-        this.whoOwesWho2Display = {};
         while (this.whoOwesWho2[key] > 0) {
           for (let key2 in this.whoOwesWho) {
             if (this.whoOwesWho2[key2] < 0) {
@@ -1312,12 +1312,14 @@ export default {
                 document.getElementById("amountToPay").innerHTML += key + " pays " + -this.whoOwesWho2[key2] + " to " + key2 + "<br>";
                 this.whoOwesWho2[key] += this.whoOwesWho2[key2];
                 this.whoOwesWho2[key2] = 0;
+                console.log(this.whoOwesWho2Display)
               } else if (this.whoOwesWho2[key] != 0) {
                 console.log(key + " pays " + this.whoOwesWho2[key] + " to " + key2);
                 this.whoOwesWho2Display[key] = [this.whoOwesWho2[key], key2];
                 document.getElementById("amountToPay").innerHTML += key + " pays " + this.whoOwesWho2[key] + " to " + key2 + "<br>";
                 this.whoOwesWho2[key2] += this.whoOwesWho2[key];
                 this.whoOwesWho2[key] = 0;
+                console.log(this.whoOwesWho2Display)
               }
             }
           }
