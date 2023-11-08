@@ -340,7 +340,7 @@
     </tbody>
   </table>
   <div class="form-group">
-    <button class="btn btn-primary" @click="breakeven">Breakeven</button>
+    <button class="btn btn-primary" @click="breakeven2">Breakeven</button>
   </div>
   <div id="amountToPay"></div>
 </div>
@@ -375,6 +375,7 @@ export default {
       expenses: [],
       docId: [],
       whoOwesWho: {},
+      whoOwesWho2: { dom: 0, sam: 0, yx: 0 },
       // This is for the list of people who owe money
       inputValue: [],
       list: [],
@@ -515,6 +516,9 @@ export default {
         this.whoOwesWho = doc.data();
         console.log(this.whoOwesWho)
       });
+      setTimeout(() => {
+        this.breakeven2();
+      }, 4000);
     },
 
     // This function retrieves user input and adds it to the database. (Both in expenses and whoOwesWho)
@@ -566,6 +570,9 @@ export default {
       // this.expense.peopleOwingNames = null;
       // this.expense.personOwedName = null;
       // this.expense.peopleOwingAmount = null;
+      setTimeout(() => {
+        this.breakeven2();
+      }, 3000);
       await this.convertCurrency(this.expense);
     },
 
@@ -601,6 +608,50 @@ export default {
 
       }
 
+    },
+
+    breakeven2() {
+      for (let person in this.whoOwesWho2) {
+        this.whoOwesWho2[person] = 0;
+      }
+      for (let expense of this.expenses) {
+        console.log(expense.personOwedName)
+        console.log(expense.expenseAmount)
+        this.whoOwesWho2[expense.personOwedName] -= expense.expenseAmount;
+        let i = 0;
+        for (let person of expense.peopleOwingNames) {
+          this.whoOwesWho2[person.name] += expense.peopleOwingAmount[i];
+          i++;
+        }
+      }
+      console.log(this.whoOwesWho2)
+      for (let key in this.whoOwesWho2) {
+        if (this.whoOwesWho2[key] > 0) {
+          console.log(key + " owes " + this.whoOwesWho2[key]);
+        } else if (this.whoOwesWho2[key] < -0.011) {
+          console.log(key + " is owed " + -this.whoOwesWho2[key]);
+        } else {
+          console.log(key + " is breakeven");
+        }
+        console.log(key)
+        while (this.whoOwesWho2[key] > 0) {
+          for (let key2 in this.whoOwesWho) {
+            if (this.whoOwesWho2[key2] < 0) {
+              if (this.whoOwesWho2[key] > -this.whoOwesWho2[key2]) {
+                console.log(key + " pays " + -this.whoOwesWho2[key2] + " to " + key2);
+                document.getElementById("amountToPay").innerHTML += key + " pays " + -this.whoOwesWho2[key2] + " to " + key2 + "<br>";
+                this.whoOwesWho2[key] += this.whoOwesWho2[key2];
+                this.whoOwesWho2[key2] = 0;
+              } else if (this.whoOwesWho2[key] != 0) {
+                console.log(key + " pays " + this.whoOwesWho2[key] + " to " + key2);
+                document.getElementById("amountToPay").innerHTML += key + " pays " + this.whoOwesWho2[key] + " to " + key2 + "<br>";
+                this.whoOwesWho2[key2] += this.whoOwesWho2[key];
+                this.whoOwesWho2[key] = 0;
+              }
+            }
+          }
+        }
+      }
     },
 
     // Delete expense from database

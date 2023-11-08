@@ -122,7 +122,9 @@
             <td>
               <p v-for="name in expense.peopleOwingNames">{{ name.name }} &nbsp;</p>
             </td>
-            <td>{{ expense.peopleOwingAmount }}</td>
+            <td>
+              <p v-for="(name, index) in expense.peopleOwingAmount" :key="index">{{ expense.peopleOwingAmount[index].amount }} &nbsp;</p>
+            </td>
             <td>{{ expense.personOwedName }}</td>
             <td><button @click="deleteExpense(index, docId)">Delete Expense</button></td>
           </tr>
@@ -145,7 +147,7 @@
         </tbody>
       </table>
       <div class="form-group">
-        <button class="btn btn-primary" @click="breakeven">Breakeven</button>
+        <button class="btn btn-primary" @click="breakeven2">Breakeven</button>
       </div>
       <div id="amountToPay"></div>
 
@@ -228,8 +230,8 @@
                           class="form-control" @keyup.enter="computeexpense">
                       </h4>
                       <ul>
-                        <li v-for="(amt, index) in quicksettleamount" :key="index">
-                          {{ this.expense.peopleOwingNames[index] }} pays {{ amt }}
+                        <li v-for="obj in quicksettleamount" :key="index">
+                          {{ obj.name }} pays {{ obj.amount }}
                         </li>
                       </ul>
                     </div>
@@ -243,7 +245,7 @@
                       </h4>
                       <ul>
                         <li v-for="(amt, index) in quicksettleamount" :key="index">
-                          {{ this.expense.peopleOwingNames[index] }} pays {{ amt }}
+                          {{ q }} pays {{ amt }}
                         </li>
                       </ul>
                     </div>
@@ -490,6 +492,7 @@ export default {
       docId: [],
       displayName: null,
       whoOwesWho: {},
+      whoOwesWho2: {},
       // This is for the list of people who owe money
       inputValue: [],
       list: [],
@@ -567,6 +570,9 @@ export default {
     }
   },
   methods: {
+    closemodal() {
+      this.$refs.expenseModal.close();
+    },
     toggleTabs: function (tabNumber) {
       this.openTab = tabNumber
     },
@@ -1011,12 +1017,11 @@ export default {
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
-        setDoc(doc(this.tripsRef, this.town), { activitiesandtime: json, whoOwesWho: {} });
+        setDoc(doc(this.tripsRef, this.town), { activitiesandtime: json });
       }
     },
 
     goToTrip(trip) {
-      console.log(trip);
       this.trip = trip;
       this.selected = true;
 
@@ -1045,21 +1050,12 @@ export default {
           this.personNames = doc.data().personNames.sort();
           this.activitiesandtime = doc.data().activitiesandtime;
           this.activitiesandtime = JSON.parse(this.activitiesandtime);
-          console.log(this.activitiesandtime);
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
         }
       }).catch((error) => {
         console.log("Error getting document:", error);
-      });
-
-      const querySnapshot1 = getDocs(doc(this.tripsRef, this.trip));
-      querySnapshot1.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        this.whoOwesWho = doc.data();
-        console.log(this.whoOwesWho)
       });
     },
 
@@ -1074,6 +1070,9 @@ export default {
       if (this.showItinerary == true) {
         this.getLatLng();
       }
+      setTimeout(() => {
+        this.breakeven2();
+      }, 500);
     },
 
     // This function retrieves user input and adds it to the database. (Both in expenses and whoOwesWho)
@@ -1187,8 +1186,6 @@ export default {
 
       }
 
-
-
       else if (this.splitmethod == "custom") {
         let totalcustom = 0;
         for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
@@ -1249,6 +1246,62 @@ export default {
                 document.getElementById("amountToPay").innerHTML += key + " pays " + this.whoOwesWho[key] + " to " + key2 + "<br>";
                 this.whoOwesWho[key2] += this.whoOwesWho[key];
                 this.whoOwesWho[key] = 0;
+              }
+            }
+          }
+        }
+      }
+    },
+
+    async breakeven2() {
+
+      await getDoc(doc(this.tripsRef, this.trip)).then(doc => {
+        if (doc.exists()) {
+          console.log("Document data:", doc.data());
+          this.whoOwesWho2 = doc.data().whoOwesWho;
+          console.log(this.whoOwesWho2)
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      }).catch((error) => {
+        console.log("Error getting document:", error);
+      });
+
+      for (let person in this.whoOwesWho2) {
+        this.whoOwesWho2[person] = 0;
+      }
+      console.log(this.whoOwesWho2)
+      console.log(this.expenses)
+      for (let expense of this.expenses) {
+        this.whoOwesWho2[expense.personOwedName] -= expense.expenseAmount;
+        for (let person of expense.peopleOwingAmount) {
+          this.whoOwesWho2[person.name] += person.amount;
+        }
+      }
+      console.log(this.whoOwesWho2)
+      for (let key in this.whoOwesWho2) {
+        if (this.whoOwesWho2[key] > 0) {
+          console.log(key + " owes " + this.whoOwesWho2[key]);
+        } else if (this.whoOwesWho2[key] < -0.011) {
+          console.log(key + " is owed " + -this.whoOwesWho2[key]);
+        } else {
+          console.log(key + " is breakeven");
+        }
+        console.log(key)
+        while (this.whoOwesWho2[key] > 0) {
+          for (let key2 in this.whoOwesWho) {
+            if (this.whoOwesWho2[key2] < 0) {
+              if (this.whoOwesWho2[key] > -this.whoOwesWho2[key2]) {
+                console.log(key + " pays " + -this.whoOwesWho2[key2] + " to " + key2);
+                document.getElementById("amountToPay").innerHTML += key + " pays " + -this.whoOwesWho2[key2] + " to " + key2 + "<br>";
+                this.whoOwesWho2[key] += this.whoOwesWho2[key2];
+                this.whoOwesWho2[key2] = 0;
+              } else if (this.whoOwesWho2[key] != 0) {
+                console.log(key + " pays " + this.whoOwesWho2[key] + " to " + key2);
+                document.getElementById("amountToPay").innerHTML += key + " pays " + this.whoOwesWho2[key] + " to " + key2 + "<br>";
+                this.whoOwesWho2[key2] += this.whoOwesWho2[key];
+                this.whoOwesWho2[key] = 0;
               }
             }
           }
@@ -1321,6 +1374,7 @@ export default {
         alert("Please fill in all fields")
       } else {
         this.addExpense();
+        this.breakeven2();
       }
     },
 

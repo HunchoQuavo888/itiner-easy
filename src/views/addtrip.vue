@@ -153,6 +153,7 @@ export default {
                 console.log("Document data:", docSnap.data());
                 updateDoc(doc(this.tripsRef, this.destination), {
                     whoOwesWho: whoOwesWho,
+                    whoOwesWho2: whoOwesWho,
                     homeCurrency: this.homeCurrency,
                     tripCurrency: this.tripCurrency,
                     numPeople: numPeople,
@@ -163,6 +164,7 @@ export default {
                 console.log("No such document!");
                 setDoc(doc(this.tripsRef, this.destination), {
                     whoOwesWho: whoOwesWho,
+                    whoOwesWho2: whoOwesWho,
                     homeCurrency: this.homeCurrency,
                     tripCurrency: this.tripCurrency,
                     numPeople: numPeople,

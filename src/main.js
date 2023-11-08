@@ -3,6 +3,8 @@ import { BootstrapIconsPlugin } from 'bootstrap-icons-vue';
 import './style.css';
 import App from './App.vue';
 import router from "./router";
+import { gsap, ScrollTrigger, Draggable, MotionPathPlugin } from "gsap/all"
+
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -61,6 +63,8 @@ const app = createApp(App)
     plugins: 
     [createMultiStepPlugin(),proplugin]
 }));
+
+gsap.registerPlugin(ScrollTrigger, Draggable, MotionPathPlugin); 
 
 
 app.use(BootstrapIconsPlugin);

@@ -7,6 +7,9 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "dependencies": {
     "@formkit/addons": "^1.2.2",
     "@formkit/pro": "^0.117.5",
@@ -20,6 +23,7 @@
     "flowbite-vue": "^0.1.0",
     "formkit": "^1.2.2",
     "google-maps": "^4.3.3",
+    "gsap": "^3.12.2",
     "install": "^0.13.0",
     "node": "^21.1.0",
     "npm": "^10.2.3",
