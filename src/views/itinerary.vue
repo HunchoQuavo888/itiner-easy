@@ -359,7 +359,6 @@ export default {
       eateries: [],
       activitiesandtime: [],
       photoUrl: "",
-      markers: [],
       weatherData: [],
       suggested_activities: [],
       isOpenNow: false,
