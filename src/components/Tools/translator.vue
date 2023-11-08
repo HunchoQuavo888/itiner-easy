@@ -18,9 +18,13 @@
                             </div>
                             
                         </div>
-                        <div class="flex col-span-1 items-center justify-center ">
-                            <h2>to</h2>
-                            <button @click="swapLanguages">swap</button>
+                        <div class="flex flex-col col-span-1 ">
+                          <div class="flex justify-center mb-16 tooltip tooltip-bottom tooltip-success" data-tip="swap languages!" >
+                            <button @click="swapLanguages"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 92 92" id="swap"><path d="M92 55.5c0 1.1-.4 2.1-1.2 2.8L72.2 76.9c-.8.8-1.8 1.1-2.8 1.1-1 0-2.1-.5-2.8-1.2-1.6-1.6-1.6-4.2 0-5.8l11.7-12H39.2c-2.2 0-4-1.8-4-4s1.8-4 4-4h39.1L66.6 39.5c-1.6-1.6-1.6-3.9 0-5.4 1.6-1.6 4.1-1.6 5.7 0l18.6 18.6c.7.7 1.1 1.7 1.1 2.8zM13.7 41h39.1c2.2 0 4-1.8 4-4s-1.8-4-4-4H13.7l11.7-12c1.6-1.6 1.6-4.2 0-5.8s-4.1-1.6-5.7-.1L1.2 33.7c-.8.7-1.2 1.7-1.2 2.8s.4 2.1 1.2 2.8l18.6 18.6c.8.8 1.8 1.2 2.8 1.2 1 0 2.1-.4 2.8-1.2 1.6-1.6 1.6-3.9 0-5.4L13.7 41z"></path></svg></button>
+                          </div>
+                          <div>
+                             <h2>to</h2>
+                          </div>  
                         </div>
                         <div class="col-span-5">
                             <div class="translatetolang">
@@ -65,6 +69,19 @@ export default {
     };
   },
   methods: {
+    swapLanguages() {
+      // Swap languages
+      const tempLanguage = this.inputLanguage;
+      this.inputLanguage = this.outputLanguage;
+      this.outputLanguage = tempLanguage;
+      this.translateText();
+
+      // Swap text
+      const tempText = this.textToTranslate;
+      this.textToTranslate = this.translatedText;
+      this.translatedText = tempText;
+    },
+
   getForecast() {
     const key = 'cfb27632a44746f6aaf01356231409';
     const country = this.country;
@@ -123,6 +140,7 @@ export default {
             console.log(error);
         })
     },
+    
     translateText() {
       // Move your Axios code for text translation here
       var text = document.getElementById("text").value;
