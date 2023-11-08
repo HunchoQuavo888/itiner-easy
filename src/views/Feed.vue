@@ -5,10 +5,11 @@
     </div>
     <!-- title -->
     <div class="mt-7 mb-4 ml-7">
-      <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}'s</a> current trips <router-link
-          to="/add-trip">
+      <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}'s</a> current trips
+        <router-link to="/add-trip">
           <button class="btn btn-neutral ml-7 p-2 text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg">Add a new trip</button>
-        </router-link></h1>
+        </router-link>
+      </h1>
     </div>
     <!-- trips carousell cards -->
     <section class="flex ml-2 flex-nowrap gap-5 px-5 overflow-x-auto snap-x snap-mandatory pb-7 no-scrollbar">
@@ -102,12 +103,12 @@
         <thead>
           <tr>
             <th>Expense Name</th>
+            <th>Expense Category</th>
             <th>Expense Amount</th>
             <th>People who Owe</th>
             <th>How much is owed</th>
             <th>Who paid</th>
             <th>Delete Expense</th>
-            <th>Update Expense</th>
           </tr>
         </thead>
 
@@ -115,14 +116,14 @@
         <tbody>
           <tr v-for="(expense, index) in expenses" :key="index">
             <td>{{ expense.expenseName }}</td>
+            <td>{{ expense.expenseCategory }}</td>
             <td>{{ expense.expenseAmount }}</td>
             <td>
-            <td v-for="name in expense.peopleOwingNames">{{ name }} &nbsp;</td>
+              <p v-for="name in expense.peopleOwingNames">{{ name.name }} &nbsp;</p>
             </td>
             <td>{{ expense.peopleOwingAmount }}</td>
             <td>{{ expense.personOwedName }}</td>
             <td><button @click="deleteExpense(index, docId)">Delete Expense</button></td>
-            <td><button @click="updateExpense(index, docId)">Update Expense</button></td>
           </tr>
         </tbody>
       </table>
@@ -158,26 +159,25 @@
 
 
             <!-- Open the modal using ID.showModal() method -->
-            <button class="btn mt-4 ml-3 btn-primary" onclick="my_modal_1.showModal()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle"
-                viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                <path
-                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-              </svg>
-              Add an expense
-            </button>
-            <dialog id="my_modal_1" class="modal">
+            <button class="btn" onclick="my_modal_3.showModal()">open modal</button>
+            <dialog id="my_modal_3" class="modal" ref="expenseModal">
               <div class="modal-box">
-                <h2 class="font-bold text-xl">Let's add an expense!</h2>
-                <hr>
-
-                <!-- insert form here -->
+                <form method="dialog">
+                  <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>
                 <div class="expense-add">
                   <div class="form-group">
                     <p>Expense Name:</p>
                     <input type="text" placeholder="Expense Name" v-model="expense.expenseName" class="form-control"
                       required>
+                  </div>
+                  <div class="form-group">
+                    <p>Expense Category:</p>
+                    <select v-model="expense.expenseCategory" class="form-control" required>
+                      <option v-for="category in expenseCategories" :key="category" :value="category">
+                        {{ category }}
+                      </option>
+                    </select>
                   </div>
                   <div class="form-group">
                     <p>Expense Amount:</p>
@@ -196,7 +196,8 @@
                     <p>Who Owes Money:</p>
                     <label v-for="(name, index) in personNames">
                       <input type="checkbox" :name="name" :value="{ name: name, index: index }"
-                        v-model="expense.peopleOwingNames">{{ name }}<br>
+                        v-model="expense.peopleOwingNames">{{
+                          name }}<br>
                     </label>
                   </div>
                   <div>
@@ -268,16 +269,17 @@
                       </h4>
                     </div>
                   </div>
-                </div>
 
-                <div class="modal-action">
+
+                  <ul>
+                    <li v-for="(item, index) in list" :key="index">
+
+                      <button class="btn btn-primary" @click="removeFromList(index)">Remove</button> {{ item }}
+                    </li>
+                  </ul>
                   <div class="form-group">
-                    <button class="btn btn-primary" @click="addExpense">Add Expense</button>
+                    <button class="btn btn-primary" @click="checkempty3(); closemodal()">Add Expense</button>
                   </div>
-                  <form method="dialog">
-                    <!-- if there is a button in form, it will close the modal -->
-                    <button class="btn">Close</button>
-                  </form>
                 </div>
               </div>
             </dialog>
@@ -470,16 +472,18 @@ export default {
   name: "lightBlue-tabs",
   data() {
     return {
-      user:{},
+      user: {},
       openTab: 1,
       expense: {
         expenseName: null,
+        expenseCategory: null,
         expenseAmount: null,
         personOwedName: null,
         peopleOwingNames: [],
         peopleOwingAmount: null,
         currency: null,
       },
+      expenseCategories: ['Food and Drinks', 'Accomodation', 'Transportation', 'Entertainment', 'Miscellaneous'],
       expenses: [],
       docId: [],
       displayName: null,
@@ -1044,42 +1048,26 @@ export default {
     toggleExpenseAndItinerary() {
       this.showExpense = !this.showExpense;
       this.showItinerary = !this.showItinerary;
-      if(this.showItinerary == true){
+      if (this.showItinerary == true) {
         this.getLatLng();
       }
     },
 
     // This function retrieves user input and adds it to the database. (Both in expenses and whoOwesWho)
     async addExpense() {
-      if (this.expense.currency === null || this.expense.expenseName === null || this.expense.expenseAmount === null || this.expense.personOwedName === null || this.inputValue === '') {
-        console.log(this.expense.currency);
-        console.log(this.expense.expenseName);
-        console.log(this.expense.expenseAmount);
-        console.log(this.expense.personOwedName);
-        console.log(this.inputValue);
-
-        alert("Please fill in all fields")
-
-      } else {
-
-        // Assigns the value of list to the peopleOwingNames object
-        if (this.quicksettleamount.length > 0) {
-
-        }
-        else {
-          var amountowed = Number((this.expense.expenseAmount / this.expense.peopleOwingNames.length).toFixed(2));
-          for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
-            this.quicksettleamount.push(amountowed);
-          }
-          console.log(this.quicksettleamount);
-
-        }
-        // this.expense.peopleOwingAmount = peopleOwingAmount;
+      this.computeexpense();
+      if (this.splitmethod == "evenly") {
+        this.expense.peopleOwingAmount = this.quicksettleamount;
       }
-      this.expense.peopleOwingNames = this.list;
-      console.log(this.expense.peopleOwingNames);
-      // Assigns the amount owed to peopleOwingAmount object
-
+      else if (this.splitmethod == "percentage") {
+        this.expense.peopleOwingAmount = this.quicksettleamount;
+      }
+      else if (this.splitmethod == "shares") {
+        this.expense.peopleOwingAmount = this.quicksettleamount;
+      }
+      else if (this.splitmethod == "custom") {
+        this.expense.peopleOwingAmount = this.quicksettleamount;
+      }
 
       // Adds the expense to the database
       addDoc(collection(this.tripsRef, this.trip, 'expenses'), this.expense)
@@ -1091,29 +1079,10 @@ export default {
         });
 
       // Adding the expense to the whoOwesWho collection
-      // 1. Check if the personOwedName is already in the whoOwesWho collection
-      if (this.expense.personOwedName in this.whoOwesWho) {
-        console.log("Person already in whoOwesWho")
-        // 2. If it is, add the expenseAmount to the existing amount
-        this.whoOwesWho[this.expense.personOwedName] -= this.expense.expenseAmount;
-      } else {
-        console.log("Person not in whoOwesWho")
-        // 3. If it isn't, add the personOwedName and peopleOwingAmount to the whoOwesWho collection
-        this.whoOwesWho[this.expense.personOwedName] = Number(-this.expense.expenseAmount);
-      }
-      // 1. Check if the peopleOwingNames is already in the whoOwesWho collection
       for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
-        console.log(this.expense.peopleOwingNames[i]);
-        if (this.expense.peopleOwingNames[i] in this.whoOwesWho) {
-          console.log("Person already in whoOwesWho")
-          // 2. If it is, add the peopleOwingAmount to the existing amount
-          this.whoOwesWho[this.expense.peopleOwingNames[i]] += this.expense.peopleOwingAmount;
-        } else {
-          console.log("Person not in whoOwesWho")
-          // 3. If it isn't, add the personOwedName and peopleOwingAmount to the whoOwesWho collection
-          this.whoOwesWho[this.expense.peopleOwingNames[i]] = this.expense.peopleOwingAmount;
-        }
+        this.whoOwesWho[this.expense.peopleOwingNames[i].name] += this.expense.peopleOwingAmount[i]
       }
+      this.whoOwesWho[this.expense.personOwedName] -= this.expense.expenseAmount
       // Update the whoOwesWho collection in firebase
       updateDoc(doc(this.tripsRef, this.trip), {
         whoOwesWho: this.whoOwesWho
@@ -1132,8 +1101,8 @@ export default {
       // this.expense.expenseAmount = null;
       // this.expense.peopleOwingNames = null;
       // this.expense.personOwedName = null;
-      // this.expense.currency = null;
       // this.expense.peopleOwingAmount = null;
+      await this.convertCurrency(this.expense);
     }
 
     ,
@@ -1146,49 +1115,82 @@ export default {
       this.list.splice(index, 1);
     },
     computeexpense() {
+      console.log(this.homeCurrency);
+      console.log(this.tripCurrency);
+      console.log(this.expense.currency);
+      console.log(this.expense.peopleOwingNames);
       this.quicksettleamount = [];
       let amount = this.expense.expenseAmount;
-      if (this.custom.length > 0) {
-        let sum = 0
-        for (let i = 0; i < this.custom.length; i++) {
-          sum += this.custom[i];
-        }
-        if (sum != this.expense.expenseAmount) {
-          alert("Please make sure the percentages add up to the amount owed!")
-        }
-        else {
-          for (let i = 0; i < this.custom.length; i++) {
-            this.quicksettleamount.push(this.custom[i]);
-          }
-        }
-      }
-      else if (this.shares.length > 0) {
-        let totalshares = 0;
-        for (let i = 0; i < this.shares.length; i++) {
-          totalshares += this.shares[i];
-        }
-        for (let i = 0; i < this.shares.length; i++) {
-          this.quicksettleamount.push(this.shares[i] * amount / totalshares);
-        }
-      }
-      else if (this.percentages.length > 0) {
+      if (this.splitmethod == "percentage") {
         let totalpercentage = 0;
         for (let i = 0; i < this.percentages.length; i++) {
           totalpercentage += this.percentages[i];
         }
         if (totalpercentage != 100) {
-          alert("Please make sure the percentages add up to 100!")
+          alert("Please make sure the percentages add up to 100");
         }
         else {
-          for (let i = 0; i < this.percentages.length; i++) {
-            this.quicksettleamount.push(this.percentages[i] * amount / 100);
+
+
+          for (let i = 0; i < this.personNames.length; i++) {
+            this.quicksettleamount.push(0);
+          }
+          for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
+            let amountowed = amount * this.percentages[i] / 100;
+            this.quicksettleamount[this.expense.peopleOwingNames[i].index] = amountowed;
+          }
+          console.log(this.quicksettleamount);
+
+        }
+
+      }
+
+      else if (this.splitmethod == "shares") {
+        let totalshares = 0;
+        for (let i = 0; i < this.shares.length; i++) {
+          totalshares += this.shares[i];
+        }
+        for (let i = 0; i < this.personNames.length; i++) {
+          this.quicksettleamount.push(0);
+        }
+        for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
+          let amountowed = amount * this.shares[i] / totalshares;
+          this.quicksettleamount[this.expense.peopleOwingNames[i].index] = amountowed;
+        }
+        console.log(this.quicksettleamount);
+
+      }
+
+
+
+      else if (this.splitmethod == "custom") {
+        let totalcustom = 0;
+        for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
+          totalcustom += this.custom[i];
+        }
+        if (totalcustom != 100) {
+          alert("Please make sure the custom amounts add up to 100");
+        }
+        else {
+          for (let i = 0; i < this.personNames.length; i++) {
+            this.quicksettleamount.push(0);
+          }
+          for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
+            let amountowed = this.custom[i];
+            this.quicksettleamount[this.expense.peopleOwingNames[i].index] = amountowed;
           }
         }
+        console.log(this.quicksettleamount);
       }
       else {
-        for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
-          this.quicksettleamount.push(amount / this.peopleOwingNames.length);
+        for (let i = 0; i < this.personNames.length; i++) {
+          this.quicksettleamount.push(0);
         }
+        for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
+          let amountowed = amount / this.expense.peopleOwingNames.length;
+          this.quicksettleamount[this.expense.peopleOwingNames[i].index] = amountowed;
+        }
+        console.log(this.quicksettleamount);
       }
 
     },
@@ -1235,24 +1237,6 @@ export default {
           console.log("Document successfully deleted!");
         }).catch((error) => {
           console.error("Error removing document: ", error);
-        });
-    },
-
-    // Update expense in database
-    async updateExpense(index, docId) {
-      updateDoc(collection(this.tripsRef, this.trip, 'expenses'), docId[index]), {
-        expenseName: "Updated Expense Name",
-        expenseAmount: 100,
-        peopleOwingNames: ["Updated Name 1", "Updated Name 2"],
-        peopleOwingAmount: 50,
-        personOwedName: "Updated Person Owed Name"
-      }
-        .then(() => {
-          console.log("Document successfully updated!");
-        })
-        .catch((error) => {
-          // The document probably doesn't exist.
-          console.error("Error updating document: ", error);
         });
     },
 
