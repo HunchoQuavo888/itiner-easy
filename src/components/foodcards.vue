@@ -83,7 +83,6 @@ export default {
     data() {
         return {
             transport: "WALKING",
-            eatery: true,
         };
     },
 

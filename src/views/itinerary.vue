@@ -165,7 +165,7 @@
       </div>
   </div>
 
-  <div v-if="isLoading">
+  <div v-if="isLoading" id ="loadingPage">
     <!-- Your loading spinner goes here -->
     <div class="grid grid-cols-3">
       <div class="flex justify-center">
@@ -735,7 +735,12 @@ async displaydirectionsonmap(origin, destination){
   event.preventDefault();
   console.log(origin);
   console.log(destination);
-  console.log(this.transport);
+  if (eatery == null) {
+        this.transport = this.activitiesandtime[0].transport;
+      }
+      else {
+        this.transport = "WALKING";
+      }  
   var directionsService = new google.maps.DirectionsService();
   var directionsRenderer = new google.maps.DirectionsRenderer();
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -1140,6 +1145,9 @@ async showLocation(place,eatery){
   if(this.eateries.length > 0 && eatery == null){
     this.eateries = [];
   }
+  console.log(place);
+  console.log(eatery);
+
   var map = new google.maps.Map(document.getElementById("map"), {
         zoom: 20,
         center: place.geometry.location,
@@ -1192,6 +1200,11 @@ async checkempty(){
         await this.getweather();
         await this.getactivitieslist();
         this.isLoading = false;
+        this.$nextTick(() => {
+        const loadingElement = document.getElementById('loadingPage');
+        const topOffset = loadingElement.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+      });
       }
       else{
         window.alert("Please enter a valid city!");
