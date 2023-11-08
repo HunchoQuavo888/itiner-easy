@@ -279,7 +279,7 @@ import {
 } from "firebase/firestore";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-// import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import foodcard from '../components/foodcards.vue'
 import DayCard from '../components/Itinerary/DayCard.vue';
@@ -1047,8 +1047,8 @@ async titlephotogenerator(town) {
       }
     });
   });
-  }
-    ,
+  },
+  
     async loadPhoto(placeid) {
     try {
       this.photoUrl = await this.getphoto(placeid);
@@ -1232,15 +1232,16 @@ async saveItinerary() {
   var json = JSON.stringify(activitiesandtime);
   console.log(json);
   var transport = this.transport;
+  var tripID = uuidv4();
   
   const docSnap = await getDoc(doc(this.tripsRef, this.town));
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
-    updateDoc(doc(this.tripsRef, this.town), {activitiesandtime: json});
+    updateDoc(doc(this.tripsRef, this.town), {activitiesandtime: json, transport: transport, tripID: tripID});
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
-    setDoc(doc(this.tripsRef, this.town), {activitiesandtime: json});
+    setDoc(doc(this.tripsRef, this.town), {activitiesandtime: json, whoOwesWho: {}, tripID: tripID, transport: transport});
   }
 }
     
