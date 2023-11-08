@@ -226,7 +226,13 @@
       </div>
     </div>    
   </div>
-  <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10"></div>
+  <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10">
+    <GmapMarker
+      v-for="(marker, index) in markers"
+      :key="index"
+      :position="{ lat: marker.lat, lng: marker.lng }"
+    />
+  </div>
 </div>
 
 <br>
@@ -353,6 +359,7 @@ export default {
       eateries: [],
       activitiesandtime: [],
       photoUrl: "",
+      markers: [],
       weatherData: [],
       suggested_activities: [],
       isOpenNow: false,
@@ -969,6 +976,10 @@ async titlephotogenerator(town) {
       service.nearbySearch(request, (results, status) => {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
       for (var i = 0; i < results.length; i++) {
+        this.markers.push({
+          lat: eatery.latitude,
+          lng: eatery.longitude,
+        });
         var place = results[i];
         console.log(place);
         place.origin = geometry.location;
