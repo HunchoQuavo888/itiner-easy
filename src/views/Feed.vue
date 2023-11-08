@@ -1022,7 +1022,6 @@ export default {
     },
 
     goToTrip(trip) {
-      console.log(trip);
       this.trip = trip;
       this.selected = true;
 
@@ -1051,21 +1050,12 @@ export default {
           this.personNames = doc.data().personNames.sort();
           this.activitiesandtime = doc.data().activitiesandtime;
           this.activitiesandtime = JSON.parse(this.activitiesandtime);
-          console.log(this.activitiesandtime);
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
         }
       }).catch((error) => {
         console.log("Error getting document:", error);
-      });
-
-      const querySnapshot1 = getDocs(doc(this.tripsRef, this.trip));
-      querySnapshot1.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        this.whoOwesWho = doc.data();
-        console.log(this.whoOwesWho)
       });
     },
 
@@ -1135,9 +1125,6 @@ export default {
       // this.expense.
       personOwedName = null;
       // this.expense.peopleOwingAmount = null;
-      setTimeout(() => {
-        this.breakeven2();
-      }, 3000);
       await this.convertCurrency(this.expense);
     }
 
@@ -1266,14 +1253,27 @@ export default {
       }
     },
 
-    breakeven2() {
+    async breakeven2() {
+
+      await getDoc(doc(this.tripsRef, this.trip)).then(doc => {
+        if (doc.exists()) {
+          console.log("Document data:", doc.data());
+          this.whoOwesWho2 = doc.data().whoOwesWho;
+          console.log(this.whoOwesWho2)
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      }).catch((error) => {
+        console.log("Error getting document:", error);
+      });
+
       for (let person in this.whoOwesWho2) {
         this.whoOwesWho2[person] = 0;
       }
       console.log(this.whoOwesWho2)
+      console.log(this.expenses)
       for (let expense of this.expenses) {
-        console.log(expense.personOwedName)
-        console.log(expense.expenseAmount)
         this.whoOwesWho2[expense.personOwedName] -= expense.expenseAmount;
         for (let person of expense.peopleOwingAmount) {
           this.whoOwesWho2[person.name] += person.amount;
@@ -1374,6 +1374,7 @@ export default {
         alert("Please fill in all fields")
       } else {
         this.addExpense();
+        this.breakeven2();
       }
     },
 
