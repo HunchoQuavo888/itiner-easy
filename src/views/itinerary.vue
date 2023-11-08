@@ -226,12 +226,7 @@
       </div>
     </div>    
   </div>
-  <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10">
-    <GmapMarker
-      v-for="(marker, index) in markers"
-      :key="index"
-      :position="{ lat: marker.lat, lng: marker.lng }"
-    />
+  <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10" ref="map">
   </div>
 </div>
 
@@ -754,7 +749,11 @@ async displaydirectionsonmap(origin, destination){
     },
     (response, status) => {
       if (status === "OK") {
-        directionsRenderer.setDirections(response);
+        this.$nextTick(() => {
+              const mapElement = document.getElementById('map');
+    const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({ top: topOffset, behavior: 'smooth' });  });
+            directionsRenderer.setDirections(response);
       } else {
         window.alert("Directions request failed due to " + status);
       }
@@ -1007,6 +1006,12 @@ async titlephotogenerator(town) {
               infowindow.open(map, eaterymarker);
             });
           }
+          this.$nextTick(() => {
+              const mapElement = document.getElementById('map');
+    const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({ top: topOffset, behavior: 'smooth' });  });
+
+
       }})},
   async geteateryphotos() {
   const promises = this.eateries.map(async (eatery) => {
@@ -1150,7 +1155,11 @@ async showLocation(place,eatery){
       marker.addListener("click", () => {
         infowindow.open({anchor: marker, map});
       });
-      
+    this.$nextTick(() => {
+    const mapElement = document.getElementById('map');
+    const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({ top: topOffset, behavior: 'smooth' });
+    });
       
       
 

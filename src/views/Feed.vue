@@ -383,7 +383,7 @@
       </details>
       <br>
     </div>
-    <div id="map" class="w-full h-96">
+    <div id="map" class="w-full h-96" ref="map">
     </div>
 
     <br>
@@ -625,7 +625,12 @@ export default {
         },
         (response, status) => {
           if (status === "OK") {
+            this.$nextTick(() => {
+              const mapElement = document.getElementById('map');
+    const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({ top: topOffset, behavior: 'smooth' });  });
             directionsRenderer.setDirections(response);
+            
           } else {
             window.alert("Directions request failed due to " + status);
           }
@@ -758,6 +763,11 @@ export default {
               infowindow.open(map, eaterymarker);
             });
           }
+            this.$nextTick(() => {
+              const mapElement = document.getElementById('map');
+    const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({ top: topOffset, behavior: 'smooth' });  });
+
       }})
       
 
@@ -905,6 +915,11 @@ export default {
       marker.addListener("click", () => {
         infowindow.open({ anchor: marker, map });
       });
+      this.$nextTick(() => {
+        const mapElement = document.getElementById('map');
+    const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({ top: topOffset, behavior: 'smooth' });    });
+
 
 
 
