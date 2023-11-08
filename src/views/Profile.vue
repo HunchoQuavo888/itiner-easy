@@ -6,7 +6,7 @@
   <div class="grid grid-cols-1 md:grid-cols-3">
     <div class="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
       <div>
-        <p class="font-bold text-gray-700 text-xl">22</p>
+        <p class="font-bold text-gray-700 text-xl">{{ tripsCount }}</p>
         <p class="text-gray-400">Trips</p>
       </div>
       <div>
@@ -332,7 +332,7 @@
 
 <script>
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, doc, getDoc, collection, where, query, getDocs, updateDoc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, collection, where, query, getDocs, updateDoc, setDoc, getCountFromServer, count} from "firebase/firestore";
 import { useRouter } from 'vue-router';
 import {getStorage, ref, uploadBytes, getDownloadURL,} from "firebase/storage"; 
 
@@ -346,6 +346,8 @@ export default {
         bio: "Bio",
       },
       selectedImage: null,
+      trips: [],
+      tripsCount: 0,
     };
   },
   methods: {
@@ -419,44 +421,60 @@ export default {
       }
       location.reload();
     },
+
+    async fetchTrips() {
+    const db = getFirestore();
+    const userId = getAuth().currentUser.uid; // Replace this with the actual user ID
+    const q = query(collection(db, `users/${userId}/trips`));
+    const querySnapshot = await getDocs(q);
+    this.tripsCount = querySnapshot.size;
+  },
   },
   created() {
-    const auth = getAuth();
-    const db = getFirestore();
-    this.db = db;
+  const auth = getAuth();
+  const db = getFirestore();
+  this.db = db;
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        console.log('User is signed in', user.uid + " " + user.email);
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      console.log('User is signed in', user.uid + " " + user.email);
 
-        // Get the user's ID
-        const userId = user.uid;
+      // Get the user's ID
+      const userId = user.uid;
 
-        // Query Firestore to fetch user information
-        const db = getFirestore();
-        const usersCollection = collection(db, "users"); // Adjust the Firestore collection name as per your data structure
-        const userQuery = query(usersCollection, where("uid", "==", userId));
+      // Query Firestore to fetch user information
+      const usersCollection = collection(db, "users");
+      const userQuery = query(usersCollection, where("uid", "==", userId));
 
-        try {
-          const querySnapshot = await getDocs(userQuery);
-          if (!querySnapshot.empty) {
-            querySnapshot.forEach((doc) => {
-              const userData = doc.data();
-              console.log("User data from Firestore:", userData);
+      try {
+        const querySnapshot = await getDocs(userQuery);
+        if (!querySnapshot.empty) {
+          querySnapshot.forEach((doc) => {
+            const userData = doc.data();
+            console.log("User data from Firestore:", userData);
 
-              // Update the user data property with fetched data
-              this.user = userData;
-            });
-          } else {
-            console.log("User document not found in Firestore.");
-          }
-        } catch (error) {
-          console.error("Error querying user information from Firestore: ", error);
+            // Update the user data property with fetched data
+            this.user = userData;
+
+            // Query trips collection to get the number of trips
+            const tripsCollection = collection(db, "users", userId, "trips");
+            const tripsQuery = query(tripsCollection);
+            const tripsSnapshot = getDocs(tripsQuery);
+            console.log(tripsSnapshot.size)
+          });
+        } else {
+          console.log("User document not found in Firestore.");
         }
-      } else {
-        console.log('User is signed out');
+      } catch (error) {
+        console.error("Error querying user information from Firestore: ", error);
       }
-    });
-  },
+    } else {
+      console.log('User is signed out');
+    }
+  });
+},
+mounted() {
+  this.fetchTrips();
+},
 };
 </script>
