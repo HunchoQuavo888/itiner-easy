@@ -151,6 +151,9 @@
         <div id="amountToPay"></div> -->
 
         <div class="grid grid-cols-1 lg:grid-cols-2">
+          <div class="empty" v-if="expenses=[]">
+              You have no expenses, add one below!
+          </div>
           <!-- expensecards -->
           <div class="rightcol">
             <div class="expensecards">
