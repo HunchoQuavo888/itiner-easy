@@ -15,7 +15,7 @@
 
         
     <div class="flex items-center mt-20 mb-20 justify-center bg--base-100">
-        <div class="col-lg-12">
+        <div class="col-lg-12 mx-10">
             <h2 class="mb-3 text-4xl text-center">What our Travelers have to say</h2>
             <testimonials></testimonials>
         </div>

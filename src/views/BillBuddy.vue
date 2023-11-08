@@ -5,7 +5,7 @@
 
     <div v-if="!selected">
       <div class="text-3xl m-7 font-bold">
-        <a>Current trips</a>
+        <h2>Current trips</h2>
       </div>
 
       <div v-if="tripExists">
