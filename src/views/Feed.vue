@@ -100,7 +100,7 @@
           <h2>{{ selectedTrip }} expenses</h2>
         </div>
 
-        <h3>Expense Table</h3>
+        <!-- <h3>Expense Table</h3>
         <table class="table table-striped table-bordered">
           <thead>
             <tr>
@@ -151,7 +151,7 @@
         <div class="form-group">
           <button class="btn btn-primary" @click="breakeven2">Breakeven</button>
         </div>
-        <div id="amountToPay"></div>
+        <div id="amountToPay"></div> -->
 
         <div class="grid grid-cols-1 lg:grid-cols-2">
           <!-- expensecards -->
@@ -161,6 +161,20 @@
                 :currency="expense.currency" :price="expense.expenseAmount" :TransfereeName="expense.personOwedName"
                 :ExpenseType="expense.expenseCategory" @button-clicked="deleteExpense(index, docId); breakeven2()">
               </expensecards>
+            </div>
+          </div>
+          <div class="leftcol">
+              <div v-for="(expense,index) in whoOwesWho2Display" :key=index>
+                <splittercards
+                :Name1="index"
+                :Name2="expense[1]"
+                :amount="expense[0]">
+              </splittercards>
+              </div>
+          </div>
+        </div>
+              
+              
 
 
             <!-- Open the modal using ID.showModal() method -->
@@ -274,8 +288,6 @@
                         </h4>
                       </div>
                     </div>
-
-
                     <ul>
                       <li v-for="(item, index) in list" :key="index">
 
@@ -290,9 +302,8 @@
               </dialog>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+   
+
 
     <div name="showItinerary" class="m-10" v-if="showItinerary" @load="initMap(this.citycoords)">
       <!-- getmap -->
@@ -1090,7 +1101,7 @@ export default {
     // This function retrieves user input and adds it to the database. (Both in expenses and whoOwesWho)
     async addExpense() {
       this.computeexpense();
-      await this.convertCurrency(this.expense);
+      // await this.convertCurrency(this.expense);
       if (this.splitmethod == "evenly") {
         this.expense.peopleOwingAmount = this.quicksettleamount;
       }
@@ -1292,6 +1303,7 @@ export default {
         }
       }
       console.log(this.whoOwesWho2)
+      this.whoOwesWho2Display = {};
       for (let key in this.whoOwesWho2) {
         if (this.whoOwesWho2[key] > 0) {
           console.log(key + " owes " + this.whoOwesWho2[key]);
@@ -1302,7 +1314,6 @@ export default {
         }
         console.log(key)
 
-        this.whoOwesWho2Display = {};
         while (this.whoOwesWho2[key] > 0) {
           for (let key2 in this.whoOwesWho) {
             if (this.whoOwesWho2[key2] < 0) {
@@ -1312,12 +1323,14 @@ export default {
                 document.getElementById("amountToPay").innerHTML += key + " pays " + -this.whoOwesWho2[key2] + " to " + key2 + "<br>";
                 this.whoOwesWho2[key] += this.whoOwesWho2[key2];
                 this.whoOwesWho2[key2] = 0;
+                console.log(this.whoOwesWho2Display)
               } else if (this.whoOwesWho2[key] != 0) {
                 console.log(key + " pays " + this.whoOwesWho2[key] + " to " + key2);
                 this.whoOwesWho2Display[key] = [this.whoOwesWho2[key], key2];
                 document.getElementById("amountToPay").innerHTML += key + " pays " + this.whoOwesWho2[key] + " to " + key2 + "<br>";
                 this.whoOwesWho2[key2] += this.whoOwesWho2[key];
                 this.whoOwesWho2[key] = 0;
+                console.log(this.whoOwesWho2Display)
               }
             }
           }
@@ -1388,7 +1401,7 @@ export default {
 
     // Function to validate expense is not empty
     checkempty3() {
-      if (this.expense.currency === null || this.expense.expenseName === null || this.expense.expenseAmount === null || this.expense.personOwedName === null || this.inputValue === '') {
+      if (this.expense.expenseName === null || this.expense.expenseAmount === null || this.expense.personOwedName === null || this.inputValue === '') {
         console.log(this.expense.currency);
         console.log(this.expense.expenseName);
         console.log(this.expense.expenseAmount);
