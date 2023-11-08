@@ -266,7 +266,7 @@
                     <h3>Split Evenly</h3>
                     <div class="form-group">
                       <h4 v-for="name in list ">
-                        {{ name }} pays {{ expense.expenseAmount / list.length }}
+                        {{ name.name }} pays {{ expense.expenseAmount / list.length }}
                       </h4>
                     </div>
                   </div>
