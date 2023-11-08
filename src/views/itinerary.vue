@@ -1,4 +1,4 @@
-<style>
+<style scoped>
   #map{
     width: 100%;  
     min-height: 50vh;
@@ -12,256 +12,257 @@
 </style>
 
 <template>
+<div>
+    <div class="text-sm ml-7 breadcrumbs">
+      <ul>
+        <li><router-link to="/landinglogin"><a class="text-blue-900">Home</a></router-link></li>  
+        <li>Plan itinerary</li>
+      </ul>
+    </div>
 
-  <div class="text-sm ml-7 breadcrumbs">
-    <ul>
-      <li><router-link to="/landinglogin"><a class="text-blue-900">Home</a></router-link></li>  
-      <li>Plan itinerary</li>
-    </ul>
+    <h1 class="text-3xl text-center text-blue-400 mt-5">Let's plan your next trip!</h1>
+    <!-- Form -->
+    <div class="flex justify-center"> 
+      <FormKit type="form"
+            :actions="false"
+
+            >
+                <FormKit type="multi-step"
+                tab-style="progress"
+                :allow-incomplete="false"   
+                >
+                <!-- Destination: start -->
+                    <FormKit type="step" name="Destination" :nextLabel="nextStepDisabled ?  `Next`: 'Please enter a valid city'" nextAttrs:nextStepDisabled>
+                    <!-- collect name, email, and company info -->
+                        <FormKit
+                            v-model="town"
+                            type="text" 
+                            label="Destination" 
+                            validation="required"
+                            @blur ="checkCityExists(town)"                        
+                            placeholder="e.g. Singapore"
+                            help="City Name"
+                        />
+                        <FormKit 
+                            v-model="sliderValue"
+                            type="number" 
+                            label="Duration (days)" 
+                            validation="required"
+                            value="1"
+                            min="1"
+                            max="3" 
+                            placeholder="between 1 & 3 days"
+                        />
+                      <!-- reformat to change day/days based on value -->
+                        
+                    </FormKit>
+                <!-- Destination: end -->
+              
+
+                <!-- preferences: start -->
+                    <FormKit type="step" name="Preferences">
+                    <!-- Get talk title, brief, and track -->
+                    <FormKit 
+                        type="radio" 
+                        label="Outdoors or Indoors?" 
+                        help="Which type of setting do you prefer?" 
+                        validation="required"
+                        v-model="outgoing"
+                        :options="[
+                            'Outdoors',
+                            'Indoors',
+                            'I\'m fine with either',
+                        ]"
+                    />
+                    <FormKit 
+                        v-model= "interestsoptions"
+                        type="checkbox"
+                        label="Places of Interest (optional)"
+                        help="Any specific places you'd like to visit?" 
+                        :options="[
+                            'Museums',
+                            'Shopping Malls',
+                            'Gardens',
+                        ]"
+                    />
+                    
+                    <FormKit 
+                        v-model="transport"
+                        type="radio" 
+                        label="Mode of Transportation"
+                        help="How will you be getting around?"
+                        :options="[{label:'Car', value:`DRIVING`}, {label: 'Public Transport', value: `TRANSIT`}, {label:'Bicycle', value:`BICYCLING`}, {value:'WALKING' , label:'Walking'}]"
+                    />
+                    <FormKit 
+                            v-model="starttime"
+                            type="time" 
+                            label="What time do you want to start your day?"
+                            validation="required"
+                            value="09:00"
+                            min="08:00"
+                            max="12:00"
+                        />
+                        <!-- <p>Time: {{ starttime }}</p> -->
+                        
+                    </FormKit>
+                    
+                <!-- preferences: end -->
+
+                <!-- Generate: start -->
+                  <FormKit type="step" name="Let's go!">
+                    <!-- Ask the user to share how they heard about us -->
+                    <div class="text-center">
+                      <h1>Great! Now that we've gathered all the information we need...</h1>
+                    </div>
+                    <br>
+                    <br>
+                    <h2 class="text-center">Are you ready?</h2>
+                    <br>
+                    <br>
+                    <template #stepNext>    
+                      <FormKit type="button"
+                      @click="checkempty"
+                      label="Generate an Itinerary for me!"
+                      />
+                    </template>
+                <!-- Generate: end -->
+                </FormKit>
+              </FormKit>   
+              </FormKit>
+      </div>
+
+      <!-- select places -->
+  <div id="selectplaces">
+    <div v-if="strongIndependentWoman">
+      
+      <h3> Choose where you want to go!</h3>
+      <table>
+        <tr>
+          <th>Place</th>
+          <th>Address</th>
+          <th>Select</th>
+        </tr>
+        <tbody>
+              <tr v-for="act in suggested_activities" :key="act.name">
+                <td>
+                  <label>
+                    {{ act.name }}
+                  </label>
+                </td>
+                <td>
+                  <!-- add photo -->
+                  <img :src="act.photo" alt="Activity photo" style="width: 100px; height: 100px;">
+                </td>
+                <td>
+                  {{ act.formatted_address }}
+                </td>
+                <td>
+                  <input type="checkbox" :value="act" v-model="selectedPlaces">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
   </div>
 
-  <h1 class="text-3xl text-center text-blue-400 mt-5">Let's plan your next trip!</h1>
-  <!-- Form -->
-  <div class="flex justify-center"> 
-    <FormKit type="form"
-          :actions="false"
+  <div v-if="isLoading">
+    <!-- Your loading spinner goes here -->
+    <div class="grid grid-cols-3">
+      <div class="flex justify-center">
+        <span class="loading loading-spinner loading-lg object-center"></span>
+      </div>
+      <h2 class="text-center col-span-2 text-blue-700">I'll be waiting for you in {{town}}! Come at any cost!</h2>
+      <div></div>
+      <h3 class="text-center col-span-2">- Monkey D. Luffy</h3>
+    </div>
+              
+  </div>
+  <br>
+  <br>
+  <!-- itinerary display -->
 
-          >
-              <FormKit type="multi-step"
-              tab-style="progress"
-              :allow-incomplete="false"   
-              >
-              <!-- Destination: start -->
-                  <FormKit type="step" name="Destination" :nextLabel="nextStepDisabled ?  `Next`: 'Please enter a valid city'" nextAttrs:nextStepDisabled>
-                  <!-- collect name, email, and company info -->
-                      <FormKit
-                          v-model="town"
-                          type="text" 
-                          label="Destination" 
-                          validation="required"
-                          @blur ="checkCityExists(town)"                        
-                          placeholder="e.g. Singapore"
-                          help="City Name"
-                      />
-                      <FormKit 
-                          v-model="sliderValue"
-                          type="number" 
-                          label="Duration (days)" 
-                          validation="required"
-                          value="1"
-                          min="1"
-                          max="3" 
-                          placeholder="between 1 & 3 days"
-                      />
-                    <!-- reformat to change day/days based on value -->
-                      
-                  </FormKit>
-              <!-- Destination: end -->
+  <div class="grid grid-cols-1 md:grid-cols-3 mr-10">
+      <div v-if="final_activities.length>0" class="">
+        <div class="flex flex-col justify-center items-center">
+          <div v-if="showAlert" class="alert alert-success w-2/3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <span>Your Itinerary has been saved!</span>
+          </div>
+          <div v-if="!isLoading">
+            <button class="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 btn mt-7 mr-2" @click="saveItinerary">Save Itinerary</button>
+          </div>
+        </div>  
+        <!-- start of iti  -->
+        <div class="m-10">
+          <div v-for="(day, index) in activitiesandtime" :key="index">
+            <details class="collapse collapse-arrow bg-blue-300 shadow-md min-w-fit">
+              <DayCard :day="day" :index="index"/>
             
-
-              <!-- preferences: start -->
-                  <FormKit type="step" name="Preferences">
-                  <!-- Get talk title, brief, and track -->
-                  <FormKit 
-                      type="radio" 
-                      label="Outdoors or Indoors?" 
-                      help="Which type of setting do you prefer?" 
-                      validation="required"
-                      v-model="outgoing"
-                      :options="[
-                          'Outdoors',
-                          'Indoors',
-                          'I\'m fine with either',
-                      ]"
-                  />
-                  <FormKit 
-                      v-model= "interestsoptions"
-                      type="checkbox"
-                      label="Places of Interest (optional)"
-                      help="Any specific places you'd like to visit?" 
-                      :options="[
-                          'Museums',
-                          'Shopping Malls',
-                          'Gardens',
-                      ]"
-                  />
-                  
-                  <FormKit 
-                      v-model="transport"
-                      type="radio" 
-                      label="Mode of Transportation"
-                      help="How will you be getting around?"
-                      :options="[{label:'Car', value:`DRIVING`}, {label: 'Public Transport', value: `TRANSIT`}, {label:'Bicycle', value:`BICYCLING`}, {value:'WALKING' , label:'Walking'}]"
-                  />
-                  <FormKit 
-                          v-model="starttime"
-                          type="time" 
-                          label="What time do you want to start your day?"
-                          validation="required"
-                          value="09:00"
-                          min="08:00"
-                          max="12:00"
-                      />
-                      <!-- <p>Time: {{ starttime }}</p> -->
-                      
-                  </FormKit>
-                  
-              <!-- preferences: end -->
-
-              <!-- Generate: start -->
-                <FormKit type="step" name="Let's go!">
-                  <!-- Ask the user to share how they heard about us -->
-                  <div class="text-center">
-                    <h1>Great! Now that we've gathered all the information we need...</h1>
-                  </div>
-                  <br>
-                  <br>
-                  <h2 class="text-center">Are you ready?</h2>
-                  <br>
-                  <br>
-                  <template #stepNext>    
-                    <FormKit type="button"
-                    @click="checkempty"
-                    label="Generate an Itinerary for me!"
-                    />
-                  </template>
-              <!-- Generate: end -->
-              </FormKit>
-            </FormKit>   
-            </FormKit>
-    </div>
-
-    <!-- select places -->
-<div id="selectplaces">
-  <div v-if="strongIndependentWoman">
-    
-    <h3> Choose where you want to go!</h3>
-    <table>
-      <tr>
-        <th>Place</th>
-        <th>Address</th>
-        <th>Select</th>
-      </tr>
-      <tbody>
-            <tr v-for="act in suggested_activities" :key="act.name">
-              <td>
-                <label>
-                  {{ act.name }}
-                </label>
-              </td>
-              <td>
-                <!-- add photo -->
-                <img :src="act.photo" alt="Activity photo" style="width: 100px; height: 100px;">
-              </td>
-              <td>
-                {{ act.formatted_address }}
-              </td>
-              <td>
-                <input type="checkbox" :value="act" v-model="selectedPlaces">
-              </td>
-            </tr>
-          </tbody>
-        </table>
-    </div>
-</div>
-
-<div v-if="isLoading">
-  <!-- Your loading spinner goes here -->
-  <div class="grid grid-cols-3">
-    <div class="flex justify-center">
-      <span class="loading loading-spinner loading-lg object-center"></span>
-    </div>
-    <h2 class="text-center col-span-2 text-blue-700">I'll be waiting for you in {{town}}! Come at any cost!</h2>
-    <div></div>
-    <h3 class="text-center col-span-2">- Monkey D. Luffy</h3>
-   </div>
-            
-</div>
-<br>
-<br>
-<!-- itinerary display -->
-
-<div class="grid grid-cols-1 md:grid-cols-3 mr-10">
-    <div v-if="final_activities.length>0" class="">
-      <div class="flex flex-col justify-center items-center">
-        <div v-if="showAlert" class="alert alert-success w-2/3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-          <span>Your Itinerary has been saved!</span>
-        </div>
-        <div v-if="!isLoading">
-          <button class="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 btn mt-7 mr-2" @click="saveItinerary">Save Itinerary</button>
-        </div>
-      </div>  
-      <!-- start of iti  -->
-      <div class="m-10">
-        <div v-for="(day, index) in activitiesandtime" :key="index">
-          <details class="collapse collapse-arrow bg-blue-300 shadow-md min-w-fit">
-            <DayCard :day="day" :index="index"/>
-          
-            <div class="pt-5 collapse-content max-h-screen overflow-auto bg-blue-100"> 
-              <div class="flex overflow-auto">
-                <div>
-                    <div v-for="activity in day.activities" :key="activity.name" >
-                        <ActivityCard 
-                          v-if="activity.formatted_address !== 'Travel'"
-                          :activity="activity"
-                          :showLocation="showLocation"
-                          :geteateriesnearby="geteateriesnearby"
-                          :calculateDuration="calculateDuration"
-                        ></ActivityCard>
-                        
-                        <TravelCard 
-                          v-else 
-                          :activity="activity"
-                          :displaydirectionsonmap="displaydirectionsonmap"
-                          :day="day"
-                          :getMinutesDifference="getMinutesDifference"
-                        ></TravelCard>
+              <div class="pt-5 collapse-content max-h-screen overflow-auto bg-blue-100"> 
+                <div class="flex overflow-auto">
+                  <div>
+                      <div v-for="activity in day.activities" :key="activity.name" >
+                          <ActivityCard 
+                            v-if="activity.formatted_address !== 'Travel'"
+                            :activity="activity"
+                            :showLocation="showLocation"
+                            :geteateriesnearby="geteateriesnearby"
+                            :calculateDuration="calculateDuration"
+                          ></ActivityCard>
+                          
+                          <TravelCard 
+                            v-else 
+                            :activity="activity"
+                            :displaydirectionsonmap="displaydirectionsonmap"
+                            :day="day"
+                            :getMinutesDifference="getMinutesDifference"
+                          ></TravelCard>
+                      </div>
                     </div>
                   </div>
-                </div>
-            </div>
-        </details>
-        <br>
-      </div>
-    </div>    
-  </div>
-  <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10" ref="map">
-  </div>
-</div>
-
-<br>
-<br>
-
-<h1 v-if="eateries.length>0" class="text-gray-700 text-center">Places to eat</h1>
-  <div v-if="eateries.length>0" class="flex justify-center">
-    <div class="carousel carousel-center w-1/2 p-4 space-x-4 bg-gray-200 rounded-box m-5">
-          <div class="carousel-item" v-for="eatery in eateries" :key="eatery.name">
-            <foodcard  
-            :link="eatery.photo"
-            :restaurantname="eatery.name"
-            :restaurantaddress="eatery.vicinity"
-            :rating = eatery.rating
-            :pricelevel=eatery.price_level
-            :eatery="eatery"
-            :eateryOrigin="eatery.origin"
-            :eateryDestination="eatery.geometry.location"
-            :showLocation="showLocation"
-            :displaydirectionsonmap="displaydirectionsonmap"
-            :transport="transport"
-            ></foodcard>
-          </div> 
+              </div>
+          </details>
+          <br>
         </div>
+      </div>    
     </div>
-   
-<div>
+    <div id="map" class="md:col-span-2 rounded-lg ml-7 mr-10" ref="map">
+    </div>
+  </div>
+
+  <br>
+  <br>
+
+  <h1 v-if="eateries.length>0" class="text-gray-700 text-center">Places to eat</h1>
+    <div v-if="eateries.length>0" class="flex justify-center">
+      <div class="carousel carousel-center w-1/2 p-4 space-x-4 bg-gray-200 rounded-box m-5">
+            <div class="carousel-item" v-for="eatery in eateries" :key="eatery.name">
+              <foodcard  
+              :link="eatery.photo"
+              :restaurantname="eatery.name"
+              :restaurantaddress="eatery.vicinity"
+              :rating = eatery.rating
+              :pricelevel=eatery.price_level
+              :eatery="eatery"
+              :eateryOrigin="eatery.origin"
+              :eateryDestination="eatery.geometry.location"
+              :showLocation="showLocation"
+              :displaydirectionsonmap="displaydirectionsonmap"
+              :transport="transport"
+              ></foodcard>
+            </div> 
+          </div>
+      </div>
+    
+  <div>
+
+  </div>
+
+  <div v-if="customactivitiesandtime">
+
+  </div>
 
 </div>
-
-<div v-if="customactivitiesandtime">
-
-</div>
-
 </template>
 
 

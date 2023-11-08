@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="mx-3 my-3">
         <div class="card">
           <div class="bg-blue-500 text-center text-white text-2xl font-bold py-2 px-4 border border-blue-700 rounded">Language Translator</div>
@@ -39,6 +40,7 @@
               </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
