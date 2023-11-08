@@ -495,7 +495,6 @@ export default {
       trips: [],
       trip: null,
       quicksettleamount: [],
-      markers: [],
       percentages: [],
       shares: [],
       citycoords: [],
@@ -730,6 +729,7 @@ export default {
             console.log(place);
             place.origin = geometry.location;
             place.order = activity.order;
+            console.log(activity.location);
             place.url = "'https://www.google.com/search?q=" + place.name + "&rlz=1C1CHBF_enSG941SG941&oq=google&aqs=chrome..69i57j69i59j69i60l3j69i65l2.1001j0j7&sourceid=chrome&ie=UTF-8'";
             place.formatted_address = place.vicinity;
             this.eateries.push(place);
@@ -741,8 +741,9 @@ export default {
           center: this.tempcoords});
           for(let i = 0; i < this.eateries.length; i++){
             let e = this.eateries[i];
+            console.log(e.origin);
             let eaterymarker = new google.maps.Marker({
-              position: e.origin,
+              position: e.geometry.location,
               map: map,
               title: e.name,
             });
