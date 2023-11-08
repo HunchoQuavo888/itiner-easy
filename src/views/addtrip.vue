@@ -1,39 +1,43 @@
 <template>
     <button class="btn btn-primary" onclick="my_modal_3.showModal()">Add a trip</button>
     <dialog id="my_modal_3" class="modal backdrop-blur-sm">
-    <div class="modal-box">
-        <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="makeEmpty()">✕</button>
-        </form>
-        <div class="m-5">
-        <h1>Add Trip</h1>
-        <br>
-        <form @submit.prevent="submitForm">
-            <label for="destination"><h3>Destination:</h3></label>
-            <input type="text" id="destination" v-model="destination" required>
+        <div class="modal-box">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="makeEmpty()">✕</button>
+            </form>
+            <div class="m-5">
+                <h1>Add Trip</h1>
+                <br>
+                <form @submit.prevent="submitForm">
+                    <label for="destination">
+                        <h3>Destination:</h3>
+                    </label>
+                    <input type="text" id="destination" v-model="destination" required>
 
-            <div class='col-6'>
-                <h3>No of People:</h3>
-                <select name="numPeople" id="numPeople" class="form-control" @change="updateNumNames($event.target.value)">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
-            </div>
-            <div>
-                <h3>Names:</h3>
-                <input style="margin-bottom: 10px;" type="text" placeholder="Person 1" id="person1" class="form-control">
-                <span id="personNames" v-html="htmlStr"></span>
-            </div>
+                    <div class='col-6'>
+                        <h3>No of People:</h3>
+                        <select name="numPeople" id="numPeople" class="form-control"
+                            @change="updateNumNames($event.target.value)">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                    <div>
+                        <h3>Names:</h3>
+                        <input style="margin-bottom: 10px;" type="text" placeholder="Person 1" id="person1"
+                            class="form-control">
+                        <span id="personNames" v-html="htmlStr"></span>
+                    </div>
 
-            <!-- Which Currency do you use normally!
+                    <!-- Which Currency do you use normally!
             <select class="w-9/12 rounded bg-blue-200 cursor-pointer border-2 border-blue-400" name="currencylist"
                 id="currencylist" @change="convertit" v-model="homeCurrency">
                 <option v-for="currency in currencyList" :key="currency.key" :value="currency.key">
@@ -46,14 +50,13 @@
                 <option v-for="currency in currencyList" :key="currency.key" :value="currency.key">
                     {{ currency.value }} </option>
             </select> -->
-            <br>
-            <button class="btn btn-primary" type="submit" v-if="!submitted">Submit</button>
-            <p v-if="submitted">Trip Added!</p>
-        </form>
-    </div>
-    </div>
-</dialog>
-    
+                    <br>
+                    <button class="btn btn-primary" type="submit" v-if="!submitted">Submit</button>
+                    <p v-if="submitted">Trip Added!</p>
+                </form>
+            </div>
+        </div>
+    </dialog>
 </template>
 
 <script>
@@ -104,9 +107,9 @@ export default {
         }
     },
     methods: {
-        makeEmpty(){
-                this.destination=''
-                this.personNames=[]
+        makeEmpty() {
+            this.destination = ''
+            this.personNames = []
         },
         updateNumNames(number) {
             let i = 1;
@@ -161,7 +164,7 @@ export default {
                 });
             }
             this.submitted = true;
-            window.location.reload()
+            setTimeout(function () { window.location.reload(); }, 500);
             console.log(this.destination)
             console.log(this.tripsRef)
         },
@@ -196,6 +199,7 @@ export default {
     created() {
         this.getCurrencyList();
     },
+
 
 }
 </script>

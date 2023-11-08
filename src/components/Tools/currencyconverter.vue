@@ -17,7 +17,7 @@
                             
                         </div>
                         <div class="flex col-span-1 items-center justify-center ">
-                            <h2>to</h2>
+                            <p>to</p>
                         </div>
                         <div class="col-span-5">
                             <div class="translatetolang">
