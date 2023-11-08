@@ -427,7 +427,7 @@
               <a href="#" @click="showLocation(eatery, eatery)">Show on Map</a>
             </td>
             <td>
-              <a href="#" @click="displaydirectionsonmap(eatery.origin, eatery.geometry.location)">Show Route</a>
+              <a href="#" @click="displaydirectionsonmap(eatery.origin, eatery.geometry.location, isEatery)">Show Route</a>
             </td>
             <td v-if="eatery.formatted_address !== 'Travel'">
               Remarks: <input type="text" v-model="eatery.remarks"><br>
@@ -505,9 +505,11 @@ export default {
       db: null,
       auth: null,
       tripsRef: null,
+      isEatery: true,
       uid: null,
       username: null,
       currencyList: [],
+      tempcoords: null,
       tripCurrency: null,
       homeCurrency: null,
       personNames: [],
@@ -607,6 +609,7 @@ export default {
       else{
         this.transport = "WALKING";
       }
+      console.log(this.transport);
       console.log(destination);
       var directionsService = new google.maps.DirectionsService();
       var directionsRenderer = new google.maps.DirectionsRenderer();
@@ -713,6 +716,7 @@ export default {
         center: activity.geometry.location,
       });
       var geometry = activity.geometry;
+      this.tempcoords = geometry.location;
       var request = {
         location: geometry.location,
         radius: '500',
@@ -732,26 +736,27 @@ export default {
 
           }
           this.geteateryphotos();
-          for(e in this.eateries){
+          let map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 15,
+          center: this.tempcoords});
+          for(let i = 0; i < this.eateries.length; i++){
+            let e = this.eateries[i];
             let eaterymarker = new google.maps.Marker({
-              position: e.geometry.location,
+              position: e.origin,
               map: map,
               title: e.name,
-            }
-            );
-            var infowindow = new google.maps.InfoWindow({
-              // content: "Name:" + place.name + "<br>" + "Address:" + place.formatted_address,
-              content: `<div><img style="width: auto; height: 150px;" src=` + e.photo + `></div>` + `<div style="color:black"><strong>` +
-                "Name:" + e.name + "<br>" + "Address:" + e.formatted_address
-                + "<br><a target=`_blank` href=" + e.url + "></strong>Click here for more information</a>"
-                + `</div>`,
             });
-      // infowindow is blank
-          eaterymarker.addListener("click", () => {
-            infowindow.open({ anchor: eaterymarker, map });
-          });
 
-        }
+            eaterymarker.addListener("click", () => {
+              let infowindow = new google.maps.InfoWindow({
+                content: `<div><img style="width: auto; height: 150px;" src=` + e.photo + `></div>` + `<div style="color:black"><strong>` +
+                  "Name:" + e.name + "<br>" + "Address:" + e.formatted_address
+                  + "<br><a target=`_blank` href=" + e.url + "></strong>Click here for more information</a>"
+                  + `</div>`,
+              });
+              infowindow.open(map, eaterymarker);
+            });
+          }
       }})
       
 
