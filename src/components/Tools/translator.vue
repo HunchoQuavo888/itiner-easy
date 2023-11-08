@@ -44,7 +44,7 @@
 
 <script>
 import axios from 'axios'; // Import Axios
-import { text } from 'node:stream/consumers';
+
 export default {
   mounted() {
     this.getLanguages();
