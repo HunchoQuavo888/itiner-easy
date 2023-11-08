@@ -23,7 +23,7 @@
                           </div>
                           <div class="flex flex-col px-6 pt-4 pb-2 items-center">
                               <button class="btn mb-2 w-2/3" href="#" @click="showLocation(activity)">Show on Map</button>
-                              <div class="tooltip tooltip-info" data-tip="see below!">
+                              <div>
                                 <button class="btn w-2/3" href="#" @click="geteateriesnearby(activity)">Where to eat?</button>
                               </div>
                               

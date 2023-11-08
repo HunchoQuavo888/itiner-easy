@@ -6,7 +6,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       // Add '@firebase/util' to the list of external modules
-      external: ['@firebase/util'],
+      
     },
   },
 });
