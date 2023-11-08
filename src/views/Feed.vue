@@ -158,129 +158,119 @@
 
 
             <!-- Open the modal using ID.showModal() method -->
-            <button class="btn mt-4 ml-3 btn-primary" onclick="my_modal_1.showModal()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle"
-                viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                <path
-                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-              </svg>
-              Add an expense
-            </button>
-            <dialog id="my_modal_1" class="modal">
-              <div class="modal-box">
-                <h2 class="font-bold text-xl">Let's add an expense!</h2>
-                <hr>
+            <button class="btn" onclick="my_modal_3.showModal()">open modal</button>
+      <dialog id="my_modal_3" class="modal" ref="expenseModal">
+        <div class="modal-box">
+          <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          </form>
+          <div class="expense-add">
+            <div class="form-group">
+              <p>Expense Name:</p>
+              <input type="text" placeholder="Expense Name" v-model="expense.expenseName" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <p>Expense Amount:</p>
+              <input type="number" placeholder="Expense Amount" v-model="expense.expenseAmount" class="form-control"
+                required>
+            </div>
+            <div class="form-group">
+              <p>Person Owed:</p>
+              <select v-model="expense.personOwedName" class="form-control" required>
+                <option v-for="(name, index) in personNames" :key="name" :value="name">
+                  {{ name }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <p>Who Owes Money:</p>
+              <label v-for="(name, index) in personNames">
+                <input type="checkbox" :name="name" :value="{ name: name, index: index }"
+                  v-model="expense.peopleOwingNames">{{
+                    name }}<br>
+              </label>
+            </div>
+            <div>
+              <p>Which Currency Are We Using?</p>
+              <input name="currency" type="radio" id="tripCurrency" v-model="expense.currency" :value="tripCurrency">
+              <label for="tripCurrency">{{ tripCurrency }}</label><br>
+              <input name="currency" type="radio" id="homeCurrency" v-model="expense.currency" :value="homeCurrency">
+              <label for="homeCurrency">{{ homeCurrency }}</label><br>
+            </div>
 
-                <!-- insert form here -->
-                <div class="expense-add">
-                  <div class="form-group">
-                    <p>Expense Name:</p>
-                    <input type="text" placeholder="Expense Name" v-model="expense.expenseName" class="form-control"
-                      required>
-                  </div>
-                  <div class="form-group">
-                    <p>Expense Amount:</p>
-                    <input type="number" placeholder="Expense Amount" v-model="expense.expenseAmount" class="form-control"
-                      required>
-                  </div>
-                  <div class="form-group">
-                    <p>Person Owed:</p>
-                    <select v-model="expense.personOwedName" class="form-control" required>
-                      <option v-for="(name, index) in personNames" :key="name" :value="name">
-                        {{ name }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <p>Who Owes Money:</p>
-                    <label v-for="(name, index) in personNames">
-                      <input type="checkbox" :name="name" :value="{ name: name, index: index }"
-                        v-model="expense.peopleOwingNames">{{ name }}<br>
-                    </label>
-                  </div>
-                  <div>
-                    <p>Which Currency Are We Using?</p>
-                    <input name="currency" type="radio" id="tripCurrency" v-model="expense.currency"
-                      :value="tripCurrency">
-                    <label for="tripCurrency">{{ tripCurrency }}</label><br>
-                    <input name="currency" type="radio" id="homeCurrency" v-model="expense.currency"
-                      :value="homeCurrency">
-                    <label for="homeCurrency">{{ homeCurrency }}</label><br>
-                  </div>
-
-                  <div class="form-group">
-                    How are we splitting this?
-                    <select id="splitmethod" v-model="splitmethod">
-                      <option value="evenly">Split Evenly</option>
-                      <option value="percentage">Split by percentage</option>
-                      <option value="shares">Split by Shares</option>
-                      <option value="custom">Custom Split</option>
-                    </select>
-                  </div>
-                  <div v-if="splitmethod == 'percentage'">
-                    <h3>Split By Percentage</h3>
-                    <div class="form-group">
-                      <h4 v-for="(name, index) in expense.peopleOwingNames ">
-                        {{ name.name }} <input type="number" placeholder="Percentage" v-model="percentages[index]"
-                          class="form-control" @keyup.enter="computeexpense">
-                      </h4>
-                      <ul>
-                        <li v-for="(amt, index) in quicksettleamount" :key="index">
-                          {{ this.expense.peopleOwingNames[index] }} pays {{ amt }}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div v-if="splitmethod == 'shares'">
-                    <h3>Split By Shares</h3>
-                    <div class="form-group">
-                      <h4 v-for="(name, index) in expense.peopleOwingNames ">
-                        {{ name.name }} <input type="number" placeholder="Shares" v-model="shares[index]"
-                          class="form-control" @keyup.enter="computeexpense">
-                      </h4>
-                      <ul>
-                        <li v-for="(amt, index) in quicksettleamount" :key="index">
-                          {{ this.expense.peopleOwingNames[index] }} pays {{ amt }}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div v-if="splitmethod == 'custom'">
-                    <h3>Have it your way!</h3>
-                    <div class="form-group">
-                      <h4 v-for="(name, index) in expense.peopleOwingNames ">
-                        {{ name.name }} <input type="number" placeholder="custom" v-model="custom[index]"
-                          class="form-control" @keyup.enter="computeexpense">
-                      </h4>
-                      <ul>
-                        <li v-for="(amt, index) in quicksettleamount" :key="index">
-                          {{ expense.peopleOwingNames[index] }} pays {{ amt }}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div v-if="splitmethod == 'evenly'">
-                    <h3>Split Evenly</h3>
-                    <div class="form-group">
-                      <h4 v-for="name in list ">
-                        {{ name }} pays {{ expense.expenseAmount / list.length }}
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="modal-action">
-                  <div class="form-group">
-                    <button class="btn btn-primary" @click="addExpense">Add Expense</button>
-                  </div>
-                  <form method="dialog">
-                    <!-- if there is a button in form, it will close the modal -->
-                    <button class="btn">Close</button>
-                  </form>
-                </div>
+            <div class="form-group">
+              How are we splitting this?
+              <select id="splitmethod" v-model="splitmethod">
+                <option value="evenly">Split Evenly</option>
+                <option value="percentage">Split by percentage</option>
+                <option value="shares">Split by Shares</option>
+                <option value="custom">Custom Split</option>
+              </select>
+            </div>
+            <div v-if="splitmethod == 'percentage'">
+              <h3>Split By Percentage</h3>
+              <div class="form-group">
+                <h4 v-for="(name, index) in expense.peopleOwingNames ">
+                  {{ name.name }} <input type="number" placeholder="Percentage" v-model="percentages[index]"
+                    class="form-control" @keyup.enter="computeexpense">
+                </h4>
+                <ul>
+                  <li v-for="(amt, index) in quicksettleamount" :key="index">
+                    {{ this.expense.peopleOwingNames[index] }} pays {{ amt }}
+                  </li>
+                </ul>
               </div>
-            </dialog>
+            </div>
+            <div v-if="splitmethod == 'shares'">
+              <h3>Split By Shares</h3>
+              <div class="form-group">
+                <h4 v-for="(name, index) in expense.peopleOwingNames ">
+                  {{ name.name }} <input type="number" placeholder="Shares" v-model="shares[index]" class="form-control"
+                    @keyup.enter="computeexpense">
+                </h4>
+                <ul>
+                  <li v-for="(amt, index) in quicksettleamount" :key="index">
+                    {{ this.expense.peopleOwingNames[index] }} pays {{ amt }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div v-if="splitmethod == 'custom'">
+              <h3>Have it your way!</h3>
+              <div class="form-group">
+                <h4 v-for="(name, index) in expense.peopleOwingNames ">
+                  {{ name.name }} <input type="number" placeholder="custom" v-model="custom[index]" class="form-control"
+                    @keyup.enter="computeexpense">
+                </h4>
+                <ul>
+                  <li v-for="(amt, index) in quicksettleamount" :key="index">
+                    {{ expense.peopleOwingNames[index] }} pays {{ amt }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div v-if="splitmethod == 'evenly'">
+              <h3>Split Evenly</h3>
+              <div class="form-group">
+                <h4 v-for="name in list ">
+                  {{ name }} pays {{ expense.expenseAmount / list.length }}
+                </h4>
+              </div>
+            </div>
+
+
+            <ul>
+              <li v-for="(item, index) in list" :key="index">
+
+                <button class="btn btn-primary" @click="removeFromList(index)">Remove</button> {{ item }}
+              </li>
+            </ul>
+            <div class="form-group">
+              <button class="btn btn-primary" @click="checkempty3(); closemodal()">Add Expense</button>
+            </div>
+          </div>
+        </div>
+      </dialog>
           </div>
         </div>
       </div>
@@ -1020,35 +1010,19 @@ export default {
 
     // This function retrieves user input and adds it to the database. (Both in expenses and whoOwesWho)
     async addExpense() {
-      if (this.expense.currency === null || this.expense.expenseName === null || this.expense.expenseAmount === null || this.expense.personOwedName === null || this.inputValue === '') {
-        console.log(this.expense.currency);
-        console.log(this.expense.expenseName);
-        console.log(this.expense.expenseAmount);
-        console.log(this.expense.personOwedName);
-        console.log(this.inputValue);
-
-        alert("Please fill in all fields")
-
-      } else {
-
-        // Assigns the value of list to the peopleOwingNames object
-        if (this.quicksettleamount.length > 0) {
-
-        }
-        else {
-          var amountowed = Number((this.expense.expenseAmount / this.expense.peopleOwingNames.length).toFixed(2));
-          for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
-            this.quicksettleamount.push(amountowed);
-          }
-          console.log(this.quicksettleamount);
-
-        }
-        // this.expense.peopleOwingAmount = peopleOwingAmount;
+      this.computeexpense();
+      if (this.splitmethod == "evenly") {
+        this.expense.peopleOwingAmount = this.quicksettleamount;
       }
-      this.expense.peopleOwingNames = this.list;
-      console.log(this.expense.peopleOwingNames);
-      // Assigns the amount owed to peopleOwingAmount object
-
+      else if (this.splitmethod == "percentage") {
+        this.expense.peopleOwingAmount = this.quicksettleamount;
+      }
+      else if (this.splitmethod == "shares") {
+        this.expense.peopleOwingAmount = this.quicksettleamount;
+      }
+      else if (this.splitmethod == "custom") {
+        this.expense.peopleOwingAmount = this.quicksettleamount;
+      }
 
       // Adds the expense to the database
       addDoc(collection(this.tripsRef, this.trip, 'expenses'), this.expense)
@@ -1060,29 +1034,10 @@ export default {
         });
 
       // Adding the expense to the whoOwesWho collection
-      // 1. Check if the personOwedName is already in the whoOwesWho collection
-      if (this.expense.personOwedName in this.whoOwesWho) {
-        console.log("Person already in whoOwesWho")
-        // 2. If it is, add the expenseAmount to the existing amount
-        this.whoOwesWho[this.expense.personOwedName] -= this.expense.expenseAmount;
-      } else {
-        console.log("Person not in whoOwesWho")
-        // 3. If it isn't, add the personOwedName and peopleOwingAmount to the whoOwesWho collection
-        this.whoOwesWho[this.expense.personOwedName] = Number(-this.expense.expenseAmount);
-      }
-      // 1. Check if the peopleOwingNames is already in the whoOwesWho collection
       for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
-        console.log(this.expense.peopleOwingNames[i]);
-        if (this.expense.peopleOwingNames[i] in this.whoOwesWho) {
-          console.log("Person already in whoOwesWho")
-          // 2. If it is, add the peopleOwingAmount to the existing amount
-          this.whoOwesWho[this.expense.peopleOwingNames[i]] += this.expense.peopleOwingAmount;
-        } else {
-          console.log("Person not in whoOwesWho")
-          // 3. If it isn't, add the personOwedName and peopleOwingAmount to the whoOwesWho collection
-          this.whoOwesWho[this.expense.peopleOwingNames[i]] = this.expense.peopleOwingAmount;
-        }
+        this.whoOwesWho[this.expense.peopleOwingNames[i].name] += this.expense.peopleOwingAmount[i]
       }
+      this.whoOwesWho[this.expense.personOwedName] -= this.expense.expenseAmount
       // Update the whoOwesWho collection in firebase
       updateDoc(doc(this.tripsRef, this.trip), {
         whoOwesWho: this.whoOwesWho
@@ -1101,8 +1056,8 @@ export default {
       // this.expense.expenseAmount = null;
       // this.expense.peopleOwingNames = null;
       // this.expense.personOwedName = null;
-      // this.expense.currency = null;
       // this.expense.peopleOwingAmount = null;
+      await this.convertCurrency(this.expense);
     }
 
     ,
@@ -1115,49 +1070,82 @@ export default {
       this.list.splice(index, 1);
     },
     computeexpense() {
+      console.log(this.homeCurrency);
+      console.log(this.tripCurrency);
+      console.log(this.expense.currency);
+      console.log(this.expense.peopleOwingNames);
       this.quicksettleamount = [];
       let amount = this.expense.expenseAmount;
-      if (this.custom.length > 0) {
-        let sum = 0
-        for (let i = 0; i < this.custom.length; i++) {
-          sum += this.custom[i];
-        }
-        if (sum != this.expense.expenseAmount) {
-          alert("Please make sure the percentages add up to the amount owed!")
-        }
-        else {
-          for (let i = 0; i < this.custom.length; i++) {
-            this.quicksettleamount.push(this.custom[i]);
-          }
-        }
-      }
-      else if (this.shares.length > 0) {
-        let totalshares = 0;
-        for (let i = 0; i < this.shares.length; i++) {
-          totalshares += this.shares[i];
-        }
-        for (let i = 0; i < this.shares.length; i++) {
-          this.quicksettleamount.push(this.shares[i] * amount / totalshares);
-        }
-      }
-      else if (this.percentages.length > 0) {
+      if (this.splitmethod == "percentage") {
         let totalpercentage = 0;
         for (let i = 0; i < this.percentages.length; i++) {
           totalpercentage += this.percentages[i];
         }
         if (totalpercentage != 100) {
-          alert("Please make sure the percentages add up to 100!")
+          alert("Please make sure the percentages add up to 100");
         }
         else {
-          for (let i = 0; i < this.percentages.length; i++) {
-            this.quicksettleamount.push(this.percentages[i] * amount / 100);
+
+
+          for (let i = 0; i < this.personNames.length; i++) {
+            this.quicksettleamount.push(0);
+          }
+          for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
+            let amountowed = amount * this.percentages[i] / 100;
+            this.quicksettleamount[this.expense.peopleOwingNames[i].index] = amountowed;
+          }
+          console.log(this.quicksettleamount);
+
+        }
+
+      }
+
+      else if (this.splitmethod == "shares") {
+        let totalshares = 0;
+        for (let i = 0; i < this.shares.length; i++) {
+          totalshares += this.shares[i];
+        }
+        for (let i = 0; i < this.personNames.length; i++) {
+          this.quicksettleamount.push(0);
+        }
+        for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
+          let amountowed = amount * this.shares[i] / totalshares;
+          this.quicksettleamount[this.expense.peopleOwingNames[i].index] = amountowed;
+        }
+        console.log(this.quicksettleamount);
+
+      }
+
+
+
+      else if (this.splitmethod == "custom") {
+        let totalcustom = 0;
+        for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
+          totalcustom += this.custom[i];
+        }
+        if (totalcustom != 100) {
+          alert("Please make sure the custom amounts add up to 100");
+        }
+        else {
+          for (let i = 0; i < this.personNames.length; i++) {
+            this.quicksettleamount.push(0);
+          }
+          for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
+            let amountowed = this.custom[i];
+            this.quicksettleamount[this.expense.peopleOwingNames[i].index] = amountowed;
           }
         }
+        console.log(this.quicksettleamount);
       }
       else {
-        for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
-          this.quicksettleamount.push(amount / this.peopleOwingNames.length);
+        for (let i = 0; i < this.personNames.length; i++) {
+          this.quicksettleamount.push(0);
         }
+        for (let i = 0; i < this.expense.peopleOwingNames.length; i++) {
+          let amountowed = amount / this.expense.peopleOwingNames.length;
+          this.quicksettleamount[this.expense.peopleOwingNames[i].index] = amountowed;
+        }
+        console.log(this.quicksettleamount);
       }
 
     },
