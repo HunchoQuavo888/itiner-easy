@@ -834,6 +834,7 @@ export default {
             place.formatted_address = place.vicinity;
             this.eateries.push(place);
           }
+          //addedtotestdeployment
           this.geteateryphotos();
           let map = new google.maps.Map(document.getElementById("map"), {
             zoom: 15,
