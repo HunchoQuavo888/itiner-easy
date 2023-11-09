@@ -17,7 +17,7 @@
 
       <div class="ml-3">
         <div class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3'>
-          <div class="col" v-for="trip in trips">
+          <div class="col" v-for="trip in trips" :key="trip">
             <div class="flex justify-center">
             <tripcard :city=trip @deletetrip="deleteTrip(trip)" @gototrip="goToTrip(trip)">
           </tripcard>
@@ -32,7 +32,7 @@
 
       <div class="ml-3">
         <div class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3'>
-          <div class="col" v-for="trip in communitytrips">
+          <div class="col" v-for="trip in communitytrips" :key="trip.city">
             <div class="flex justify-center">
             <tripcard :city=trip.city @deletetrip="deleteTrip(trip)" @gototrip="getCommunityTrip(trip)">
           </tripcard>
@@ -97,7 +97,7 @@
               <h2>{{ selectedTrip }} expenses</h2>
             </div>
             <div class="expensecards">
-              <expensecards v-for="(expense, index) in expenses" :itemDesc="expense.expenseName"
+              <expensecards v-for="(expense, index) in expenses" :key="index" :itemDesc="expense.expenseName"
                 :currency="expense.currency" :price="expense.expenseAmount" :TransfereeName="expense.personOwedName"
                 :ExpenseType="expense.expenseCategory" @button-clicked="deleteExpense(index, docId); breakeven2()">
               </expensecards>
@@ -142,14 +142,14 @@
               <div class="form-group">
                 <p>Person Owed:</p>
                 <select v-model="expense.personOwedName" class="form-control" required>
-                  <option v-for="(name, index) in personNames" :key="name" :value="name">
+                  <option v-for="(name, index) in personNames" :key="index" :value="name">
                     {{ name }}
                   </option>
                 </select>
               </div>
               <div class="form-group">
                 <p>Who Owes Money:</p>
-                <label v-for="(name, index) in personNames">
+                <label v-for="(name, index) in personNames" :key="index">
                   <input type="checkbox" :name="name" :value="{ name: name, index: index }"
                     v-model="expense.peopleOwingNames">{{
                       name }}<br>
@@ -167,12 +167,12 @@
               <div v-if="splitmethod == 'percentage'">
                 <h3>Split By Percentage</h3>
                 <div class="form-group">
-                  <h4 v-for="(name, index) in expense.peopleOwingNames ">
+                  <h4 v-for="(name, index) in expense.peopleOwingNames " :key="index">
                     {{ name.name }} <input type="number" placeholder="Percentage" v-model="percentages[index]"
                       class="form-control" @keyup.enter="computeexpense">
                   </h4>
                   <ul>
-                    <li v-for="obj in quicksettleamount" :key="index">
+                    <li v-for="obj in quicksettleamount" :key="obj.name">
                       {{ obj.name }} pays {{ obj.amount }}
                     </li>
                   </ul>
@@ -181,7 +181,7 @@
               <div v-if="splitmethod == 'shares'">
                 <h3>Split By Shares</h3>
                 <div class="form-group">
-                  <h4 v-for="(name, index) in expense.peopleOwingNames ">
+                  <h4 v-for="(name, index) in expense.peopleOwingNames " :key="index">
                     {{ name.name }} <input type="number" placeholder="Shares" v-model="shares[index]" class="form-control"
                       @keyup.enter="computeexpense">
                   </h4>
@@ -195,7 +195,7 @@
               <div v-if="splitmethod == 'custom'">
                 <h3>Have it your way!</h3>
                 <div class="form-group">
-                  <h4 v-for="(name, index) in expense.peopleOwingNames ">
+                  <h4 v-for="(name, index) in expense.peopleOwingNames " :key="index">
                     {{ name.name }} <input type="number" placeholder="custom" v-model="custom[index]" class="form-control"
                       @keyup.enter="computeexpense">
                   </h4>
@@ -209,7 +209,7 @@
               <div v-if="splitmethod == 'evenly'">
                 <h3>Split Evenly</h3>
                 <div class="form-group">
-                  <h4 v-for="name in list ">
+                  <h4 v-for="name in list " :key="name.name">
                     {{ name.name }} pays {{ expense.expenseAmount / list.length }}
                   </h4>
                 </div>
