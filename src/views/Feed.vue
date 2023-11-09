@@ -11,6 +11,9 @@
         </h1>
       </div>
       <!-- trips carousell cards -->
+      <div class="empty ml-7" v-if="trips.length==0">
+        <h2 class="text-xl">You have no trips, add one now!</h2>
+      </div>
 
       <div class="ml-3">
         <div class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3'>
