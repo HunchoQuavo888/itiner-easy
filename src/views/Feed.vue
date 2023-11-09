@@ -7,7 +7,7 @@
       <!-- title -->
       <div class="mt-7 mb-4 ml-7">
         <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}'s</a> current trips
-          <addtrip></addtrip>
+          
         </h1>
       </div>
       <!-- trips carousell cards -->
@@ -16,13 +16,17 @@
       </div>
 
       <div class="ml-3">
-        <div class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3'>
+        <div class='grid grid-cols-2 xl:grid-cols-4 min-[1020px]:grid-cols-3 gap-3 max-[550px]:grid-cols-1'>
           <div class="col" v-for="trip in trips" :key="trip">
             <div class="flex justify-center">
             <tripcard :city=trip @deletetrip="deleteTrip(trip)" @gototrip="goToTrip(trip)">
           </tripcard>
             </div>
           </div>
+          <div class="flex justify-center">
+            <addtrip></addtrip>
+          </div>
+          
         </div>
       </div>
 

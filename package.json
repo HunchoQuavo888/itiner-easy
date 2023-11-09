@@ -17,6 +17,7 @@
     "@formkit/vue": "^1.2.2",
     "@headlessui/vue": "^1.7.16",
     "@splinetool/runtime": "^0.9.493",
+    "@vueuse/motion": "^2.0.0",
     "axios": "^1.6.0",
     "bootstrap-icons-vue": "^1.11.1",
     "firebase": "^10.5.2",

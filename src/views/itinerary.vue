@@ -4,14 +4,10 @@
   min-height: 50vh;
 }
 
-.custom-class {
-  background-color: #1ae021;
-  color: white;
-}
 </style>
 
 <template>
-  <div>
+  <div id="body">
     <div class="text-sm ml-7 breadcrumbs">
       <ul>
         <li><router-link to="/feed"><a class="text-blue-900">Home</a></router-link></li>
