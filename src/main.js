@@ -25,7 +25,7 @@ const proplugin = createProPlugin('fk-344144602', inputs)
 
 //import lottie
 import Vue3Lottie from 'vue3-lottie'
-import { MotionPlugin } from '@vueuse/motion'
+// import { MotionPlugin } from '@vueuse/motion'
 
 
 
@@ -72,7 +72,7 @@ gsap.registerPlugin(ScrollTrigger, Draggable, MotionPathPlugin);
 app.use(BootstrapIconsPlugin);
 app.use(router);
 app.use(Vue3Lottie);
-app.use(MotionPlugin)
+// app.use(MotionPlugin)
 
 app.mount('#app');
 
