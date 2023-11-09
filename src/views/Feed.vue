@@ -19,29 +19,13 @@
 
       <div class="ml-7 mb-4">
         <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}</a> shared trips</h1>
+
       </div>
 
       <section class="flex ml-2 flex-nowrap gap-5 px-5 overflow-x-auto snap-x snap-mandatory pb-7 no-scrollbar">
         <div class="bg-white p-5 snap-always snap-center text-center rounded flex-none shadow-lg">
-          <img class="w-56 md:w-64"
-            src="https://cdn.kimkim.com/files/a/images/11a9690afde1a50f9439e22aa8d564237970fb93/original-8ad1591102e554cd50d9e7cea18d990d.jpg">
-          <h2 class="text-xl m-2">Tokyo</h2>
-          <h3 class="text-base">John, Robert, Carrie</h3>
-        </div>
-        <div class="bg-white p-5 snap-always snap-center rounded flex-none shadow-lg">
-          <img class="w-56 md:w-64"
-            src="https://cdn.kimkim.com/files/a/images/11a9690afde1a50f9439e22aa8d564237970fb93/original-8ad1591102e554cd50d9e7cea18d990d.jpg">
-          <h2 class="text-xl">Taiwan</h2>
-        </div>
-        <div class="bg-white p-5 snap-always snap-center rounded flex-none shadow-lg">
-          <img class="w-56 md:w-64"
-            src="https://cdn.kimkim.com/files/a/images/11a9690afde1a50f9439e22aa8d564237970fb93/original-8ad1591102e554cd50d9e7cea18d990d.jpg">
-          <h2 class="text-xl">Malaysia</h2>
-        </div>
-        <div class="bg-white p-5 snap-always snap-center rounded flex-none shadow-lg">
-          <img class="w-56 md:w-64"
-            src="https://cdn.kimkim.com/files/a/images/11a9690afde1a50f9439e22aa8d564237970fb93/original-8ad1591102e554cd50d9e7cea18d990d.jpg">
-          <h2 class="text-xl">Singapore</h2>
+          <tripcard v-for="trip in communitytrips" :city=trip.city @deletetrip="deleteTrip(trip)" @gototrip="getCommunityTrip(trip)">
+        </tripcard>
         </div>
       </section>
 
@@ -512,6 +496,8 @@ export default {
       inputValue: [],
       list: [],
       splitmethod: null,
+      communitytrips: [],
+      communitytrip: null,
       trips: [],
       trip: null,
       quicksettleamount: [],
@@ -575,6 +561,37 @@ export default {
           }
         } catch (error) {
           console.error("Error querying user information from Firestore: ", error);
+        }
+
+            // Reference to the communitytrips collection
+          const communityTripsCollection = collection(this.db, `users/${this.uid}/communitytrips`);
+
+        // Query for communitytrips where the user id matches the current user's id
+        const communityTripsQuery = query(communityTripsCollection);
+
+        try {
+          // Get the communitytrips documents
+          const communityTripsSnapshot = await getDocs(communityTripsQuery);
+
+          // Initialize communitytrips as an empty array
+          this.communitytrips = [];
+
+          // Loop through the documents and add them to communitytrips
+          communityTripsSnapshot.forEach((doc) => {
+            // Get the document data
+            const communityTripData = doc.data();
+
+            // Add the document data to communitytrips
+            this.communitytrips.push(communityTripData);
+          });
+
+          // If there are any communitytrips, set communitytrip to the first one
+          if (this.communitytrips.length > 0) {
+            this.communitytrip = this.communitytrips[0];
+          }
+          console.log("Communitytrips from Firestore:", this.communitytrips);
+        } catch (error) {
+          console.error("Error querying communitytrips from Firestore: ", error);
         }
       } else {
         console.log('User is signed out')
@@ -1046,7 +1063,7 @@ export default {
     goToTrip(trip) {
       this.trip = trip;
       this.selected = true;
-      // this.$router.push({ path: `/itinerary/${this.tripID}` });
+
       getDocs(collection(this.tripsRef, this.trip, 'expenses')).then((querySnapshot) => {
         if (this.expenses.length > 0) {
           this.expenses = [];
@@ -1082,6 +1099,28 @@ export default {
         console.log("Error getting document:", error);
       });
     },
+
+    async getCommunityTrip(trip) {
+  this.communitytrip = trip;
+  this.selected = true;
+  
+  getDoc(doc(this.communitytrips, this.trip)).then(doc => {
+        if (doc.exists()) {
+          console.log("Document data:", doc.data());
+          this.tripID = doc.data().tripID;
+          console.log("tripID", this.tripID);
+          this.activitiesandtime = doc.data().activitiesandtime;
+          this.activitiesandtime = JSON.parse(this.activitiesandtime);
+          this.$router.push({ path: `/communitytrips/${this.tripID}` });
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      }).catch((error) => {
+        console.log("Error getting document:", error);
+      });
+
+},
 
     backToTrips() {
       // this.selected = false;

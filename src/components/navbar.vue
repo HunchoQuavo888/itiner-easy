@@ -82,9 +82,14 @@
           </ul>
         </details>
       </li>
-      <li v-if="signedin">
-        <input type="text" v-model="searchTerm" @input="searchUsers" placeholder="Search users..."/>
-        <div v-if="matchingUsers.length > 0" class="auto-fill-suggestions">
+      
+    </ul>
+  </div>
+  <!-- if signed in -->
+  <div class="navbar-end" v-if="signedin">
+    <div v-if="signedin">
+        <input type="text" v-model="searchTerm" @input="searchUsers" placeholder="Search users..." class="bg-[#5072A7] text-white w-full sm:w-48 md:w-64 focus:outline-none focus:border-blue-300 px-2"/>
+        <div v-if="matchingUsers.length > 0" class="auto-fill-suggestions z-[10]">
           <ul>
           <li class="" v-for="user in matchingUsers" :key="user.uid">
             <div style="display: flex; align-items: center;">
@@ -104,12 +109,7 @@
         </ul>
         </div>
 
-      </li>
-    </ul>
-  </div>
-  <!-- if signed in -->
-  <div class="navbar-end" v-if="signedin">
-
+      </div>
       <div class="dropdown dropdown-bottom dropdown-end">
         <label tabindex="0" class="btn m-1  border-none hover:bg-[#6699CC] bg-[#5072A7]">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle"
