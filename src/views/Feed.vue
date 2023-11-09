@@ -27,7 +27,7 @@
         <h1 class="text-2xl ml-4 md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}'s</a> community trips</h1>
       </div>
 
-      <div class="ml-7">
+      <div class="ml-3">
         <div class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3'>
           <div class="col" v-for="trip in communitytrips">
             <div class="flex justify-center">
