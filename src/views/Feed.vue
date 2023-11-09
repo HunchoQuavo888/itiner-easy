@@ -36,7 +36,7 @@
       </div>
 
       <div class="ml-3">
-        <div class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3'>
+        <div class='grid grid-cols-2 xl:grid-cols-4 min-[1020px]:grid-cols-3 gap-3 max-[550px]:grid-cols-1'>
           <div class="col" v-for="trip in communitytrips" :key="trip.city">
             <div class="flex justify-center">
               <tripcard :city=trip.city @deletetrip="deleteTrip(trip)" @gototrip="getCommunityTrip(trip)">
