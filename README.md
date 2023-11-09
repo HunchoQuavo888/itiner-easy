@@ -28,6 +28,18 @@ $ vercel
 
 ### NPM INSTAllATIONS
 npm install @headlessui/vue
+npm install gsap
+npm install flowbite-vue
+npm install vue3-lottie@latest --save
+npm install @formkit/pro
+npm install @splinetool/runtime
+npm install @formkit/vue
+npm install @formkit/addons
+npm install @formkit/themes
+npm install -D tailwindcss postcss autoprefixer
+npm install -D @tailwindcss/typography @tailwindcss/forms @tailwindcss/aspect-ratio
+npm install vuetify --save
+
 "dependencies": {
     "@formkit/addons": "^1.2.2",
     "@formkit/pro": "^0.117.5",
