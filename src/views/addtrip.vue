@@ -56,7 +56,7 @@
                         <span id="personNames" v-html="htmlStr"></span>
                     </div>
                     <button class="mt-4 btn btn-primary" type="submit" v-if="!submitted">Submit</button>
-                    <p v-if="submitted">Trip Added!</p>
+                    <p v-if="submitted" class="font-bold">Trip Added!</p>
                 </form>
             </div>
         </div>

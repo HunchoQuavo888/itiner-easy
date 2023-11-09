@@ -360,17 +360,7 @@ export default {
   data() {
     return {
       // Objects of data we want to add to firebase
-      expense: {
-        expenseName: null,
-        expenseCategory: null,
-        expenseAmount: null,
-        expenseAmounttrip: null,
-        expenseAmounthome: null,
-        peopleOwingNames: [],
-        personOwedName: null,
-        peopleOwingAmount: null,
-        currency: null,
-      },
+      expense: this.defaultExpense(),
       expenseCategories: ['Accomodation', 'Activities', 'Attractions', 'Flight',  'Food and Drinks','Transportation', 'Groceries', 'Miscellaneous'],
       expenses: [],
       docId: [],
@@ -420,6 +410,19 @@ export default {
 
   // Methods for adding data to firebase
   methods: {
+    defaultExpense(){
+      return {
+        expenseName: null,
+        expenseCategory: null,
+        expenseAmount: null,
+        expenseAmounttrip: null,
+        expenseAmounthome: null,
+        peopleOwingNames: [],
+        personOwedName: null,
+        peopleOwingAmount: null,
+        currency: null,
+      }
+    },
     closemodal() {
       this.$refs.expenseModal.close();
     },
@@ -573,7 +576,10 @@ export default {
       setTimeout(() => {
         this.breakeven2();
       }, 3000);
-      await this.convertCurrency(this.expense);
+      await this.convertCurrency(this.expense);      
+
+      this.expense = this.defaultExpense();
+    },
     },
 
     // Function to breakeven expenses

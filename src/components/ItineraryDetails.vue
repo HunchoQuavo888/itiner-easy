@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="btn btn-primary" @click="toggleExpenseAndItinerary">Expense/Itinerary</button>
+    <button class="btn btn-primary m-5" @click="toggleExpenseAndItinerary">Expense/Itinerary</button>
     <div name="showItinerary" class="m-10 grid grid-cols-1 lg:grid-cols-3" v-if="showItinerary"
       @load="initMap(this.citycoords)">
       <div class="m-10">
