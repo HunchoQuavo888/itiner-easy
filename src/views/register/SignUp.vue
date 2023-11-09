@@ -37,6 +37,13 @@
           <label for="floating_outlined" class="absolute text-md text-gray-400 dark:text-gray-900 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-100 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Confirm password</label>
           <span class="warning text-sm text-red-400">{{ ConfirmWarning }}</span>
       </div>
+      <div class="incorrectpw flex" v-if="errMsg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-exclamation-circle mr-2" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+            </svg>
+            <h4 class="text-sm text-red-400">{{errMsg}}</h4>
+        </div>
       <button class="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300" @click="register">Register</button>
     </form>
     <div class="mt-3 text-xs flex justify-between items-center text-[#002D74]">
@@ -116,6 +123,11 @@ const register = () => {
     .catch((error) => {
       console.log(error.code);
       // alert(error.message);
+      switch(error.code){
+        case 'auth/email-already-in-use':
+          emailWarning.value = 'Email already in use';
+          break;
+      }
     });
 };
 
