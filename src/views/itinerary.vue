@@ -152,7 +152,7 @@
       <div v-if="final_activities.length>0" class="">
         <div class="flex flex-col justify-center items-center">
           <div v-if="showAlert" class="alert alert-success w-2/3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <svg xmlns="https://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             <span>Your Itinerary has been saved!</span>
           </div>
           <div v-if="!isLoading">
@@ -389,7 +389,7 @@ async getweather() {
         try {
             var weatherkey ="cfb27632a44746f6aaf01356231409";
             const response = await axios.get(
-                'http://api.weatherapi.com/v1/forecast.json?key=' + weatherkey + '&q=' + city + '&days=' + days
+                'https://api.weatherapi.com/v1/forecast.json?key=' + weatherkey + '&q=' + city + '&days=' + days
             );
             console.log(response.data);
             var weather = response.data.forecast.forecastday;
