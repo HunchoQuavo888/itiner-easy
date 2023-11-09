@@ -16,16 +16,15 @@
         </tripcard>
       </section>
 
-
       <div class="ml-7 mb-4">
         <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}</a> shared trips</h1>
-
       </div>
 
       <section class="flex ml-2 flex-nowrap gap-5 px-5 overflow-x-auto snap-x snap-mandatory pb-7 no-scrollbar">
         <div class="bg-white p-5 snap-always snap-center text-center rounded flex-none shadow-lg">
-          <tripcard v-for="trip in communitytrips" :city=trip.city @deletetrip="deleteTrip(trip)" @gototrip="getCommunityTrip(trip)">
-        </tripcard>
+          <tripcard v-for="trip in communitytrips" :city=trip.city @deletetrip="deleteTrip(trip)"
+            @gototrip="getCommunityTrip(trip)">
+          </tripcard>
         </div>
       </section>
 
@@ -77,61 +76,6 @@
       </div>
 
       <div name="showExpenses" v-if="showExpense">
-        
-
-        <!-- <h3>Expense Table</h3>
-        <table class="table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th>Expense Name</th>
-              <th>Expense Category</th>
-              <th>Expense Amount</th>
-              <th>People who Owe</th>
-              <th>How much is owed</th>
-              <th>Who paid</th>
-              <th>Delete Expense</th>
-            </tr>
-          </thead>
-
-
-          <tbody>
-            <tr v-for="(expense, index) in expenses" :key="index">
-              <td>{{ expense.expenseName }}</td>
-              <td>{{ expense.expenseCategory }}</td>
-              <td>{{ expense.expenseAmount }}</td>
-              <td>
-                <p v-for="name in expense.peopleOwingNames">{{ name.name }} &nbsp;</p>
-              </td>
-              <td>
-                <p v-for="(name, index) in expense.peopleOwingAmount" :key="index">{{
-                  expense.peopleOwingAmount[index].amount }} &nbsp;</p>
-              </td>
-              <td>{{ expense.personOwedName }}</td>
-              <td><button @click="deleteExpense(index, docId)">Delete Expense</button></td>
-            </tr>
-          </tbody>
-        </table>
-        <h3>whoOwesWho Table</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Amount Owed</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr v-for="key in Object.keys(whoOwesWho)">
-              <td>{{ key }}</td>
-              <td>{{ whoOwesWho[key] }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="form-group">
-          <button class="btn btn-primary" @click="breakeven2">Breakeven</button>
-        </div>
-        <div id="amountToPay"></div> -->
-
         <div class="grid grid-cols-1 lg:grid-cols-2">
           <!-- expensecards -->
           <div class="rightcol">
@@ -147,17 +91,14 @@
           </div>
           <div class="leftcol">
             <div class="text-3xl m-7 font-bold">
-          <h2>Splitter</h2>
-          </div>
+              <h2>Splitter</h2>
+            </div>
             <div class="ml-7" v-for="(expense, index) in whoOwesWho2Display" :key=index>
               <splittercards :Name1="index" :Name2="expense[1]" :amount="expense[0]">
               </splittercards>
             </div>
           </div>
         </div>
-
-
-
 
         <!-- Open the modal using ID.showModal() method -->
         <button class="btn btn-primary m-7" onclick="my_modal_3.showModal()">Add an expense</button>
@@ -200,16 +141,6 @@
                       name }}<br>
                 </label>
               </div>
-              <!-- <div>
-                    <p>Which Currency Are We Using?</p>
-                    <input name="currency" type="radio" id="tripCurrency" v-model="expense.currency"
-                      :value="tripCurrency">
-                    <label for="tripCurrency">{{ tripCurrency }}</label><br>
-                    <input name="currency" type="radio" id="homeCurrency" v-model="expense.currency"
-                      :value="homeCurrency">
-                    <label for="homeCurrency">{{ homeCurrency }}</label><br>
-                  </div> -->
-
               <div class="form-group">
                 How are we splitting this?
                 <select id="splitmethod" v-model="splitmethod">
@@ -271,7 +202,6 @@
               </div>
               <ul>
                 <li v-for="(item, index) in list" :key="index">
-
                   <button class="btn btn-primary" @click="removeFromList(index)">Remove</button> {{ item }}
                 </li>
               </ul>
@@ -283,8 +213,6 @@
         </dialog>
       </div>
     </div>
-
-
 
     <div name="showItinerary" class="m-10" v-if="showItinerary" @load="initMap(this.citycoords)">
       <!-- getmap -->
@@ -319,8 +247,6 @@
                 </div>
               </div>
             </div>
-            <!-- </div> -->
-
           </summary>
 
           <div class="collapse-content max-h-screen overflow-auto bg-blue-100 snap-both snap-mandatory">
@@ -372,20 +298,16 @@
                         way there!</button>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
-            <!-- collapse div -->
           </div>
         </details>
         <br>
       </div>
       <div id="map" class="w-full h-96" ref="map">
       </div>
-
       <br>
-
       <div v-if="eateries.length > 0" class="overflow-auto overflow-x-hidden h-96 m-10 rounded-lg">
         <h1 class="text-gray-700 text-center underline">Places to eat</h1>
         <table class="bg-blue-300 table table-pin-rows rounded-lg max-w-fit">
@@ -432,22 +354,13 @@
                 Remarks: <input type="text" v-model="eatery.remarks"><br>
                 Expenses: <input type="number" v-model="eatery.expense"><br>
               </td>
-              <!-- <td>
-            I want to eat here<input name = "eateries{{ index }}" type="radio" :value="eatery" @click="addeaterytotrip(eatery,)" v-model="selectedEateries">
-          </td> -->
-
             </tr>
           </tbody>
         </table>
-
-
-
       </div>
-
     </div>
   </div>
 </template>
-
 
 <script setup>
 import Header from "../components/header.vue"
@@ -463,10 +376,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import expensecards from "../components/expensecards.vue"
 import { initMap } from "../main.js"
 import splittercards from "../components/splittercards.vue"
-
 </script>
-
-
 
 <script>
 export default {
@@ -552,7 +462,6 @@ export default {
             querySnapshot.forEach((doc) => {
               const userData = doc.data();
               console.log("User data from Firestore:", userData);
-
               // Update the user data property with fetched data
               this.user = userData;
             });
@@ -563,8 +472,8 @@ export default {
           console.error("Error querying user information from Firestore: ", error);
         }
 
-            // Reference to the communitytrips collection
-          const communityTripsCollection = collection(this.db, `users/${this.uid}/communitytrips`);
+        // Reference to the communitytrips collection
+        const communityTripsCollection = collection(this.db, `users/${this.uid}/communitytrips`);
 
         // Query for communitytrips where the user id matches the current user's id
         const communityTripsQuery = query(communityTripsCollection);
@@ -673,7 +582,6 @@ export default {
               window.scrollTo({ top: topOffset, behavior: 'smooth' });
             });
             directionsRenderer.setDirections(response);
-
           } else {
             window.alert("Directions request failed due to " + status);
           }
@@ -688,12 +596,10 @@ export default {
       return `${formattedHours}:${formattedMins}`;
     },
 
-
     async formattimestrfrom24hourto12hour(input) {
       const strTime = input.toString().padStart(4, '0'); // Pad with leading zeros
       const hours = strTime.substring(0, 2); // Extract hours
       const minutes = strTime.substring(2); // Extract minutes
-
       // Convert to a format like "09:00 AM" or "09:00 PM"
       //if first string no 0 then add 0
       if (hours.substring(0, 1) != 0) {
@@ -703,8 +609,6 @@ export default {
         this.twelvehrtime = `0${hours % 12}:${minutes}`
       }
     },
-
-
 
     async titlephotogenerator(town) {
       // get photos of town using Google Place Photos API
@@ -728,14 +632,12 @@ export default {
       });
     },
 
-
     async searchOutdoorAttractions(city) {
       var city = document.getElementById("country").value;
       var request = {
         query: `Outdoor Tourist Attractions in ${city}`,
         fields: ['name', 'formatted_address', 'types', 'business_status', 'geometry', 'opening_hours', 'website', 'place_id'],
       };
-
       var service = new google.maps.places.PlacesService(document.createElement('div'));
 
       return new Promise((resolve, reject) => {
@@ -781,7 +683,6 @@ export default {
             place.url = "'https://www.google.com/search?q=" + place.name + "&rlz=1C1CHBF_enSG941SG941&oq=google&aqs=chrome..69i57j69i59j69i60l3j69i65l2.1001j0j7&sourceid=chrome&ie=UTF-8'";
             place.formatted_address = place.vicinity;
             this.eateries.push(place);
-
           }
           this.geteateryphotos();
           let map = new google.maps.Map(document.getElementById("map"), {
@@ -796,7 +697,6 @@ export default {
               map: map,
               title: e.name,
             });
-
             eaterymarker.addListener("click", () => {
               let infowindow = new google.maps.InfoWindow({
                 content: `<div><img style="width: auto; height: 150px;" src=` + e.photo + `></div>` + `<div style="color:black"><strong>` +
@@ -812,12 +712,8 @@ export default {
             const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
             window.scrollTo({ top: topOffset, behavior: 'smooth' });
           });
-
         }
       })
-
-
-
     },
     async geteateryphotos() {
       const promises = this.eateries.map(async (eatery) => {
@@ -834,6 +730,7 @@ export default {
       await Promise.all(promises);
       console.log(this.eateries);
     },
+
     //get link of photo of place with place id
     async getphoto(placeid) {
       var request = {
@@ -847,9 +744,7 @@ export default {
             if (place.photos && place.photos.length > 0) {
               let photoUrl = place.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 });
               resolve(photoUrl);
-
               resolve(photo); // Resolve the promise with the search results
-
             } else {
               console.error('No photos found for this place.');
               reject('No photos found'); // Reject the promise with an error message
@@ -860,16 +755,15 @@ export default {
           }
         });
       });
-    }
-    ,
+    },
+
     async loadPhoto(placeid) {
       try {
         this.photoUrl = await this.getphoto(placeid);
       } catch (error) {
         console.error(error);
       }
-    }
-    ,
+    },
 
     async checkOpenStatus(place, checkTime, date) {
       return new Promise((resolve, reject) => {
@@ -929,7 +823,6 @@ export default {
             console.log("city does not exist");
             console.log(this.nextStepDisabled);
             return false;
-
           }
         });
       });
@@ -948,8 +841,7 @@ export default {
         position: place.geometry.location,
         map: map,
         title: place.name,
-      }
-      );
+      });
       var infowindow = new google.maps.InfoWindow({
         // content: "Name:" + place.name + "<br>" + "Address:" + place.formatted_address,
         content: `<div><img style="width: auto; height: 150px;" src=` + place.photo + `></div>` + `<div style="color:black"><strong>` +
@@ -966,40 +858,26 @@ export default {
         const topOffset = mapElement.getBoundingClientRect().top + window.pageYOffset;
         window.scrollTo({ top: topOffset, behavior: 'smooth' });
       });
-
-
-
-
-
     },
-
-
-    async loadingpage() {
-
-    },
-
 
     async checkempty() {
       console.log(this.town);
-
       if (!this.town || !this.sliderValue || !this.outgoing || !this.transport) {
         window.alert
           ("Please fill in all the fields!");
-      }
-      else {
+      } else {
         await this.checkCityExists(this.town);
         if (this.cityexists == true) {
           this.isLoading = true;
           await this.getweather();
           await this.getactivitieslist();
           this.isLoading = false;
-        }
-        else {
+        } else {
           window.alert("Please enter a valid city!");
         }
-
       }
     },
+
     async addeaterytotrip() {
       var radio = document.getElementsByName("eateries");
       for (var i = 0; i < radio.length; i++) {
@@ -1011,17 +889,14 @@ export default {
           neweatery.endtime = formatTime(radio[i].value.endtime);
           this.activitiesandtime[neweatery.day].activities.splice(neworder, 0, neweatery);
         }
-
       }
     },
-
 
     async checkempty2() {
       if (!this.town || !this.sliderValue || !this.outgoing || !this.transport) {
         window.alert
           ("Please fill in all the fields!");
-      }
-      else {
+      } else {
         await this.checkCityExists(this.town);
         if (this.cityexists == true) {
           this.isLoading = true;
@@ -1029,22 +904,15 @@ export default {
           await this.getweather();
           await this.getlist2();
           this.isLoading = false;
-        }
-        else {
+        } else {
           window.alert("Please enter a valid city!");
         }
       }
-
     },
-
 
     async saveItinerary() {
       console.log(this.town);
       console.log(this.activitiesandtime);
-      // console.log(this.activitiesandtime[0]);
-      // console.log(this.activitiesandtime[0].activities);
-      // console.log(this.activitiesandtime[0].activities[0]);
-      // console.log(this.activitiesandtime[0].activities[0].name);
       var activitiesandtime = this.activitiesandtime;
       var json = JSON.stringify(activitiesandtime);
       console.log(json);
@@ -1101,11 +969,10 @@ export default {
     },
 
     async getCommunityTrip(trip) {
-  this.trip = trip;
-  this.tripID = trip.tripID;
-  
-  this.$router.push({ path: `/communitytrips/${this.tripID}` });
-},
+      this.trip = trip;
+      this.tripID = trip.tripID;
+      this.$router.push({ path: `/communitytrips/${this.tripID}` });
+    },
 
     backToTrips() {
       // this.selected = false;
@@ -1138,7 +1005,6 @@ export default {
       }
       else if (this.splitmethod == "custom") {
         this.expense.peopleOwingAmount = this.quicksettleamount;
-
       }
 
       // Adds the expense to the database
@@ -1167,17 +1033,7 @@ export default {
           // The document probably doesn't exist.
           console.error("Error updating document: ", error);
         });
-
-      // Reset the values of the expense object
-      // this.expense.expenseName = null;
-      // this.expense.expenseAmount = null;
-      // this.expense.peopleOwingNames = null;
-      // this.expense.
-      personOwedName = null;
-      // this.expense.peopleOwingAmount = null;
-    }
-
-    ,
+    },
     // Supporting function for addExpense()
     sortthelist() {
       this.expense.peopleOwingNames = this.expense.peopleOwingNames.sort();
@@ -1200,9 +1056,7 @@ export default {
         }
         if (totalpercentage != 100) {
           alert("Please make sure the percentages add up to 100");
-        }
-        else {
-
+        } else {
 
           for (let i = 0; i < this.personNames.length; i++) {
             let tempobj = { name: this.personNames[i], amount: 0, index: i };
@@ -1213,12 +1067,8 @@ export default {
             this.quicksettleamount[this.expense.peopleOwingNames[i].index].amount = amountowed;
           }
           console.log(this.quicksettleamount);
-
         }
-
-      }
-
-      else if (this.splitmethod == "shares") {
+      } else if (this.splitmethod == "shares") {
         let totalshares = 0;
         for (let i = 0; i < this.shares.length; i++) {
           totalshares += this.shares[i];
@@ -1232,7 +1082,6 @@ export default {
           this.quicksettleamount[this.expense.peopleOwingNames[i].index].amount = amountowed;
         }
         console.log(this.quicksettleamount);
-
       }
 
       else if (this.splitmethod == "custom") {
@@ -1242,8 +1091,7 @@ export default {
         }
         if (totalcustom != 100) {
           alert("Please make sure the custom amounts add up to 100");
-        }
-        else {
+        } else {
           for (let i = 0; i < this.personNames.length; i++) {
             let tempobj = { name: this.personNames[i], amount: 0, index: i };
             this.quicksettleamount.push(tempobj);
@@ -1266,9 +1114,7 @@ export default {
         }
         console.log(this.quicksettleamount);
       }
-
     },
-
 
     // Function to breakeven expenses
     breakeven() {
@@ -1396,8 +1242,7 @@ export default {
       if (expense.currency == this.homeCurrency) {
         var from = this.homeCurrency;
         var to = this.tripCurrency;
-      }
-      else {
+      } else {
         var from = this.tripCurrency;
         var to = this.homeCurrency;
       }
@@ -1460,7 +1305,6 @@ export default {
           if (a.value > b.value) { return 1; }
           return 0;
         })
-
       } catch (error) {
         console.log(error);
       }
@@ -1469,9 +1313,6 @@ export default {
       this.expense.peopleOwingNames = this.expense.peopleOwingNames.sort();
     }
   },
-
-
-  // Function to compute different ways of splitting expense
 
   // Function to get list of trips and whoOwesWho from database
   async created() {
@@ -1513,11 +1354,7 @@ export default {
         });
       });
     }, 1000);
-  }
-  ,
-  // itinerary functions
-
-
+  },
 
   components: {
     expensecards, splittercards
