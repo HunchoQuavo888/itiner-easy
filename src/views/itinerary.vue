@@ -278,7 +278,7 @@ export default {
   },
   mounted(){
     const script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCrtlMuj3mZnI5NGVkgw5ME1hZL-XEtRzI&libraries=places&callback=initMap';
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBEZ52WMy9wVTM1K2yz5WpQrNwqIJ-zciU&libraries=places&callback=initMap';
     script.defer = true;
     script.async = true;
     //add main.js

@@ -121,7 +121,7 @@ export default {
   },
   getLanguages() {
       // Move your Axios code for fetching languages here
-      const key ="AIzaSyCjKtOTNCtEK5MYtW-GrP5QUiCj72PCT9Q";
+      const key ="AIzaSyCj8PKGWlRYjvzMiPsmE0cMgjAPFdA449w";
       axios.get('https://translation.googleapis.com/language/translate/v2/languages?key='+key+'&target=en')
         .then(function(response) {
             console.log(response.data);
@@ -148,7 +148,7 @@ export default {
         var language = this.outputLanguage;
         console.log(text);
         console.log(language);
-        var key ="AIzaSyCjKtOTNCtEK5MYtW-GrP5QUiCj72PCT9Q";
+        var key ="AIzaSyCj8PKGWlRYjvzMiPsmE0cMgjAPFdA449w";
         if(inputlang="detect"){
             axios.get('https://translation.googleapis.com/language/translate/v2?key='+key+'&q='+text+'&target='+language )
             .then((response) => {
