@@ -227,10 +227,13 @@ export default {
     const matchingUsers = [];
 
     querySnapshot.forEach((doc) => {
-      const userData = doc.data();
-      // Perform case-insensitive comparison
-      if (userData.displayName.toLowerCase().includes(searchQuery)) {
-        matchingUsers.push(userData);
+            // Check if the doc.id is not equal to the current user's id
+      if (doc.id !== this.user.uid) {
+        const userData = doc.data();
+        // Perform case-insensitive comparison
+        if (userData.displayName.toLowerCase().includes(searchQuery)) {
+          matchingUsers.push(userData);
+        }
       }
     });
 
