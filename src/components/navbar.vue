@@ -88,9 +88,9 @@
   <!-- if signed in -->
   <div class="navbar-end" v-if="signedin">
     <div v-if="signedin">
-        <input type="text" v-model="searchTerm" @input="searchUsers" placeholder="Search users..." class="bg-[#5072A7] text-white w-full sm:w-48 md:w-64 focus:outline-none focus:border-blue-300 px-2"/>
+        <input type="text" v-model="searchTerm" @input="searchUsers" placeholder="Search users..." class="bg-[#c5dafd] rounded-full text-blue-900 w-full sm:w-48 md:w-64 focus:outline-none  px-2"/>
         <div v-if="matchingUsers.length > 0" class="auto-fill-suggestions z-[10]">
-          <ul>
+          <ul class="dropdown-content z-[10] absolute menu shadow bg-[#5072A7] shadow-sm rounded-box ">
           <li class="" v-for="user in matchingUsers" :key="user.uid">
             <div style="display: flex; align-items: center;">
               <router-link :to="`/profile/${user.uid}`" @click="clearSearch" style="margin-left: 10px;">
