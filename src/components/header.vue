@@ -42,7 +42,6 @@ export default {
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        console.log('User is signed in', user.uid + " " + user.email);
 
         // Get the user's ID
         const userId = user.uid;
@@ -57,7 +56,6 @@ export default {
           if (!querySnapshot.empty) {
             querySnapshot.forEach((doc) => {
               const userData = doc.data();
-              console.log("User data from Firestore:", userData);
 
               // Update the user data property with fetched data
               this.user = userData;

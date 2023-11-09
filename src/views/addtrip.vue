@@ -88,14 +88,11 @@ export default {
         }
     },
     mounted() {
-        console.log('Component mounted.')
         this.db = getFirestore();
         this.auth = getAuth();
         onAuthStateChanged(this.auth, (user) => {
             if (user) {
-                console.log('User is signed in', user.uid + " " + user.email)
                 this.uid = user.uid;
-                console.log(this.uid);
                 this.tripsRef = collection(this.db, 'users', this.uid, 'trips');
             } else {
                 console.log('User is signed out')
@@ -175,7 +172,6 @@ export default {
                         'x-rapidapi-host': 'currency-converter5.p.rapidapi.com',
                     },
                 });
-                console.log(response.data);
                 for (var key in response.data.currencies) {
                     var value = response.data.currencies[key];
                     this.currencyList.push({ key, value });
