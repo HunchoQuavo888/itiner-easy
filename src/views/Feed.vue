@@ -11,24 +11,35 @@
         </h1>
       </div>
       <!-- trips carousell cards -->
-      <section class="flex ml-2 flex-nowrap gap-5 px-5 overflow-x-auto snap-x snap-mandatory pb-7 no-scrollbar">
-        <tripcard v-for="trip in trips" :city=trip @deletetrip="deleteTrip(trip)" @gototrip="goToTrip(trip)">
-        </tripcard>
-      </section>
 
-      <div class="ml-7 mb-4">
-        <h1 class="text-2xl md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}</a> shared trips</h1>
+      <div class="ml-3">
+        <div class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3'>
+          <div class="col" v-for="trip in trips">
+            <div class="flex justify-center">
+            <tripcard :city=trip @deletetrip="deleteTrip(trip)" @gototrip="goToTrip(trip)">
+          </tripcard>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <section class="flex ml-2 flex-nowrap gap-5 px-5 overflow-x-auto snap-x snap-mandatory pb-7 no-scrollbar">
-        <div class="bg-white p-5 snap-always snap-center text-center rounded flex-none shadow-lg">
-          <tripcard v-for="trip in communitytrips" :city=trip.city @deletetrip="deleteTrip(trip)"
-            @gototrip="getCommunityTrip(trip)">
-          </tripcard>
-        </div>
-      </section>
+      <div class="ml-3 mt-7 mb-4">
+        <h1 class="text-2xl ml-4 md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}'s</a> community trips</h1>
+      </div>
 
-      <div class="mb-4">
+      <div class="ml-7">
+        <div class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3'>
+          <div class="col" v-for="trip in communitytrips">
+            <div class="flex justify-center">
+            <tripcard :city=trip.city @deletetrip="deleteTrip(trip)" @gototrip="getCommunityTrip(trip)">
+          </tripcard>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="mb-4 mt-7">
         <h1 class="text-2xl ml-7 md:text-3xl">Toolkit</h1>
         <h4 class="ml-7 italic">Travelling has never been easier.</h4>
         <div class="mt-2 ml-7 mr-7 ">
@@ -966,6 +977,8 @@ export default {
       }).catch((error) => {
         console.log("Error getting document:", error);
       });
+      window.scrollTo(0, 0);
+
     },
 
     async getCommunityTrip(trip) {
