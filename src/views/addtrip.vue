@@ -3,7 +3,9 @@
     <dialog id="my_modal_3" class="modal backdrop-blur-sm">
         <div class="modal-box">
             <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 bg-transparent text-black hover:rounded-full" @click="makeEmpty()">✕</button>
+                <button
+                    class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 bg-transparent text-black hover:rounded-full"
+                    @click="makeEmpty()">✕</button>
             </form>
             <div class="m-5">
                 <h1 class="mb-3">Add Trip</h1>
@@ -36,20 +38,6 @@
                             class="form-control">
                         <span id="personNames" v-html="htmlStr"></span>
                     </div>
-
-                    <!-- Which Currency do you use normally!
-            <select class="w-9/12 rounded bg-blue-200 cursor-pointer border-2 border-blue-400" name="currencylist"
-                id="currencylist" @change="convertit" v-model="homeCurrency">
-                <option v-for="currency in currencyList" :key="currency.key" :value="currency.key">
-                    {{ currency.value }} </option>
-            </select>
-            <br>
-            Which Currency are you going to use!
-            <select class="w-9/12 rounded bg-blue-200 cursor-pointer border-2 border-blue-400" name="currencylist"
-                id="currencylist" @change="convertit" v-model="tripCurrency">
-                <option v-for="currency in currencyList" :key="currency.key" :value="currency.key">
-                    {{ currency.value }} </option>
-            </select> -->
                     <button class="mt-4 btn btn-primary" type="submit" v-if="!submitted">Submit</button>
                     <p v-if="submitted">Trip Added!</p>
                 </form>
@@ -70,9 +58,6 @@ export default {
     data() {
         return {
             destination: '',
-            // startDate: '',
-            // endDate: '',
-            // expenses: [{ name: '', amount: '' }]
             db: null,
             auth: null,
             tripsRef: null,
@@ -117,7 +102,6 @@ export default {
                 this.htmlStr += "<input style='margin-bottom: 10px;' type='text' placeholder='Person " + (i + 1) + "' id='person" + (i + 1) + "' class='form-control'>";
                 i++;
             }
-
         },
 
         addExpense() {
@@ -137,7 +121,6 @@ export default {
             for (let i = 0; i < this.personNames.length; i++) {
                 whoOwesWho[this.personNames[i]] = 0;
             }
-            console.log(whoOwesWho)
 
             const docSnap = await getDoc(doc(this.tripsRef, this.destination));
             if (docSnap.exists()) {
@@ -186,19 +169,13 @@ export default {
                     if (a.value > b.value) { return 1; }
                     return 0;
                 })
-
             } catch (error) {
                 console.log(error);
             }
         },
-        async getitinerary() {
-
-        }
     },
     created() {
         this.getCurrencyList();
     },
-
-
 }
 </script>
