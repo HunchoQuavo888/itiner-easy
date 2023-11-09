@@ -10,11 +10,11 @@
         <p class="text-gray-400">Trips</p>
       </div>
       <div>
-           <p class="font-bold text-gray-700 text-xl">10</p>
+           <p class="font-bold text-gray-700 text-xl">{{user.followers.length}}</p>
         <p class="text-gray-400">Followers</p>
       </div>
           <div>
-           <p class="font-bold text-gray-700 text-xl">89</p>
+           <p class="font-bold text-gray-700 text-xl">{{user.following.length}}</p>
         <p class="text-gray-400">Following</p>
       </div>
     </div>
@@ -27,11 +27,9 @@
       </div>
     </div>
 
-    <div class="space-x-8 flex justify-between mt-32 md:mt-0 md:justify-center">
-<button class="btn btn-outline text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
-  Follow
-</button>
-<button class="btn btn-outline text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5" onclick="my_modal_1.showModal()">
+    <div class="space-x-8 flex justify-end mt-32 md:mt-0 md:justify-center">
+
+<button class="btn btn-outline relative top-0 right-0 text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5" onclick="my_modal_1.showModal()">
   Edit
 </button>
 <!-- Open the modal using ID.showModal() method -->
@@ -344,6 +342,8 @@ export default {
         displayName: "",
         location: "Country",
         bio: "Bio",
+        following: [],
+        followers: [],
       },
       selectedImage: null,
       trips: [],
