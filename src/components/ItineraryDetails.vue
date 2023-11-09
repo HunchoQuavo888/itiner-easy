@@ -280,11 +280,8 @@ export default {
 
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
-        console.log('User object:', user);
-        console.log('User is signed in', user.uid + " " + user.email)
         this.uid = user.uid;
         this.username = user.displayName;
-        console.log(this.uid);
         this.tripsRef = collection(this.db, 'users', this.uid, 'trips');
         const usersCollection = collection(this.db, "users"); // Adjust the Firestore collection name as per your data structure
         const userQuery = query(usersCollection, where("uid", "==", this.uid));
@@ -294,7 +291,6 @@ export default {
           if (!querySnapshot.empty) {
             querySnapshot.forEach((doc) => {
               const userData = doc.data();
-              console.log("User data from Firestore:", userData);
 
               // Update the user data property with fetched data
               this.user = userData;
@@ -327,7 +323,6 @@ export default {
         }
         querySnapshot.forEach((doc) => {
           // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
           this.docId.push(doc.id);
           this.expenses.push(doc.data());
         });
@@ -583,35 +578,26 @@ export default {
       querySnapshot.forEach((doc) => {
         // console.log(doc.id, " => ", doc.data());
         this.itineraryData = doc.data();
-        console.log(this.itineraryData);
         this.whoOwesWho = this.itineraryData.whoOwesWho;
-        console.log(this.whoOwesWho);
         this.whoOwesWho2 = this.itineraryData.whoOwesWho2;
-        console.log(this.expenses);
         // Retrieve the trip name from the document data
         this.trip = doc.id; // Document ID represents the trip name
-        console.log(this.trip);
         this.activitiesandtime = JSON.parse(this.itineraryData.activitiesandtime);
         this.tripCurrency = this.itineraryData.currency;
         this.homeCurrency = this.itineraryData.homeCurrency;
         this.personNames = this.itineraryData.personNames;
         this.transport = this.itineraryData.transport;
-
-        console.log(this.trip);
         let city = this.trip;
-        console.log(city);
         this.citycoords = {};
         var request = {
           query: `${city}`,
           fields: ['name', 'geometry'],
         };
-        console.log(request);
         var service = new google.maps.places.PlacesService(document.createElement('div'));
         return new Promise((resolve, reject) => {
           service.findPlaceFromQuery(request, (results, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
               this.citycoords = results[0].geometry.location;
-              console.log(this.citycoords);
               initMap(this.citycoords);
               resolve(results); // Resolve the promise with the search results
             } else {

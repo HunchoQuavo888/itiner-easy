@@ -124,7 +124,6 @@ export default {
       const key ="AIzaSyCj8PKGWlRYjvzMiPsmE0cMgjAPFdA449w";
       axios.get('https://translation.googleapis.com/language/translate/v2/languages?key='+key+'&target=en')
         .then(function(response) {
-            console.log(response.data);
             var languages = response.data.data.languages;
             var languagesdiv = document.getElementById("inputlanguage");
             var languagesdiv2 = document.getElementById("outputlanguage");
@@ -181,7 +180,6 @@ export default {
         }
       })
       .then(function(response) {
-        console.log(response.data);
         var currencylist = response.data.currencies;
         var currencylistdiv = document.getElementById("currencylist");
         var html = "";

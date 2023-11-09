@@ -191,14 +191,11 @@ export default {
     //add main.js
     document.head.appendChild(script);
     window.history.scrollRestoration = "manual";
-    console.log('Component mounted.')
     this.db = getFirestore();
     this.auth = getAuth();
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
-        console.log('User is signed in', user.uid + " " + user.email)
         this.uid = user.uid;
-        console.log(this.uid);
         this.tripsRef = collection(this.db, 'users', this.uid, 'trips');
       } else {
         console.log('User is signed out')
@@ -1079,10 +1076,6 @@ export default {
       this.showAlert = true;
       console.log(this.town);
       console.log(this.activitiesandtime);
-      // console.log(this.activitiesandtime[0]);
-      // console.log(this.activitiesandtime[0].activities);
-      // console.log(this.activitiesandtime[0].activities[0]);
-      // console.log(this.activitiesandtime[0].activities[0].name);
       var activitiesandtime = this.activitiesandtime;
       var json = JSON.stringify(activitiesandtime);
       console.log(json);

@@ -11,7 +11,7 @@
         </h1>
       </div>
       <!-- trips carousell cards -->
-      <div class="empty ml-7" v-if="trips.length==0">
+      <div class="empty ml-7" v-if="trips.length == 0">
         <h2 class="text-xl">You have no trips, add one now!</h2>
       </div>
 
@@ -19,23 +19,24 @@
         <div class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3'>
           <div class="col" v-for="trip in trips">
             <div class="flex justify-center">
-            <tripcard :city=trip @deletetrip="deleteTrip(trip)" @gototrip="goToTrip(trip)">
-          </tripcard>
+              <tripcard :city=trip @deletetrip="deleteTrip(trip)" @gototrip="goToTrip(trip)">
+              </tripcard>
             </div>
           </div>
         </div>
       </div>
 
       <div class="ml-3 mt-7 mb-4">
-        <h1 class="text-2xl ml-4 md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}'s</a> community trips</h1>
+        <h1 class="text-2xl ml-4 md:text-3xl"><a class="italic text-indigo-500">{{ user.displayName }}'s</a> community
+          trips</h1>
       </div>
 
       <div class="ml-3">
         <div class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3'>
           <div class="col" v-for="trip in communitytrips">
             <div class="flex justify-center">
-            <tripcard :city=trip.city @deletetrip="deleteTrip(trip)" @gototrip="getCommunityTrip(trip)">
-          </tripcard>
+              <tripcard :city=trip.city @deletetrip="deleteTrip(trip)" @gototrip="getCommunityTrip(trip)">
+              </tripcard>
             </div>
           </div>
         </div>
@@ -455,17 +456,13 @@ export default {
     script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBEZ52WMy9wVTM1K2yz5WpQrNwqIJ-zciU&libraries=places&callback=initMap';
     script.defer = true;
     script.async = true;
-    console.log('Component mounted.')
     this.db = getFirestore();
     this.auth = getAuth();
 
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
-        console.log('User object:', user);
-        console.log('User is signed in', user.uid + " " + user.email)
         this.uid = user.uid;
         this.username = user.displayName;
-        console.log(this.uid);
         this.tripsRef = collection(this.db, 'users', this.uid, 'trips');
         const usersCollection = collection(this.db, "users"); // Adjust the Firestore collection name as per your data structure
         const userQuery = query(usersCollection, where("uid", "==", this.uid));
@@ -475,7 +472,6 @@ export default {
           if (!querySnapshot.empty) {
             querySnapshot.forEach((doc) => {
               const userData = doc.data();
-              console.log("User data from Firestore:", userData);
               // Update the user data property with fetched data
               this.user = userData;
             });
@@ -512,7 +508,6 @@ export default {
           if (this.communitytrips.length > 0) {
             this.communitytrip = this.communitytrips[0];
           }
-          console.log("Communitytrips from Firestore:", this.communitytrips);
         } catch (error) {
           console.error("Error querying communitytrips from Firestore: ", error);
         }
@@ -534,7 +529,6 @@ export default {
       this.openTab = tabNumber
     },
     async getLatLng() {
-      console.log(this.trip);
       var city = this.trip;
       this.citycoords = {};
       var request = {
@@ -546,7 +540,6 @@ export default {
         service.findPlaceFromQuery(request, (results, status) => {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             this.citycoords = results[0].geometry.location;
-            console.log(this.citycoords);
             initMap(this.citycoords);
             resolve(results); // Resolve the promise with the search results
           } else {
@@ -562,19 +555,15 @@ export default {
       const [hours, minutes] = timeString.split(':').map(Number);
       //change 09:00 to 900
       this.starttimeint = hours * 100 + minutes;
-      console.log(this.starttimeint);
     },
     async displaydirectionsonmap(origin, destination, eatery) {
       event.preventDefault();
-      console.log(origin);
       if (eatery == null) {
         this.transport = this.activitiesandtime[0].transport;
       }
       else {
         this.transport = "WALKING";
       }
-      console.log(this.transport);
-      console.log(destination);
       var directionsService = new google.maps.DirectionsService();
       var directionsRenderer = new google.maps.DirectionsRenderer();
       var map = new google.maps.Map(document.getElementById('map'), {
@@ -661,7 +650,6 @@ export default {
               results[i].photo = this.getphoto(results[i].place_id);
             }
             this.places = this.places.concat(results);
-            console.log(this.places);
             resolve(results); // Resolve the promise with the search results
           } else {
             console.error(`Error: ${status}`);
@@ -690,10 +678,8 @@ export default {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           for (var i = 0; i < results.length; i++) {
             var place = results[i];
-            console.log(place);
             place.origin = geometry.location;
             place.order = activity.order;
-            console.log(activity.location);
             place.url = "'https://www.google.com/search?q=" + place.name + "&rlz=1C1CHBF_enSG941SG941&oq=google&aqs=chrome..69i57j69i59j69i60l3j69i65l2.1001j0j7&sourceid=chrome&ie=UTF-8'";
             place.formatted_address = place.vicinity;
             this.eateries.push(place);
@@ -705,7 +691,6 @@ export default {
           });
           for (let i = 0; i < this.eateries.length; i++) {
             let e = this.eateries[i];
-            console.log(e.origin);
             let eaterymarker = new google.maps.Marker({
               position: e.geometry.location,
               map: map,
@@ -742,7 +727,6 @@ export default {
         }
       });
       await Promise.all(promises);
-      console.log(this.eateries);
     },
 
     //get link of photo of place with place id
@@ -766,7 +750,7 @@ export default {
           } else {
             console.error(`Error: ${status}`);
             reject(status); // Reject the promise with the error status
-          }
+          };
         });
       });
     },
@@ -789,7 +773,6 @@ export default {
         service.getDetails(request, (place, status) => {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             this.isOpenNow = false;
-            console.log(place);
             var openingHours = place.opening_hours;
             if (openingHours && openingHours.periods != null && openingHours.periods[day] != null) {
               // Convert checkTime to a Date object for the specific date you want to check
@@ -804,7 +787,6 @@ export default {
                 this.isOpenNow = true;
                 this.openingTime = openTime;
                 this.closeTime = closeTime;
-                console.log(this.openingTime);
                 //add url into place
               } else {
                 this.isOpenNow = false;
@@ -824,17 +806,14 @@ export default {
     async checkCityExists(cityName) {
       return new Promise((resolve, reject) => {
         var geocoder = new google.maps.Geocoder();
-        console.log("imrunning");
         geocoder.geocode({ 'address': cityName }, (results, status) => { // Use an arrow function here
           if (status == google.maps.GeocoderStatus.OK) {
             this.cityexists = true;
             resolve(true);
-            console.log("city exists");
             return true;
           } else {
             this.cityexists = false;
             resolve(false);
-            console.log("city does not exist");
             console.log(this.nextStepDisabled);
             return false;
           }
@@ -875,7 +854,6 @@ export default {
     },
 
     async checkempty() {
-      console.log(this.town);
       if (!this.town || !this.sliderValue || !this.outgoing || !this.transport) {
         window.alert
           ("Please fill in all the fields!");
@@ -925,19 +903,14 @@ export default {
     },
 
     async saveItinerary() {
-      console.log(this.town);
-      console.log(this.activitiesandtime);
       var activitiesandtime = this.activitiesandtime;
       var json = JSON.stringify(activitiesandtime);
-      console.log(json);
 
       const docSnap = await getDoc(doc(this.tripsRef, this.town));
       if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
         updateDoc(doc(this.tripsRef, this.town), { activitiesandtime: json });
       } else {
         // doc.data() will be undefined in this case
-        console.log("No such document!");
         setDoc(doc(this.tripsRef, this.town), { activitiesandtime: json });
       }
     },
@@ -955,7 +928,6 @@ export default {
         }
         querySnapshot.forEach((doc) => {
           // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
           this.docId.push(doc.id);
           this.expenses.push(doc.data());
         });
@@ -964,7 +936,6 @@ export default {
       // Gets whoOwesWho, personNames and currencies used from database
       getDoc(doc(this.tripsRef, this.trip)).then(doc => {
         if (doc.exists()) {
-          console.log("Document data:", doc.data());
           this.tripID = doc.data().tripID;
           this.whoOwesWho = doc.data().whoOwesWho;
           this.tripCurrency = doc.data().tripCurrency;
@@ -978,7 +949,7 @@ export default {
           console.log("No such document!");
         }
       }).catch((error) => {
-        console.log("Error getting document:", error);
+        // console.log("Error getting document:", error);
       });
       window.scrollTo(0, 0);
 
@@ -1059,10 +1030,6 @@ export default {
       this.list.splice(index, 1);
     },
     computeexpense() {
-      console.log(this.homeCurrency);
-      console.log(this.tripCurrency);
-      console.log(this.expense.currency);
-      console.log(this.expense.peopleOwingNames);
       this.quicksettleamount = [];
       let amount = this.expense.expenseAmount;
       if (this.splitmethod == "percentage") {
@@ -1082,7 +1049,6 @@ export default {
             let amountowed = amount * this.percentages[i] / 100;
             this.quicksettleamount[this.expense.peopleOwingNames[i].index].amount = amountowed;
           }
-          console.log(this.quicksettleamount);
         }
       } else if (this.splitmethod == "shares") {
         let totalshares = 0;
@@ -1097,7 +1063,6 @@ export default {
           let amountowed = amount * this.shares[i] / totalshares;
           this.quicksettleamount[this.expense.peopleOwingNames[i].index].amount = amountowed;
         }
-        console.log(this.quicksettleamount);
       }
 
       else if (this.splitmethod == "custom") {
@@ -1117,7 +1082,6 @@ export default {
             this.quicksettleamount[this.expense.peopleOwingNames[i].index].amount = amountowed;
           }
         }
-        console.log(this.quicksettleamount);
       }
       else {
         for (let i = 0; i < this.personNames.length; i++) {
@@ -1128,32 +1092,20 @@ export default {
           let amountowed = amount / this.expense.peopleOwingNames.length;
           this.quicksettleamount[this.expense.peopleOwingNames[i].index].amount = amountowed;
         }
-        console.log(this.quicksettleamount);
       }
     },
 
     // Function to breakeven expenses
     breakeven() {
-      console.log(this.whoOwesWho)
       for (let key in this.whoOwesWho) {
-        if (this.whoOwesWho[key] > 0) {
-          console.log(key + " owes " + this.whoOwesWho[key]);
-        } else if (this.whoOwesWho[key] < -0.011) {
-          console.log(key + " is owed " + -this.whoOwesWho[key]);
-        } else {
-          console.log(key + " is breakeven");
-        }
-        console.log(key)
         while (this.whoOwesWho[key] > 0) {
           for (let key2 in this.whoOwesWho) {
             if (this.whoOwesWho[key2] < 0) {
               if (this.whoOwesWho[key] > -this.whoOwesWho[key2]) {
-                console.log(key + " pays " + -this.whoOwesWho[key2] + " to " + key2);
                 document.getElementById("amountToPay").innerHTML += key + " pays " + -this.whoOwesWho[key2] + " to " + key2 + "<br>";
                 this.whoOwesWho[key] += this.whoOwesWho[key2];
                 this.whoOwesWho[key2] = 0;
               } else if (this.whoOwesWho[key] != 0) {
-                console.log(key + " pays " + this.whoOwesWho[key] + " to " + key2);
                 document.getElementById("amountToPay").innerHTML += key + " pays " + this.whoOwesWho[key] + " to " + key2 + "<br>";
                 this.whoOwesWho[key2] += this.whoOwesWho[key];
                 this.whoOwesWho[key] = 0;
@@ -1167,9 +1119,7 @@ export default {
     async breakeven2() {
       await getDoc(doc(this.tripsRef, this.trip)).then(doc => {
         if (doc.exists()) {
-          console.log("Document data:", doc.data());
           this.whoOwesWho2 = doc.data().whoOwesWho;
-          console.log(this.whoOwesWho2)
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -1181,208 +1131,174 @@ export default {
       for (let person in this.whoOwesWho2) {
         this.whoOwesWho2[person] = 0;
       }
-      console.log(this.whoOwesWho2)
-      console.log(this.expenses)
       for (let expense of this.expenses) {
         this.whoOwesWho2[expense.personOwedName] -= expense.expenseAmount;
         for (let person of expense.peopleOwingAmount) {
           this.whoOwesWho2[person.name] += person.amount;
         }
       }
-      console.log(this.whoOwesWho2)
       this.whoOwesWho2Display = {};
-      for (let key in this.whoOwesWho2) {
-        if (this.whoOwesWho2[key] > 0) {
-          console.log(key + " owes " + this.whoOwesWho2[key]);
-        } else if (this.whoOwesWho2[key] < -0.011) {
-          console.log(key + " is owed " + -this.whoOwesWho2[key]);
-        } else {
-          console.log(key + " is breakeven");
-        }
-        console.log(key)
-
-        while (this.whoOwesWho2[key] > 0) {
-          for (let key2 in this.whoOwesWho) {
-            if (this.whoOwesWho2[key2] < 0) {
-              if (this.whoOwesWho2[key] > -this.whoOwesWho2[key2]) {
-                console.log(key + " pays " + -this.whoOwesWho2[key2] + " to " + key2);
-                this.whoOwesWho2Display[key] = [-this.whoOwesWho2[key2], key2];
-                // document.getElementById("amountToPay").innerHTML += key + " pays " + -this.whoOwesWho2[key2] + " to " + key2 + "<br>";
-                this.whoOwesWho2[key] += this.whoOwesWho2[key2];
-                this.whoOwesWho2[key2] = 0;
-                console.log(this.whoOwesWho2Display)
-              } else if (this.whoOwesWho2[key] != 0) {
-                console.log(key + " pays " + this.whoOwesWho2[key] + " to " + key2);
-                this.whoOwesWho2Display[key] = [this.whoOwesWho2[key], key2];
-                // document.getElementById("amountToPay").innerHTML += key + " pays " + this.whoOwesWho2[key] + " to " + key2 + "<br>";
-                this.whoOwesWho2[key2] += this.whoOwesWho2[key];
-                this.whoOwesWho2[key] = 0;
-                console.log(this.whoOwesWho2Display)
-              }
+      while (this.whoOwesWho2[key] > 0) {
+        for (let key2 in this.whoOwesWho) {
+          if (this.whoOwesWho2[key2] < 0) {
+            if (this.whoOwesWho2[key] > -this.whoOwesWho2[key2]) {
+              this.whoOwesWho2Display[key] = [-this.whoOwesWho2[key2], key2];
+              this.whoOwesWho2[key] += this.whoOwesWho2[key2];
+              this.whoOwesWho2[key2] = 0;
+            } else if (this.whoOwesWho2[key] != 0) {
+              this.whoOwesWho2Display[key] = [this.whoOwesWho2[key], key2];
+              this.whoOwesWho2[key2] += this.whoOwesWho2[key];
+              this.whoOwesWho2[key] = 0;
             }
           }
         }
       }
-      console.log(this.whoOwesWho2Display)
     },
+  },
 
-    // Delete expense from database
-    async deleteExpense(index, docId) {
-      console.log(docId)
-      console.log(index)
-      deleteDoc(doc(this.tripsRef, this.trip, 'expenses', docId[index]))
-        .then(() => {
-          console.log("Document successfully deleted!");
-        }).catch((error) => {
-          console.error("Error removing document: ", error);
-        });
-    },
+  // Delete expense from database
+  async deleteExpense(index, docId) {
+    deleteDoc(doc(this.tripsRef, this.trip, 'expenses', docId[index]))
+      .then(() => {
+        console.log("Document successfully deleted!");
+      }).catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+  },
 
-    // Delete trip from database
-    async deleteTrip(trip) {
-      deleteDoc(doc(this.tripsRef, trip))
-        .then(() => {
-          console.log("Document successfully deleted!");
-          window.location.reload();
-        }).catch((error) => {
-          console.error("Error removing document: ", error);
-        });
-    },
+  // Delete trip from database
+  async deleteTrip(trip) {
+    deleteDoc(doc(this.tripsRef, trip))
+      .then(() => {
+        console.log("Document successfully deleted!");
+        window.location.reload();
+      }).catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+  },
 
-    // Function to convert currency while adding expense
-    async convertCurrency(expense) {
-      var url = 'https://currency-converter5.p.rapidapi.com/currency/convert';
-      var XRapidAPIKey = '2f0bfe79abmsh886342ca61bbf11p1e6dd8jsna7f5de5249b0';
-      var XRapidAPIHost = 'currency-converter5.p.rapidapi.com';
-      var amount = expense.expenseAmount;
-      if (expense.currency == this.homeCurrency) {
-        var from = this.homeCurrency;
-        var to = this.tripCurrency;
-      } else {
-        var from = this.tripCurrency;
-        var to = this.homeCurrency;
-      }
-
-      console.log(from);
-      console.log(to);
-      axios.get(url, {
-        headers: {
-          'x-rapidapi-key': XRapidAPIKey,
-          'x-rapidapi-host': XRapidAPIHost
-        },
-        params: {
-          amount: amount,
-          from: from,
-          to: to
-        }
-      })
-        .then(function (response) {
-          console.log(response.data);
-          var convertedmoney = response.data.rates[to].rate_for_amount;
-          this.displayCurrency = convertedmoney + to + "<br>" + expense.expenseAmount + from;
-          expense.displayCurrency = this.displayCurrency;
-          console.log(expense.displayCurrency);
-        })
-    },
-
-    // Function to validate expense is not empty
-    checkempty3() {
-      if (this.expense.expenseName === null || this.expense.expenseAmount === null || this.expense.personOwedName === null || this.inputValue === '') {
-        console.log(this.expense.currency);
-        console.log(this.expense.expenseName);
-        console.log(this.expense.expenseAmount);
-        console.log(this.expense.personOwedName);
-        console.log(this.inputValue);
-
-        alert("Please fill in all fields")
-      } else {
-        this.addExpense();
-        this.breakeven2();
-      }
-    },
-
-    // Function to get list of currencies to calculate expense
-    async getCurrencyList() {
-      try {
-        const response = await axios.get('https://currency-converter5.p.rapidapi.com/currency/list', {
-          headers: {
-            'x-rapidapi-key': '2f0bfe79abmsh886342ca61bbf11p1e6dd8jsna7f5de5249b0',
-            'x-rapidapi-host': 'currency-converter5.p.rapidapi.com',
-          },
-        });
-        console.log(response.data);
-        for (var key in response.data.currencies) {
-          var value = response.data.currencies[key];
-          this.currencyList.push({ key, value });
-        }
-        //sort currency list by alphabet
-        this.currencyList.sort(function (a, b) {
-          if (a.value < b.value) { return -1; }
-          if (a.value > b.value) { return 1; }
-          return 0;
-        })
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    sortthelist() {
-      this.expense.peopleOwingNames = this.expense.peopleOwingNames.sort();
+  // Function to convert currency while adding expense
+  async convertCurrency(expense) {
+    var url = 'https://currency-converter5.p.rapidapi.com/currency/convert';
+    var XRapidAPIKey = '2f0bfe79abmsh886342ca61bbf11p1e6dd8jsna7f5de5249b0';
+    var XRapidAPIHost = 'currency-converter5.p.rapidapi.com';
+    var amount = expense.expenseAmount;
+    if (expense.currency == this.homeCurrency) {
+      var from = this.homeCurrency;
+      var to = this.tripCurrency;
+    } else {
+      var from = this.tripCurrency;
+      var to = this.homeCurrency;
     }
+
+    axios.get(url, {
+      headers: {
+        'x-rapidapi-key': XRapidAPIKey,
+        'x-rapidapi-host': XRapidAPIHost
+      },
+      params: {
+        amount: amount,
+        from: from,
+        to: to
+      }
+    })
+      .then(function (response) {
+        console.log(response.data);
+        var convertedmoney = response.data.rates[to].rate_for_amount;
+        this.displayCurrency = convertedmoney + to + "<br>" + expense.expenseAmount + from;
+        expense.displayCurrency = this.displayCurrency;
+      })
+  },
+
+  // Function to validate expense is not empty
+  checkempty3() {
+    if (this.expense.expenseName === null || this.expense.expenseAmount === null || this.expense.personOwedName === null || this.inputValue === '') {
+
+      alert("Please fill in all fields")
+    } else {
+      this.addExpense();
+      this.breakeven2();
+    }
+  },
+
+  // Function to get list of currencies to calculate expense
+  async getCurrencyList() {
+    try {
+      const response = await axios.get('https://currency-converter5.p.rapidapi.com/currency/list', {
+        headers: {
+          'x-rapidapi-key': '2f0bfe79abmsh886342ca61bbf11p1e6dd8jsna7f5de5249b0',
+          'x-rapidapi-host': 'currency-converter5.p.rapidapi.com',
+        },
+      });
+      console.log(response.data);
+      for (var key in response.data.currencies) {
+        var value = response.data.currencies[key];
+        this.currencyList.push({ key, value });
+      }
+      //sort currency list by alphabet
+      this.currencyList.sort(function (a, b) {
+        if (a.value < b.value) { return -1; }
+        if (a.value > b.value) { return 1; }
+        return 0;
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  sortthelist() {
+    this.expense.peopleOwingNames = this.expense.peopleOwingNames.sort();
   },
 
   // Function to get list of trips and whoOwesWho from database
   async created() {
-    // Getting list of trips from database
+  // Getting list of trips from database
 
-    setTimeout(() => {
-      getDocs(this.tripsRef).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
-          this.trips.push(doc.id);
-        });
+  setTimeout(() => {
+    getDocs(this.tripsRef).then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        this.trips.push(doc.id);
       });
-    }, 800);
-
-    // Getting whoOwesWho from database
-    const querySnapshot1 = await getDocs(doc(this.tripsRef, this.trip, 'whoOwesWho'));
-    querySnapshot1.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      this.tripID = doc.data().tripID;
-      console.log(this.tripID);
-      console.log(doc.id, " => ", doc.data());
-      this.whoOwesWho = doc.data();
-      console.log(this.whoOwesWho)
     });
-  },
+  }, 800);
+
+  // Getting whoOwesWho from database
+  const querySnapshot1 = await getDocs(doc(this.tripsRef, this.trip, 'whoOwesWho'));
+  querySnapshot1.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    this.tripID = doc.data().tripID;
+    console.log(doc.id, " => ", doc.data());
+    this.whoOwesWho = doc.data();
+  });
+},
 
   // Function to show updated list of expenses on trip page
   async updated() {
-    setTimeout(() => {
-      onSnapshot(collection(this.tripsRef, this.trip, 'expenses'), (querySnapshot) => {
-        if (this.expenses.length > 0) {
-          this.expenses = [];
-        }
-        querySnapshot.docs.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          this.docId.push(doc.id);
-          this.expenses.push(doc.data());
-        });
-      });
-    }, 1000);
-  },
-
-  components: {
-    expensecards, splittercards
-  },
-  watch: {
-    selected(newValue) {
-      if (newValue) {
-        this.$nextTick(() => {
-          this.getLatLng();
-        });
+  setTimeout(() => {
+    onSnapshot(collection(this.tripsRef, this.trip, 'expenses'), (querySnapshot) => {
+      if (this.expenses.length > 0) {
+        this.expenses = [];
       }
-    },
+      querySnapshot.docs.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        this.docId.push(doc.id);
+        this.expenses.push(doc.data());
+      });
+    });
+  }, 1000);
+},
+
+components: {
+  expensecards, splittercards
+},
+watch: {
+  selected(newValue) {
+    if (newValue) {
+      this.$nextTick(() => {
+        this.getLatLng();
+      });
+    }
   },
+},
 }
 </script>
