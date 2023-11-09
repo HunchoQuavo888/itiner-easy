@@ -46,17 +46,6 @@
         </div>
         <div class="flex flex-wrap flex-grow mt-10 -mb-10 text-center md:pl-20 md:mt-0 md:text-left">
             <div class="w-full px-4 lg:w-1/4 md:w-1/2">
-                <h2 class="mb-3 text-sm font-medium tracking-widest text-gray-900 uppercase title-font">About</h2>
-                <nav class="mb-10 list-none">
-                    <li class="mt-3">
-                        <a class="text-gray-500 cursor-pointer hover:text-gray-900">About us</a>
-                    </li>
-                    <li class="mt-3">
-                        <a class="text-gray-500 cursor-pointer hover:text-gray-900">Careers</a>
-                    </li>
-                </nav>
-            </div>
-            <div class="w-full px-4 lg:w-1/4 md:w-1/2">
                 <h2 class="mb-3 text-sm font-medium tracking-widest text-gray-900 uppercase title-font">Support</h2>
                 <nav class="mb-10 list-none">
                     <li class="mt-3">
@@ -68,9 +57,6 @@
                 <h2 class="mb-3 text-sm font-medium tracking-widest text-gray-900 uppercase title-font">Platform
                 </h2>
                 <nav class="mb-10 list-none">
-                    <li class="mt-3">
-                        <a class="text-gray-500 cursor-pointer hover:text-gray-900">Terms &amp; Privacy</a>
-                    </li>
                     <li class="mt-3">
                         <router-link to="/faq"><a class="text-gray-500 cursor-pointer hover:text-gray-900" @click="handlefaq">FAQ</a></router-link>
                     </li>
