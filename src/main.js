@@ -25,6 +25,8 @@ const proplugin = createProPlugin('fk-344144602', inputs)
 
 //import lottie
 import Vue3Lottie from 'vue3-lottie'
+import { MotionPlugin } from '@vueuse/motion'
+
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -70,6 +72,7 @@ gsap.registerPlugin(ScrollTrigger, Draggable, MotionPathPlugin);
 app.use(BootstrapIconsPlugin);
 app.use(router);
 app.use(Vue3Lottie);
+app.use(MotionPlugin)
 
 app.mount('#app');
 

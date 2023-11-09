@@ -20,5 +20,53 @@ You can deploy your new Vite project with a single command from your terminal us
 $ vercel
 ```
 
+### How to Set Up Application
+1. Run application from terminal using npm run dev
+2. Paste localhost path into Chrome Browser
+3. Click Sign Up button and use the email and password credentials you key in to log in whenever you wish.
+
+
 ### NPM INSTAllATIONS
 npm install @headlessui/vue
+"dependencies": {
+    "@formkit/addons": "^1.2.2",
+    "@formkit/pro": "^0.117.5",
+    "@formkit/themes": "^1.2.2",
+    "@formkit/vue": "^1.2.2",
+    "@headlessui/vue": "^1.7.16",
+    "@splinetool/runtime": "^0.9.493",
+    "axios": "^1.6.0",
+    "bootstrap-icons-vue": "^1.11.1",
+    "firebase": "^10.5.2",
+    "flowbite-vue": "^0.1.0",
+    "formkit": "^1.2.2",
+    "google-maps": "^4.3.3",
+    "gsap": "^3.12.2",
+    "install": "^0.13.0",
+    "npm": "^10.2.3",
+    "nvm": "^0.0.4",
+    "pnpm": "^7.33.6",
+    "scrollreveal": "^4.0.9",
+    "uuid": "^9.0.1",
+    "vue": "^3.3.7",
+    "vue-router": "^4.2.5",
+    "vue-scroll-reveal": "github:tserkov/vue-scroll-reveal#v2",
+    "vue2-google-maps": "^0.10.7",
+    "vue3-lottie": "^3.2.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.6",
+    "@tailwindcss/typography": "^0.5.10",
+    "@vitejs/plugin-vue": "^4.4.0",
+    "autoprefixer": "^10.4.16",
+    "daisyui": "^3.9.4",
+    "esbuild": "^0.19.5",
+    "file-loader": "^6.2.0",
+    "postcss": "^8.4.31",
+    "prettier": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.6",
+    "tailwindcss": "^3.3.5",
+    "vite": "^4.5.0",
+    "webpack": "^5.89.0"
+  }

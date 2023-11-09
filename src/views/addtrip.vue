@@ -1,5 +1,22 @@
 <template>
-    <button class="btn btn-primary p-3 ml-3" onclick="my_modal_3.showModal()">Add a trip</button>
+    <div class="bg-white justify-center p-5 snap-always snap-center text-center rounded-lg flex-none shadow-lg">
+        <div class="image justify-center flex">
+            <img class="w-56 md:w-64 h-56 md:h-64" src="../components/logo/itiner-easy.png">
+        </div>
+        
+        <h2 class="text-xl m-2">{{city}}</h2>
+        <h3 class="text-base">{{peopleontrip}}</h3>
+        <div class="justify-center flex">
+            <button class="btn" onclick="my_modal_3.showModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0 0 128 128">
+                    <path fill="#fff" d="M64 16A48 48 0 1 0 64 112A48 48 0 1 0 64 16Z"></path><path fill="#6fccdd" d="M64 25A39 39 0 1 0 64 103A39 39 0 1 0 64 25Z"></path><path fill="none" stroke="#444b54" stroke-miterlimit="10" stroke-width="6" d="M64 16A48 48 0 1 0 64 112A48 48 0 1 0 64 16Z"></path><path fill="none" stroke="#fff" stroke-linecap="round" stroke-miterlimit="10" stroke-width="6" d="M64 42L64 86M42 64L86 64"></path>
+                </svg>
+                Add a trip!
+            </button>
+        </div>
+
+    </div>
+    
     <dialog id="my_modal_3" class="modal backdrop-blur-sm">
         <div class="modal-box">
             <form method="dialog">
@@ -71,14 +88,11 @@ export default {
         }
     },
     mounted() {
-        console.log('Component mounted.')
         this.db = getFirestore();
         this.auth = getAuth();
         onAuthStateChanged(this.auth, (user) => {
             if (user) {
-                console.log('User is signed in', user.uid + " " + user.email)
                 this.uid = user.uid;
-                console.log(this.uid);
                 this.tripsRef = collection(this.db, 'users', this.uid, 'trips');
             } else {
                 console.log('User is signed out')
@@ -158,7 +172,6 @@ export default {
                         'x-rapidapi-host': 'currency-converter5.p.rapidapi.com',
                     },
                 });
-                console.log(response.data);
                 for (var key in response.data.currencies) {
                     var value = response.data.currencies[key];
                     this.currencyList.push({ key, value });

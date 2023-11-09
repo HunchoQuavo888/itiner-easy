@@ -80,7 +80,7 @@ export default {
 
         })
         .catch(function(error){
-            console.log(error);
+            // console.log(error);
         })
     },
     translateText() {
@@ -124,7 +124,6 @@ export default {
         }
       })
       .then(function(response) {
-        console.log(response.data);
         var currencylist = response.data.currencies;
         var currencylistdiv = document.getElementById("currencylist");
         var html = "";
