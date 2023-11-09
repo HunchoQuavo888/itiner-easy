@@ -336,6 +336,7 @@ export default {
       customactivitiesandtime: [],
       possiblephotos: [],
       starttime:"09:00",
+      eatery: null,
       openingTime: "",
       closeTime: "",
       nextStepDisabled: true,
@@ -698,16 +699,17 @@ async searchBothAttractions(city) {
   console.log("Final activitiesandtime:", this.activitiesandtime);
 }
 ,
-async displaydirectionsonmap(origin, destination){
+async displaydirectionsonmap(origin, destination, eatery){
   event.preventDefault();
   console.log(origin);
   console.log(destination);
-  if (eatery == null) {
+  if (this.eatery == null) {
         this.transport = this.activitiesandtime[0].transport;
       }
       else {
         this.transport = "WALKING";
       }  
+  console.log(this.transport);
   var directionsService = new google.maps.DirectionsService();
   var directionsRenderer = new google.maps.DirectionsRenderer();
   var map = new google.maps.Map(document.getElementById('map'), {
