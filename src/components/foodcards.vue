@@ -16,7 +16,7 @@
     </div>
     <div class="card-actions flex justify-center">
         <button class="btn" @click="showLocation(eatery,eatery)">Where is it?</button>
-        <button class="btn" @click="displaydirectionsonmap(eateryOrigin, eateryDestination, eatery)">How do I get there?</button>
+        <button class="btn" @click="displaydirectionsonmap(eateryOrigin, eateryDestination, eat)">How do I get there?</button>
     </div>
   </div>
 </div>
@@ -83,6 +83,7 @@ export default {
     data() {
         return {
             transport: "WALKING",
+            eat: true,
         };
     },
 
