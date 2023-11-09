@@ -1101,25 +1101,10 @@ export default {
     },
 
     async getCommunityTrip(trip) {
-  this.communitytrip = trip;
-  this.selected = true;
+  this.trip = trip;
+  this.tripID = trip.tripID;
   
-  getDoc(doc(this.communitytrips, this.trip)).then(doc => {
-        if (doc.exists()) {
-          console.log("Document data:", doc.data());
-          this.tripID = doc.data().tripID;
-          console.log("tripID", this.tripID);
-          this.activitiesandtime = doc.data().activitiesandtime;
-          this.activitiesandtime = JSON.parse(this.activitiesandtime);
-          this.$router.push({ path: `/communitytrips/${this.tripID}` });
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-        }
-      }).catch((error) => {
-        console.log("Error getting document:", error);
-      });
-
+  this.$router.push({ path: `/communitytrips/${this.tripID}` });
 },
 
     backToTrips() {
@@ -1506,6 +1491,8 @@ export default {
     const querySnapshot1 = await getDocs(doc(this.tripsRef, this.trip, 'whoOwesWho'));
     querySnapshot1.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
+      this.tripID = doc.data().tripID;
+      console.log(this.tripID);
       console.log(doc.id, " => ", doc.data());
       this.whoOwesWho = doc.data();
       console.log(this.whoOwesWho)

@@ -33,7 +33,7 @@ const router = createRouter({
         { path: '/:catchAll(.*)', component: NotFound, },
         {path: "/itinerary/:tripID", name: 'itinerary-details', component: ItineraryDetails ,meta: {requiresAuth: true}},
         {path: "/profile/:userId", name: 'profile-page', component: ProfilePage ,meta: {requiresAuth: true}},
-        {path: "/communitytrips/:tripID", name: 'profile-page', component: CommunityTrips ,meta: {requiresAuth: true}},
+        {path: "/communitytrips/:tripID", name: 'community-trip', component: CommunityTrips ,meta: {requiresAuth: true}},
 
     ],
 });
